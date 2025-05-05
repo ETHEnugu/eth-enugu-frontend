@@ -5,10 +5,38 @@
   --foreground: #171717;
 }
 
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('../fonts/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('../fonts/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('../fonts/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('../fonts/BricolageGrotesque-VariableFont_opsz\,wdth\,wght.ttf') format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Bricolage Grotesque', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -19,6 +47,7 @@
   }
 }
 
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -27,15 +56,15 @@ body {
 
 @theme {
   /* Theme color declaration */
-  --color-amber-750: #C38F16,
-  --color-amber-550: #E9BE24,
-  --color-amber-150: #F6DEAE,
+  --color-amber-750: #c38f16;
+  --color-amber-550: #e9be24;
+  --color-amber-150: #f6deae;
 
-  --color-green-850: #006C00,
-  --color-green-250: #BEDC9A,
-  --color-green-150: #D6F4D0,
+  --color-green-850: #006c00;
+  --color-green-250: #bedc9a;
+  --color-green-150: #d6f4d0;
 
-  --color-orange-650:#FD9003,
-  --color-peach-250: #FECDBA,
-  --color-peach-50:  #FFF1E7,
+  --color-orange-650: #fd9003;
+  --color-peach-250: #fecdba;
+  --color-peach-50: #fff1e7;
 }
