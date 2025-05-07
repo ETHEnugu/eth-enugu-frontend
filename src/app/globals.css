@@ -85,6 +85,7 @@ h6 {
 p {
   font-size: 1rem;
   line-height: 1.5;
+
 }
 
 @theme {
@@ -92,7 +93,6 @@ p {
   --color-amber-750: #c38f16;
   --color-amber-550: #e9be24;
   --color-amber-150: #f6deae;
-
   --color-green-750: #004d00;
   --color-green-550: #006c00;
   --color-green-250: #bedc9a;
@@ -109,4 +109,5 @@ p {
   position: relative;
   box-shadow: 0.25em 0.25em 0 #1e1e1e;
   cursor: pointer;
+
 }
