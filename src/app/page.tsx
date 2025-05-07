@@ -1,7 +1,6 @@
 // import Image from "next/image";
 import Banner from "@/components/Banner";
 import Banner2 from "@/components/Banner2";
-// import Joinus from "@/components/Joinus";
 import AboutSection from "@/components/AboutSection";
 import InfoSection from "@/components/InfoSection";
 
@@ -19,7 +18,6 @@ export default function Home() {
         title="Join us in making a difference. Volunteer with us today!"
         content=""
       />
-      {/* <Joinus/> */}
     </>
     // <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
 

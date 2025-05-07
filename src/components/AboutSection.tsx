@@ -20,7 +20,7 @@ const AboutSection = () => {
     <>
       <div className=" m-auto md:p-[70px] py-9 w-11/12">
         <h2 className="text-[32px] text-2xl font-bold text-center text-[#006C00] mb-4">
-          About EthEnugu &quot;25
+          About EthEnugu &lsquo;25
         </h2>
         <p className="text-[#1E1E1E] text-center md:text-left text-lg mb-6">
           Nestled in the hills of southeastern Nigeria, Enugu—fondly known as
@@ -30,9 +30,9 @@ const AboutSection = () => {
           as a city rich in culture and ambition.
         </p>
         <p className="text-[#1E1E1E] text-center md:text-left text-lg mx-auto">
-          EthEnugu is where this spirit meets the future. It&quot;s more than an
-          event-it&quot;s an experience connecting Enugu&quot;s vibrant energy
-          with the decentralized world of Ethereum & L2s. Here, builders,
+          EthEnugu is where this spirit meets the future. It&lsquo;s more than
+          an event-it&lsquo;s an experience connecting Enugu&lsquo;s vibrant
+          energy with the decentralized world of Ethereum & L2s. Here, builders,
           creators and thinkers come together to mint ideas, join the growing
           web3 ecosystem, and co-create the future, bringing 042 & Africa
           onchain.

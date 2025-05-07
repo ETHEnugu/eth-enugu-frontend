@@ -13,12 +13,12 @@ const InfoSection = () => {
               Kicking Off with a 2-Week Builders Residency
             </p>
             <p className="text-gray-700 md:text-[15px] text-sm mt-4">
-              EthEnugu is Nigeria&quot;s first Ethereum gathering in the heart
-              of the South East. We&quot;re bringing Ethereum closer to the
+              EthEnugu is Nigeria&lsquo;s first Ethereum gathering in the heart
+              of the South East. We&lsquo;re bringing Ethereum closer to the
               Southeast.
             </p>
             <p className="text-gray-700 md:text-[15px] text-sm mt-4">
-              EthEnugu &quot;25 is a 2-week experience designed to spark
+              EthEnugu &lsquo;25 is a 2-week experience designed to spark
               collaboration, creativity, and community among builders,
               developers, and tech enthusiasts in Enugu and across Southeast
               Nigeria.
@@ -34,7 +34,7 @@ const InfoSection = () => {
                 Pop-Up City
               </li>
               <li className="bg-[#F0880333] text-black py-2 px-4 rounded-full">
-                Conf/Summit &quot;25
+                Conf/Summit &lsquo;25
               </li>
             </ul>
           </div>
