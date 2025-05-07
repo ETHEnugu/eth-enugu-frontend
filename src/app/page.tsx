@@ -1,4 +1,9 @@
 import Image from "next/image";
+// import Banner from "@/components/Banner";
+// import Banner2 from "@/components/Banner2";
+// import Joinus from "@/components/Joinus";
+// import AboutSection from "@/components/AboutSection";
+// import InfoSection from "@/components/InfoSection";
 
 export default function Home() {
   return (
