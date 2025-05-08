@@ -18,13 +18,18 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   toggleItem,
 }) => {
   return (
-    <div className="mb-4 rounded-lg bg-amber-150 overflow-hidden">
+    <div
+      className="mb-4 rounded-lg bg-amber-150 overflow-hidden border-[1px] border-[ #1E1E1E]  "
+      style={{ boxShadow: "3px 4px 0px 0px #000000" }}
+    >
       <button
         type="button"
         onClick={toggleItem}
-        className="w-full flex items-center justify-between px-6 py-4 text-left focus:outline-none"
+        className="w-full flex items-center justify-between px-6 py-4 text-left focus:outline-none cursor-pointer"
       >
-        <h3 className="font-sans font-bold text-dark">{title}</h3>
+        <h3 className="font-sans font-semibold text-base text-dark md:text-xl leading-[100%] ">
+          {title}
+        </h3>
         <motion.div
           animate={{ rotate: isOpen ? 45 : 0 }}
           transition={{ duration: 0.3 }}
@@ -47,7 +52,9 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="font-sans px-6 py-4 text-dark/80">{content}</div>
+            <div className="font-sans px-6 py-4 text-dark/80 text-sm font-normal  ">
+              {content}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
