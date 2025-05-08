@@ -56,18 +56,18 @@ const banner = () => {
             return (
               <div
                 key={idx}
-                className={`relative ${containerBg} rounded-xl  md:px-[80px] py-[32px] px-[20px] md:py-[60px]  shadow-sm border-[0.1px] border-[#1E1E1E] overflow-hidden`}
+                className={`relative ${containerBg} rounded-xl  md:px-20 py-8 px-5 md:py-[60px]  shadow-sm border border-dark overflow-hidden`}
               >
                 {/* MENTOR Background Text */}
                 <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
-                  <h1 className="text-[550px] sm:text-[550px] opacity-10 text-gray-100 align-middle font-pixelify select-none">
+                  <h1 className="background-h1 opacity-10 text-gray-100 align-middle font-pixelify select-none">
                     MENTOR
                   </h1>
                 </div>
 
                 {/* Foreground content */}
                 <div className="relative z-10">
-                  <h2 className="md:text-[48px] text-2xl font-bold mb-4">
+                  <h2 className="md:text-5xl text-2xl font-bold mb-4">
                     {event.title}
                   </h2>
 
@@ -81,9 +81,7 @@ const banner = () => {
                         <li
                           key={i}
                           className={`${
-                            isGray
-                              ? "bg-[#1E1E1E0A] "
-                              : "bg-black/10 text-white"
+                            isGray ? "bg-light-dark" : "bg-black/10 text-white"
                           } rounded-full px-4 py-2 text-sm inline-block`}
                         >
                           {tag}

@@ -92,6 +92,7 @@ p {
   --color-amber-750: #c38f16;
   --color-amber-550: #e9be24;
   --color-amber-150: #f6deae;
+  --color-amber-50: #f0880333;
 
   --color-green-750: #004d00;
   --color-green-550: #006c00;
@@ -101,8 +102,16 @@ p {
   --color-orange-650: #fd9003;
   --color-peach-250: #fecdba;
   --color-peach-50: #fff1e7;
+  --color-peach-10:#fef3e6;
 
   --color-dark: #1e1e1e;
+  --color-light-dark: #1e1e1e0a
+ 
+}
+
+@theme {
+  --leading-full: 100%;
+  --font-15:  0.9375rem;
 }
 
 .button {
@@ -110,3 +119,9 @@ p {
   box-shadow: 0.25em 0.25em 0 #1e1e1e;
   cursor: pointer;
 }
+
+.background-h1{
+  font-size: 34.375rem;
+}
+
+

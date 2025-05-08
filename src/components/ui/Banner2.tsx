@@ -8,7 +8,7 @@ interface ItemProps {
 const Banner2 = ({ title, content }: ItemProps) => {
   return (
     <>
-      <section className="bg-black text-white px-5 md:px-[80px] font-sans py-[60px] md:py-[80px] text-center relative overflow-hidden">
+      <section className="bg-black text-white px-5 md:px-20 font-sans py-16 md:py-20 text-center relative overflow-hidden">
         <div className="flex justify-between">
           <div className="relative w-32 h-32 md:top-12 top-1 left-1 md:left-30">
             <Image
