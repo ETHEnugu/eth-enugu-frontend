@@ -32,7 +32,7 @@ const banner = () => {
   ];
   return (
     <>
-      <div className="bg-[#F9F4E8]">
+      <div className="bg-peach-30">
         <section className="font-sans  py-8 w-11/12 m-auto space-y-8">
           {events.map((event, idx) => {
             const isGreen = idx === 0;
@@ -40,16 +40,16 @@ const banner = () => {
             const isGray = idx === 2;
 
             const containerBg = isGreen
-              ? "bg-[#338933] text-white"
+              ? "bg-green-350 text-white"
               : isOrange
-                ? "bg-[#F3A035] text-black"
-                : "bg-[#FFFFFF] text-black";
+                ? "bg-orange-500 text-black"
+                : "bg-white text-black";
 
             const buttonBg = isGreen
-              ? "bg-[#F3A035] text-black"
+              ? "bg-orange-500 text-black"
               : isOrange
-                ? "bg-[#338933] text-white"
-                : "bg-[#338933] text-white";
+                ? "bg-green-550 text-white"
+                : "bg-green-550 text-white";
 
             const buttonText = idx === 0 ? "Apply Here →" : "Register Here →";
 

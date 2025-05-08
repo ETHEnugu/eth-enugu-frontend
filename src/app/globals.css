@@ -99,10 +99,13 @@ p {
   --color-green-550: #006c00;
   --color-green-250: #bedc9a;
   --color-green-150: #d6f4d0;
+  --color-green-350:#338933;
 
   --color-orange-650: #fd9003;
+  --color-orange-500: #f3a035;
   --color-peach-250: #fecdba;
   --color-peach-50: #fff1e7;
+  --color-peach-30: #f9f4e8;
   --color-peach-10:#fef3e6;
 
   --color-dark: #1e1e1e;
