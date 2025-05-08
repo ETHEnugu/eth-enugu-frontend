@@ -85,6 +85,7 @@ h6 {
 p {
   font-size: 1rem;
   line-height: 1.5;
+
 }
 
 @theme {
@@ -118,6 +119,7 @@ p {
   position: relative;
   box-shadow: 0.25em 0.25em 0 #1e1e1e;
   cursor: pointer;
+
 }
 
 .background-h1{
