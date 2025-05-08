@@ -10,7 +10,7 @@ export default function Home() {
       <InfoSection />
       <Banner />
       <Banner2
-        title="Mentor/Speak at EthEnugu ‘25"
+        title="Mentor/Speak at EthEnugu '25"
         content="Apply to mentor rising talent and make an impact in the Southeast tech ecosystem."
       />
     </>

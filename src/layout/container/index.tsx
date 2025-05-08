@@ -9,7 +9,7 @@ export default function Container({
 }) {
   return (
     <div
-      className={`relative w-full max-w-[120em] h-screen mx-auto ${className}`}
+      className={`relative w-full max-w-[120em] h-screen overflow-x-hidden mx-auto ${className}`}
     >
       {children}
     </div>
