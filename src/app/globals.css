@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -42,6 +43,7 @@
   --color-foreground: var(--foreground);
   --font-sans: "Bricolage Grotesque", sans-serif;
   --font-mono: var(--font-geist-mono);
+  --font-pixelify: "Pixelify Sans", sans-serif;
 }
 
 body {
@@ -83,6 +85,7 @@ h6 {
 p {
   font-size: 1rem;
   line-height: 1.5;
+
 }
 
 @theme {
@@ -90,21 +93,40 @@ p {
   --color-amber-750: #c38f16;
   --color-amber-550: #e9be24;
   --color-amber-150: #f6deae;
+  --color-amber-50: #f0880333;
 
   --color-green-750: #004d00;
   --color-green-550: #006c00;
   --color-green-250: #bedc9a;
   --color-green-150: #d6f4d0;
+  --color-green-350:#338933;
 
   --color-orange-650: #fd9003;
+  --color-orange-500: #f3a035;
   --color-peach-250: #fecdba;
   --color-peach-50: #fff1e7;
+  --color-peach-30: #f9f4e8;
+  --color-peach-10:#fef3e6;
 
   --color-dark: #1e1e1e;
+  --color-light-dark: #1e1e1e0a
+ 
+}
+
+@theme {
+  --leading-full: 100%;
+  --font-15:  0.9375rem;
 }
 
 .button {
   position: relative;
   box-shadow: 0.25em 0.25em 0 #1e1e1e;
   cursor: pointer;
+
 }
+
+.background-h1{
+  font-size: 34.375rem;
+}
+
+
