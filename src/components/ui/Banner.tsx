@@ -1,3 +1,5 @@
+import { Button } from "../common/button";
+
 const banner = () => {
   const events = [
     {
@@ -60,28 +62,32 @@ const banner = () => {
               >
                 {/* MENTOR Background Text */}
                 <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
-                  <h1 className="background-h1 opacity-10 text-gray-100 align-middle font-pixelify select-none">
+                  <h1
+                    className={`background-h1 opacity-10 align-middle font-pixelify select-none ${isGray ? "bg-gray-100" : " text-gray-100 "}`}
+                  >
                     MENTOR
                   </h1>
                 </div>
 
                 {/* Foreground content */}
                 <div className="relative z-10">
-                  <h2 className="md:text-5xl text-2xl font-bold mb-4">
+                  <span className="md:text-5xl text-2xl font-bold mb-4">
                     {event.title}
-                  </h2>
+                  </span>
 
-                  <div className="flex font-sans flex-col md:flex-row justify-between md:gap-16">
-                    <p className="text-sm md:text-base mb-6 dark:text-black/80 md:w-2/3">
+                  <div className="flex font-sans flex-col md:flex-row justify-between md:gap-16 mt-3">
+                    <p
+                      className={`${isGreen ? "text-white/90" : " dark:text-black/80"} text-sm md:text-base mb-6 md:w-2/3`}
+                    >
                       {event.description}
                     </p>
 
-                    <ul className="space-y-2 mb-6 md:w-2/4">
+                    <ul className="flex flex-col gap-2 mb-6 md:w-2/4">
                       {event.tags.map((tag, i) => (
                         <li
                           key={i}
-                          className={`${
-                            isGray ? "bg-light-dark" : "bg-black/10 text-white"
+                          className={`w-max font-medium ${
+                            isGray ? "bg-black/20" : "bg-black/10 text-white"
                           } rounded-full px-4 py-2 text-sm inline-block`}
                         >
                           {tag}
@@ -90,11 +96,12 @@ const banner = () => {
                     </ul>
                   </div>
 
-                  <button
-                    className={`rounded-full ${buttonBg} w-full md:w-max font-semibold px-6 shadow-md py-2 hover:opacity-90 transition`}
+                  <Button
+                    className={`flex items-center gap-3 ${buttonBg} ${isGreen ? "hover:bg-amber-750" : ""}`}
+                    design="rounded"
                   >
                     {buttonText}
-                  </button>
+                  </Button>
                 </div>
               </div>
             );
