@@ -2,11 +2,13 @@ import AboutSection from "@/components/ui/AboutSection";
 import Banner from "@/components/ui/Banner";
 import Banner2 from "@/components/ui/Banner2";
 import InfoSection from "@/components/ui/InfoSection";
-import FaqSection from "@/layout/faq-section";
+import FaqSection from "@/components/ui/faq-section";
+import HomeHero from "@/components/ui/hero";
 
 export default function Home() {
   return (
     <>
+      <HomeHero />
       <AboutSection />
       <InfoSection />
       <Banner />
