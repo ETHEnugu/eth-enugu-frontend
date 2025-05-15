@@ -179,7 +179,7 @@ const Dropdown = ({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        className="w-full flex items-center gap-2 text-neutral-800 dark:text-gray-400 border-none bg-gray-200 dark:bg-brand-700 text-left text-lg px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400 dark:focus:ring-gray-400"
+        className="w-full flex items-center gap-2 placeholder:text-gray-400 text-neutral-800 dark:text-gray-400 border border-dark bg-white dark:bg-brand-700 text-left text-lg px-4 py-3 rounded-xl"
       >
         <span className="truncate">{displayText}</span>
         <Icon
@@ -221,7 +221,7 @@ const Dropdown = ({
                   <div
                     key={option.value.toString()}
                     onClick={() => handleOptionClick(option)}
-                    className={`px-4 py-2 cursor-pointer text-neutral-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 ${
+                    className={`px-4 py-2 cursor-pointer placeholder:text-gray-400 text-neutral-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 ${
                       isSelected ? "bg-gray-300 dark:bg-neutral-600" : ""
                     }`}
                     role="option"
