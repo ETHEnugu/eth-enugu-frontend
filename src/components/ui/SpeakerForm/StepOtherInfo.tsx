@@ -2,16 +2,16 @@
 import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { FormDataType } from "@/types";
+import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 
 interface StepOtherInfoProps {
   onBack: () => void;
   onNext: () => void;
-  register: UseFormRegister<FormDataType>;
-  errors: FieldErrors<FormDataType>;
-  setValue: UseFormSetValue<FormDataType>;
-  formData: FormDataType;
+  register: UseFormRegister<SpeakerProps>;
+  errors: FieldErrors<SpeakerProps>;
+  setValue: UseFormSetValue<SpeakerProps>;
+  formData: SpeakerProps;
   isSubmitting?: boolean;
 }
 

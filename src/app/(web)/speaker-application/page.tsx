@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
-import StepOtherInfo from "@/components/ui/form/StepOtherInfo";
-import StepSessionDetails from "@/components/ui/form/StepSessionDetails";
-import StepPersonalInfo from "@/components/ui/form/StepPersonalInfo";
-import { FormDataType } from "@/types";
+import StepOtherInfo from "@/components/ui/SpeakerForm/StepOtherInfo";
+import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
+import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
+import { SpeakerProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -25,7 +25,7 @@ const SpeakerApplicationForm = () => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<FormDataType>({
+  } = useForm<SpeakerProps>({
     defaultValues: {
       fullName: "",
       email: "",
@@ -51,7 +51,7 @@ const SpeakerApplicationForm = () => {
   const handleNext = () => setStep((prev) => prev + 1);
   const handleBack = () => setStep((prev) => prev - 1);
 
-  const onSubmit = async (data: FormDataType) => {
+  const onSubmit = async (data: SpeakerProps) => {
     try {
       setIsSubmitting(true);
       console.log("Form submitted with data:", data);

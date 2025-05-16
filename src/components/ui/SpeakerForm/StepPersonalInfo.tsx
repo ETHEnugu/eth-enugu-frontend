@@ -5,14 +5,14 @@ import { Button } from "@/components/common/button";
 import { ArrowRight } from "lucide-react";
 import { countryOptions } from "@/data/countries";
 import { useMemo } from "react";
-import { FormDataType } from "@/types";
+import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 
 interface StepPersonalInfoProps {
-  register: UseFormRegister<FormDataType>;
-  errors: FieldErrors<FormDataType>;
-  setValue: UseFormSetValue<FormDataType>;
-  formData: FormDataType;
+  register: UseFormRegister<SpeakerProps>;
+  errors: FieldErrors<SpeakerProps>;
+  setValue: UseFormSetValue<SpeakerProps>;
+  formData: SpeakerProps;
   onNext: () => void;
 }
 

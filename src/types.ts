@@ -80,7 +80,7 @@ export interface AccountDetailsProps {
   bank_name: string;
 }
 
-export interface FormDataType {
+export interface SpeakerProps {
   fullName: string;
   email: string;
   phone: string;
