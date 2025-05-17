@@ -1,7 +1,8 @@
 import Image from "next/image";
+import { ReactNode } from "react";
 
 interface ItemProps {
-  title: string;
+  title: string | ReactNode;
   content: string;
 }
 
