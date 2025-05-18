@@ -79,3 +79,22 @@ export interface AccountDetailsProps {
   account_number: string;
   bank_name: string;
 }
+
+export interface SpeakerProps {
+  fullName: string;
+  email: string;
+  phone: string;
+  location: string | number;
+  twitter: string;
+  linkedin: string;
+  website: string;
+  sessionType: string | number;
+  sessionLength: string | number;
+  slideAvailable: string | number;
+  slideLink: string | number;
+  setupNeeds: string | number;
+  arrivalDate: string | number;
+  agreeToSpeak: string | number;
+  referralSource: string | number;
+  joinCommunity: string | number;
+}

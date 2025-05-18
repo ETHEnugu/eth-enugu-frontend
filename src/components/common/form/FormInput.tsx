@@ -23,9 +23,11 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     const inputType = type === "password" && isPasswordVisible ? "text" : type;
 
     return (
-      <div className="relative w-full">
+      <div className="relative w-full font-sans">
         {label && (
-          <label className="block mb-1 font-medium text-lg">{label}</label>
+          <label className="block mb-1 font-bold text-dark text-base">
+            {label}
+          </label>
         )}
 
         <span className="relative" style={{ position: "relative" }}>
