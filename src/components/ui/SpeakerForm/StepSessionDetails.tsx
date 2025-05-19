@@ -1,10 +1,10 @@
 "use client";
 import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import FormInput from "@/components/common/form/FormInput";
 import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import { Icon } from "@iconify/react";
 
 interface StepSessionDetailsProps {
   onBack: () => void;
@@ -123,13 +123,14 @@ const StepSessionDetails = ({
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
       </div>
-      <div className="flex gap-4">
+      <div className="flex  md:flex-row flex-col-reverse gap-4">
         <Button
           className="bg-white text-black rounded-full border border-gray-300"
           onClick={onBack}
         >
           <span className="flex items-center gap-2">
-            <ArrowLeft size={16} /> Go Back
+            <Icon icon="solar:arrow-left-linear" width="16" height="16" /> Go
+            Back
           </span>
         </Button>
         <Button
@@ -142,7 +143,8 @@ const StepSessionDetails = ({
           }
         >
           <span className="flex items-center gap-2">
-            Continue <ArrowRight size={16} />
+            Continue{" "}
+            <Icon icon="solar:arrow-right-linear" width="16" height="16" />
           </span>
         </Button>
       </div>

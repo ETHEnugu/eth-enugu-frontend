@@ -1,44 +1,69 @@
 "use client";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import Success from "@/components/ui/Success";
+import { Suspense } from "react";
 
 const SuccessPage = () => {
   return (
-    <div className="min-h-screen bg-[url('/bg/bg3.png')] flex items-center justify-center md:pb-16">
-      <div className="md:mx-auto md:w-1/2 mx-3 p-6 rounded-lg border shadow-md bg-white text-center">
-        <div className="mb-4 pb-4 text-left border-b-2 border-light-dark ">
-          <h3 className="text-xl font-bold text-green-550">
-            Application Received! 🎉
-          </h3>
-        </div>
-
-        <div className="text-dark mb-6 text-left">
-          <p className="mb-4">
-            Thank you for applying to speak at ETH Enugu &lsquo;25. We&lsquo;re
-            excited to review your proposal and will be in touch shortly.
-          </p>
-
-          <p className="mb-4">
-            Join the ETH Enugu Telegram & WhatsApp community to stay in the loop
-            and connect with others before the event.
-          </p>
-        </div>
-
-        {/* Join buttons */}
-        <div className="flex gap-1 mb-2">
-          Join
-          <Link href="#telegram" className="text-blue-800 underline">
-            Telegram Group
-          </Link>
-        </div>
-        <div className="flex gap-1 mb-2">
-          Join
-          <Link href="#telegram" className="text-green-550 underline">
-            WhatsApp Group
-          </Link>
-        </div>
-      </div>
-    </div>
+    <Suspense fallback={<div>Loading form...</div>}>
+      <SuccessP />
+    </Suspense>
   );
+};
+
+const SuccessP = () => {
+  const searchParams = useSearchParams();
+  const formType = searchParams.get("form");
+
+  let successContent;
+
+  switch (formType) {
+    case "speaker":
+      successContent = (
+        <Success
+          title="Application Received! 🎉"
+          content="Thank you for applying to speak at ETH Enugu &lsquo;25. We&lsquo;re excited to review your proposal and will be in touch shortly."
+        />
+      );
+      break;
+
+    case "popup":
+      successContent = (
+        <Success
+          title="You&lsquo;re In! 🎉"
+          content="Thanks for registering for the ETH Enugu &lsquo;25 Pop-Up City. You&lsquo;ll receive updates via email or WhatsApp."
+        />
+      );
+      break;
+
+    case "builders":
+      successContent = (
+        <Success
+          title="You&lsquo;re In! 🎉"
+          content="Thanks for registering for the ETH Enugu &lsquo;25 Builder residency. You&lsquo;ll receive updates via email or WhatsApp."
+        />
+      );
+      break;
+
+    case "summit":
+      successContent = (
+        <Success
+          title="You&lsquo;re In! 🎉"
+          content=" Thanks for registering for the ETH Enugu &lsquo;25 Conference/Summit. You&lsquo;ll receive updates via email or WhatsApp."
+        />
+      );
+      break;
+
+    default:
+      successContent = (
+        <Success
+          title="Success! 🎉"
+          content="Thank you! Your form has been submitted successfully."
+        />
+      );
+  }
+
+  return <>{successContent}</>;
 };
 
 export default SuccessPage;

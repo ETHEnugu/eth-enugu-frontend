@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface ItemProps {
   title: string;
@@ -46,19 +47,21 @@ const Banner2 = ({ title, content }: ItemProps) => {
         </p>
 
         <div className="flex justify-center items-center">
-          <button className="relative md:w-32 w-28 md:h-32 h-28 cursor-pointer hover:animate-pulse">
-            <Image
-              src="/badge/badge1.svg"
-              alt="badge1"
-              width={147}
-              height={147}
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-lg font-bold leading-tight text-center">
-              APPLY
-              <br />
-              HERE!
-            </div>
-          </button>
+          <Link href="/speaker-application">
+            <button className="relative md:w-32 w-28 md:h-32 h-28 cursor-pointer hover:animate-pulse">
+              <Image
+                src="/badge/badge1.svg"
+                alt="badge1"
+                width={147}
+                height={147}
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-lg font-bold leading-tight text-center">
+                APPLY
+                <br />
+                HERE!
+              </div>
+            </button>
+          </Link>
         </div>
       </section>
     </>
