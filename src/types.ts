@@ -98,3 +98,20 @@ export interface SpeakerProps {
   referralSource: string | number;
   joinCommunity: string | number;
 }
+
+export interface PopupCityProps {
+  fullName: string;
+  email: string;
+  gender: string | number;
+  whatsappNumber: string;
+  location: string | number;
+  currentRole: string | number;
+  web3Familiarity: string | number;
+  attendDay1: string | number;
+  attendDay2: string | number;
+  freeLunchConsideration: string | number;
+  volunteringInterest: string | number;
+  dietaryAccessibilityNeeds: string | number;
+  referralSource: string | number;
+  joinOnlineCommunity: string | number;
+}
