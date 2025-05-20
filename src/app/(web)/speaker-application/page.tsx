@@ -65,7 +65,7 @@ const SpeakerApplicationForm = () => {
 
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16">
-      <div className="mx-auto md:w-1/2 p-6 rounded-xl md:border shadow-md bg-white">
+      <div className="mx-auto w-[90%] md:w-1/2 p-6 rounded-xl border shadow-md bg-white">
         <div className="border-b-2 mb-10 flex justify-between items-center border-light-dark">
           <h2 className="text-xl font-semibold text-green-550 mb-4">
             {steps[step]}

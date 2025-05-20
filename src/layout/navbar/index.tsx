@@ -4,10 +4,11 @@ import { navbar_items } from "./_data";
 import Link from "next/link";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <nav className="w-full flex items-center px-6 py-4 bg-white/20 border-b border-gray-400">
@@ -50,6 +51,7 @@ export default function Navbar() {
           variant="default"
           design="rounded"
           className="flex items-center gap-3"
+          onClick={() => router.push("/speaker-application")}
         >
           Apply to Speak
           <Icon icon="solar:arrow-right-linear" width={18} height={18} />
