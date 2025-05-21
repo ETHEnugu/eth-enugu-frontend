@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 interface ItemProps {
-  title: string;
+  title: string | ReactNode;
   content: string;
 }
 

@@ -179,7 +179,7 @@ const Dropdown = ({
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
         aria-haspopup="listbox"
-        className="w-full flex items-center gap-2 placeholder:text-gray-400 text-neutral-800 dark:text-gray-400 border border-dark bg-white dark:bg-brand-700 text-left text-lg px-4 py-3 rounded-xl"
+        className="w-full flex items-center gap-2 placeholder:text-gray-400 text-neutral-800 border border-dark bg-white text-left text-lg px-4 py-3 rounded-xl"
       >
         <span className="truncate">{displayText}</span>
         <Icon
@@ -193,17 +193,17 @@ const Dropdown = ({
       {isOpen && (
         <div
           ref={dropdownMenuRef}
-          className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-500 bg-white dark:bg-navy-700 top-full shadow-lg"
+          className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-500 bg-white top-full shadow-lg"
           role="listbox"
           aria-multiselectable={multiSelect}
         >
           {isTypeable && (
-            <div className="sticky top-0 bg-white dark:bg-navy-700 z-10">
+            <div className="sticky top-0 bg-white z-10">
               <input
                 ref={searchInputRef}
                 type="text"
                 onChange={(e) => handleSearch(e.target.value)}
-                className="w-full px-4 py-2 border-b border-gray-300 dark:border-gray-600 focus:outline-none bg-white dark:bg-navy-700"
+                className="w-full px-4 py-2 border-b border-gray-300 focus:outline-none bg-white"
                 placeholder="Type to search..."
                 aria-label="Search dropdown options"
               />
@@ -221,8 +221,8 @@ const Dropdown = ({
                   <div
                     key={option.value.toString()}
                     onClick={() => handleOptionClick(option)}
-                    className={`px-4 py-2 cursor-pointer placeholder:text-gray-400 text-neutral-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-600 ${
-                      isSelected ? "bg-gray-300 dark:bg-neutral-600" : ""
+                    className={`px-4 py-2 cursor-pointer placeholder:text-gray-400 text-neutral-800 hover:bg-gray-200-600 ${
+                      isSelected ? "bg-gray-300" : ""
                     }`}
                     role="option"
                     aria-selected={isSelected}
@@ -232,7 +232,7 @@ const Dropdown = ({
                 );
               })
             ) : (
-              <div className="px-4 py-2 text-gray-500 dark:text-gray-400">
+              <div className="px-4 py-2 text-gray-500">
                 No matching options found
               </div>
             )}
