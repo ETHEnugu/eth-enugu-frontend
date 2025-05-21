@@ -6,6 +6,11 @@ import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import { SpeakerProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { usePostMutation } from "@/hooks/useApi";
+import { BUILDER_RESIDENCY } from "@/config/ENDPOINTS";
+import { toast } from "sonner";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import { speakerValidation } from "@/validations/speakerValidations";
 
 const steps = [
   "Personal Information",
@@ -16,7 +21,10 @@ const steps = [
 const SpeakerApplicationForm = () => {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate, isPending } = usePostMutation(
+    BUILDER_RESIDENCY.CREATE,
+    "create_builder"
+  );
 
   // Initialize react-hook-form
   const {
@@ -26,6 +34,7 @@ const SpeakerApplicationForm = () => {
     watch,
     formState: { errors },
   } = useForm<SpeakerProps>({
+    // resolver: yupResolver(speakerValidation),
     defaultValues: {
       fullName: "",
       email: "",
@@ -52,15 +61,21 @@ const SpeakerApplicationForm = () => {
   const handleBack = () => setStep((prev) => prev - 1);
 
   const onSubmit = async (data: SpeakerProps) => {
-    try {
-      setIsSubmitting(true);
-      console.log("Form submitted with data:", data);
-      router.push("/success");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Builder form submitted succefully");
+        router.push("/sucess");
+      },
+    });
+    // try {
+    //   setIsSubmitting(true);
+    //   console.log("Form submitted with data:", data);
+    //   router.push("/success");
+    // } catch (error) {
+    //   console.error("Error submitting form:", error);
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   return (
@@ -111,7 +126,7 @@ const SpeakerApplicationForm = () => {
             formData={formData}
             onBack={handleBack}
             onNext={handleSubmit(onSubmit)}
-            isSubmitting={isSubmitting}
+            isSubmitting={isPending}
           />
         )}
       </div>
