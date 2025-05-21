@@ -12,7 +12,6 @@ interface StepPersonalInfoProps {
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
-  formData: PopupCityProps;
   onNext: () => void;
   onBack: () => void;
 }
@@ -41,7 +40,6 @@ const StepOneDetails = ({
   register,
   errors,
   setValue,
-  formData,
   onNext,
   onBack,
 }: StepPersonalInfoProps) => {
@@ -167,9 +165,6 @@ const StepOneDetails = ({
         <Button
           className="bg-green-550 text-white rounded-full"
           onClick={onNext}
-          disabled={
-            !formData.email || !formData.whatsappNumber || !formData.gender
-          }
         >
           <span className="flex items-center gap-2">
             Continue{" "}

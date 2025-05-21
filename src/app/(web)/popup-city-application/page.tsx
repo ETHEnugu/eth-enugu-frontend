@@ -26,7 +26,6 @@ const PopupCityPage = () => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<PopupCityProps>({
     defaultValues: {
@@ -47,7 +46,7 @@ const PopupCityPage = () => {
     },
   });
 
-  const formData = watch();
+  // const formData = watch();
 
   const handleNext = () => updateStepInURL(currentStep + 1);
   const handleBack = () => updateStepInURL(currentStep - 1);
@@ -96,7 +95,6 @@ const PopupCityPage = () => {
             register={register}
             errors={errors}
             setValue={setValue}
-            formData={formData}
             onBack={handleBack}
             onNext={handleNext}
           />
