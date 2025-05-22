@@ -1,0 +1,40 @@
+services:
+  # Production service - builds from main branch
+  - type: web
+    name: eth-enugu-frontend
+    env: node
+    plan: starter # Change to 'standard' or 'pro' as needed
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
+    # Auto-deploy from main branch
+    autoDeploy: true
+    branch: main
+    
+  # Preview service - builds from pull requests
+  - type: web
+    name: eth-enugu-frontend-preview
+    env: node
+    plan: starter
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
+    # Enable preview deployments
+    autoDeploy: false
+    previewsEnabled: true
+    
+databases:
+  # Uncomment if you need a database
+  # - name: your-database
+  #   databaseName: your_db_name
+  #   user: your_db_user

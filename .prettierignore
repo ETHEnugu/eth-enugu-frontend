@@ -1,4 +1,6 @@
 .github
+globals.css
 next.config.mjs
 public
 README.md
+render.yaml
