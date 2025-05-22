@@ -11,7 +11,7 @@ interface StepOtherInfoProps {
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
-  isSubmitting?: boolean;
+  isPending?: boolean;
 }
 
 const dateOptions = [
@@ -36,7 +36,7 @@ const StepTwoDetails = ({
   register,
   errors,
   setValue,
-  isSubmitting = false,
+  isPending,
 }: StepOtherInfoProps) => {
   return (
     <div className="space-y-7">
@@ -61,6 +61,25 @@ const StepTwoDetails = ({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
+          What days are you likely to attend?
+        </label>
+        <Dropdown
+          placeholder="Select date"
+          onValueChange={(selected) =>
+            setValue("attendDay2", selected.value, { shouldValidate: true })
+          }
+          className="text-dark"
+          options={dateOptions}
+        />
+        {errors.attendDay2 && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.attendDay2.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
           Would you like to be considered for free lunch during the program?
         </label>
         <textarea
@@ -69,6 +88,11 @@ const StepTwoDetails = ({
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
+        {errors.freeLunchConsideration && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.freeLunchConsideration.message}
+          </p>
+        )}
       </div>
 
       <div>
@@ -101,6 +125,11 @@ const StepTwoDetails = ({
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
+        {errors.dietaryAccessibilityNeeds && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.dietaryAccessibilityNeeds.message}
+          </p>
+        )}
       </div>
       <div>
         <label className="block font-bold text-dark text-base mb-1">
@@ -112,6 +141,11 @@ const StepTwoDetails = ({
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
+        {errors.referralSource && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.referralSource.message}
+          </p>
+        )}
       </div>
 
       <div>
@@ -140,7 +174,7 @@ const StepTwoDetails = ({
         <Button
           className="bg-white text-black rounded-full border border-gray-300"
           onClick={onBack}
-          disabled={isSubmitting}
+          disabled={isPending}
         >
           <span className="flex items-center gap-2">
             <Icon icon="solar:arrow-left-linear" width="16" height="16" />
@@ -152,8 +186,8 @@ const StepTwoDetails = ({
           onClick={onNext}
         >
           <span className="flex items-center gap-2">
-            {isSubmitting ? "Submitting..." : "Submit"}{" "}
-            {!isSubmitting && (
+            {isPending ? "Submitting..." : "Submit"}{" "}
+            {!isPending && (
               <Icon icon="solar:arrow-right-linear" width="16" height="16" />
             )}
           </span>

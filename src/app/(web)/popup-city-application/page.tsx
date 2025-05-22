@@ -2,10 +2,15 @@
 import PopupCityInfo from "@/components/ui/popup-city-form/PopupCityInfo";
 import StepOneDetails from "@/components/ui/popup-city-form/StepOneDetails";
 import StepTwoDetails from "@/components/ui/popup-city-form/StepTwoDetails";
+import { POPUP_CITY } from "@/config/ENDPOINTS";
+import { usePostMutation } from "@/hooks/useApi";
 import { PopupCityProps } from "@/types";
+import { popupCityValidation } from "@/validations/popupCityValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const PopupCity = () => {
   return (
@@ -20,14 +25,19 @@ const PopupCityPage = () => {
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate, isPending } = usePostMutation(
+    POPUP_CITY.CREATE,
+    "create_popup"
+  );
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<PopupCityProps>({
+    resolver: yupResolver(popupCityValidation),
     defaultValues: {
       fullName: "",
       email: "",
@@ -46,21 +56,36 @@ const PopupCityPage = () => {
     },
   });
 
-  // const formData = watch();
+  const formData = watch();
+
+  // Persist form data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("popupCityFormData", JSON.stringify(formData));
+  }, [formData]);
+
+  // Restore form data from localStorage on component mount
+  useEffect(() => {
+    const savedData = localStorage.getItem("popupCityFormData");
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      Object.keys(parsedData).forEach((key) => {
+        setValue(key as keyof PopupCityProps, parsedData[key]);
+      });
+    }
+  }, [setValue]);
 
   const handleNext = () => updateStepInURL(currentStep + 1);
   const handleBack = () => updateStepInURL(currentStep - 1);
 
   const onSubmit = async (data: PopupCityProps) => {
-    try {
-      setIsSubmitting(true);
-      console.log("Form submitted with data:", data);
-      router.push("/success?form=popup");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    console.log(data);
+
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Builder form submitted succefully");
+        router.replace("/success?form=popup");
+      },
+    });
   };
 
   const updateStepInURL = (step: number) => {
@@ -106,7 +131,7 @@ const PopupCityPage = () => {
             setValue={setValue}
             onBack={handleBack}
             onNext={handleSubmit(onSubmit)}
-            isSubmitting={isSubmitting}
+            isPending={isPending}
           />
         )}
       </div>

@@ -1,11 +1,16 @@
 "use client";
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import StepOtherInfo from "@/components/ui/SpeakerForm/StepOtherInfo";
 import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { usePostMutation } from "@/hooks/useApi";
+import { BUILDER_RESIDENCY } from "@/config/ENDPOINTS";
+import { toast } from "sonner";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import { speakerValidation } from "@/validations/speakerValidations";
 
 const steps = [
   "Personal Information",
@@ -26,7 +31,10 @@ const SpeakerApplicationFormPage = () => {
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mutate, isPending } = usePostMutation(
+    BUILDER_RESIDENCY.CREATE,
+    "create_builder"
+  );
 
   // Initialize react-hook-form
   const {
@@ -36,6 +44,7 @@ const SpeakerApplicationFormPage = () => {
     watch,
     formState: { errors },
   } = useForm<SpeakerProps>({
+    // resolver: yupResolver(speakerValidation),
     defaultValues: {
       fullName: "",
       email: "",
@@ -62,15 +71,21 @@ const SpeakerApplicationFormPage = () => {
   const handleBack = () => updateStepInURL(currentStep - 1);
 
   const onSubmit = async (data: SpeakerProps) => {
-    try {
-      setIsSubmitting(true);
-      console.log("Form submitted with data:", data);
-      router.push("/success?form=speaker");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Builder form submitted succefully");
+        router.push("/sucess");
+      },
+    });
+    // try {
+    //   setIsSubmitting(true);
+    //   console.log("Form submitted with data:", data);
+    //   router.push("/success");
+    // } catch (error) {
+    //   console.error("Error submitting form:", error);
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
   };
 
   const updateStepInURL = (step: number) => {
@@ -125,7 +140,7 @@ const SpeakerApplicationFormPage = () => {
             formData={formData}
             onBack={handleBack}
             onNext={handleSubmit(onSubmit)}
-            isSubmitting={isSubmitting}
+            isSubmitting={isPending}
           />
         )}
       </div>
