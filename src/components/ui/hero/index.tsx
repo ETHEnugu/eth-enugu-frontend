@@ -1,11 +1,12 @@
-import {
-  LetterSlideUp,
-  WordSlideUp,
-} from "@/components/animation/text-animation";
-import { Icon } from "@iconify/react/dist/iconify.js";
+"use client";
+import useDeviceSize from "@/hooks/useDeviceSize";
 import Image from "next/image";
+import DesktopHero from "./DesktopHero";
+import MobileHero from "./MobileHero";
 
 export default function HomeHero() {
+  const { isMobile } = useDeviceSize();
+
   return (
     <div className="relative w-full h-screen">
       <Image
@@ -15,69 +16,7 @@ export default function HomeHero() {
         alt="Background image"
         className="asbsolute w-full h-full object-cover top-0 left-0 z-0"
       />
-      <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-8">
-        <div className="flex flex-col items-center justify-center gap-1">
-          <WordSlideUp text="Welcome To" className="text-center" />
-
-          <span>
-            <LetterSlideUp text="Eth Enugu" className="text-8xl font-bold" />
-            <LetterSlideUp
-              text="'25"
-              className="text-8xl font-bold text-amber-850"
-            />
-          </span>
-
-          <span className="flex flex-col items-center justify-center text-center">
-            <WordSlideUp text="South East Nigeria's first Ethereum Conference & Pop-up City." />
-            <WordSlideUp text="From Enugu to the Ethereum network — a gathering of minds, culture, and innovation." />
-          </span>
-        </div>
-
-        <div className="relative w-max mx-auto flex items-center">
-          <div className="relative w-[600px] h-[600px]">
-            <Image
-              src="/images/unn-lion-banner.svg"
-              width={0}
-              height={0}
-              alt="UNN Lion Banner"
-              title="UNN Lion Banner"
-              className="absolute w-full h-full ml-64"
-            />
-            <Image
-              src="/images/desktop-hero-banner.svg"
-              width={0}
-              height={0}
-              alt="Banner"
-              title="Banner"
-              className="absolute w-full h-full ml-96 mt-36"
-            />
-            <Image
-              src="/images/otigba-eth.svg"
-              width={0}
-              height={0}
-              alt="Otigba ETH"
-              title="Otigba ETH"
-              className="absolute w-full h-full"
-            />
-          </div>
-
-          <div className="w-max absolute bottom-64 -left-32 bg-white p-5 gap-4 rounded-2xl flex items-center calendar">
-            <span className="w-14 h-14 flex items-center justify-center text-white rounded-full bg-amber-550 border border-black">
-              <Icon icon="lucide:calendar" width={36} height={36} />
-            </span>
-            <h3 className="w-full max-w-32">04-16th Aug. 2025</h3>
-          </div>
-        </div>
-      </div>
-
-      <aside role="menubar" id="socials"></aside>
-      <Image
-        src="/images/white-accent.svg"
-        width={0}
-        height={0}
-        alt="White Accent"
-        className="absolute w-full bottom-0 left-0 z-0"
-      />
+      {isMobile ? <MobileHero /> : <DesktopHero />}
     </div>
   );
 }
