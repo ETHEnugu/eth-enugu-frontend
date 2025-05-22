@@ -1,7 +1,8 @@
 import Image from "next/image";
+import { ReactNode } from "react";
 
 interface ItemProps {
-  title: string;
+  title: string | ReactNode;
   content: string;
 }
 
@@ -12,7 +13,7 @@ const Banner2 = ({ title, content }: ItemProps) => {
         <div className="flex justify-between">
           <div className="relative w-32 h-32 md:top-12 top-1 left-1 md:left-30">
             <Image
-              src="/calender.svg"
+              src="/badge/calender.svg"
               alt="calender"
               width={119}
               height={119}
@@ -25,7 +26,7 @@ const Banner2 = ({ title, content }: ItemProps) => {
 
           <div className="relative w-28 md:w-32 md:h-32 h-28 md:top-55 md:right-40 rotate-[30deg] md:rotate-0">
             <Image
-              src="/calender2.svg"
+              src="/badge/calender2.svg"
               alt="calender2"
               width={123}
               height={123}
@@ -47,7 +48,12 @@ const Banner2 = ({ title, content }: ItemProps) => {
 
         <div className="flex justify-center items-center">
           <button className="relative md:w-32 w-28 md:h-32 h-28 cursor-pointer hover:animate-pulse">
-            <Image src="/badge1.svg" alt="badge1" width={147} height={147} />
+            <Image
+              src="/badge/badge1.svg"
+              alt="badge1"
+              width={147}
+              height={147}
+            />
             <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-lg font-bold leading-tight text-center">
               APPLY
               <br />

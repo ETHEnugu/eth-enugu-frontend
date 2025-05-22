@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Providers from "@/components/providers";
 
 export const metadata: Metadata = {
   title: "ETH Enugu '25",
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased font-sans`}>{children}</body>
+      <body className={`antialiased font-sans`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
