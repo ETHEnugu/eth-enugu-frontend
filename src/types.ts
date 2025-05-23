@@ -84,33 +84,33 @@ export interface SpeakerProps {
   fullName: string;
   email: string;
   phone: string;
-  location: string | number;
+  location: string | number | boolean;
   twitter: string;
   linkedin: string;
   website: string;
-  sessionType: string | number;
-  sessionLength: string | number;
-  slideAvailable: string | number;
-  slideLink: string | number;
-  setupNeeds: string | number;
-  arrivalDate: string | number;
-  agreeToSpeak: string | number;
-  referralSource: string | number;
-  joinCommunity: string | number;
+  sessionType: string | number | boolean;
+  sessionLength: string | number | boolean;
+  slideAvailable: string | number | boolean;
+  slideLink: string | number | boolean;
+  setupNeeds: string | number | boolean;
+  arrivalDate: string | number | boolean;
+  agreeToSpeak: string | number | boolean;
+  referralSource: string | number | boolean;
+  joinCommunity: string | number | boolean;
 }
 
 export interface ConferenceProps {
   fullName: string;
   email: string;
   whatsappNumber: string;
-  location: string | number;
-  age: string | number;
-  gender: string | number;
-  roleDescription: string | number;
+  location: string | number | boolean;
+  age: string | number | boolean;
+  gender: string | number | boolean;
+  roleDescription: string | number | boolean;
   expectedGains: string;
-  attendanceType: string | number;
-  certificateNeeded: string | number;
+  attendanceType: string | number | boolean;
+  certificateNeeded: string | number | boolean;
   dietaryAccessibilityNeeds: string;
   referralSource: string;
-  joinOnlineCommunity: string | number;
+  joinOnlineCommunity: string | number | boolean;
 }

@@ -2,12 +2,18 @@
 
 import Dropdown from "@/components/common/dropdown";
 import { ConferenceProps } from "@/types";
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetError,
+  UseFormSetValue,
+} from "react-hook-form";
 
 interface PersonalDetailsTwoProps {
   register: UseFormRegister<ConferenceProps>;
   errors: FieldErrors<ConferenceProps>;
   setValue: UseFormSetValue<ConferenceProps>;
+  setError: UseFormSetError<ConferenceProps>;
 }
 
 export default function PersonalDetailsTwo({
@@ -16,28 +22,28 @@ export default function PersonalDetailsTwo({
   setValue,
 }: PersonalDetailsTwoProps) {
   const roles = [
-    { label: "Student", value: "Student" },
-    { label: "Developer", value: "Developer" },
-    { label: "Designer", value: "Designer" },
-    { label: "Entrepreneur", value: "Entrepreneur" },
-    { label: "Web3 Enthusiast", value: "Web3 Enthusiast" },
-    { label: "Other", value: "Other" },
+    { label: "Student", value: "STUDENT" },
+    { label: "Developer", value: "DEVELOPER" },
+    { label: "Designer", value: "DESIGNER" },
+    { label: "Entrepreneur", value: "ENTREPRENEUR" },
+    { label: "Web3 Enthusiast", value: "WEB3 ENTHUSIAST" },
+    { label: "Other", value: "OTHER" },
   ];
 
   const attendanceType = [
-    { label: "Attendee", value: "Attendee" },
-    { label: "Volunteer", value: "Volunteer" },
-    { label: "Speaker [if open]", value: "Speaker" },
-    { label: "Exhibitor [if open]", value: "Exhibitor" },
+    { label: "Attendee", value: "ATTENDEE" },
+    { label: "Volunteer", value: "VOLUNTEER" },
+    { label: "Speaker [if open]", value: "SPEAKER" },
+    { label: "Exhibitor [if open]", value: "EXHIBITOR" },
   ];
   const certificateNeeded = [
-    { label: "Yes", value: "true" },
-    { label: "No", value: "false" },
+    { label: "Yes", value: true },
+    { label: "No", value: false },
   ];
 
   const joinOnlineCommunity = [
-    { label: "Yes", value: "true" },
-    { label: "No", value: "false" },
+    { label: "Yes", value: "YES" },
+    { label: "No", value: "NO" },
   ];
 
   return (
@@ -54,8 +60,12 @@ export default function PersonalDetailsTwo({
           onValueChange={(selected) =>
             setValue("roleDescription", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
+          {...register("roleDescription", {
+            required: "Please select a description",
+          })}
         />
         {errors.roleDescription && (
           <p className="text-red-500 text-sm mt-1">
@@ -69,7 +79,9 @@ export default function PersonalDetailsTwo({
           What are you hoping to gain from the conference?
         </label>
         <textarea
-          {...register("expectedGains")}
+          {...register("expectedGains", {
+            required: "Please fill in this field",
+          })}
           placeholder="Write here..."
           rows={4}
           className="w-full border rounded-lg px-4 py-3 text-lg"
@@ -88,11 +100,17 @@ export default function PersonalDetailsTwo({
         <Dropdown
           placeholder="Attendee, Volunteer, Speaker [if open], Exhibitor [if open]"
           className="text-dark"
-          isTypeable={true}
+          isTypeable={false}
           options={attendanceType}
           onValueChange={(selected) =>
-            setValue("attendanceType", selected.value, { shouldValidate: true })
+            setValue("attendanceType", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
           }
+          {...register("attendanceType", {
+            required: "Please selected an option",
+          })}
         />
         {errors.attendanceType && (
           <p className="text-red-500 text-sm mt-1">
@@ -108,13 +126,17 @@ export default function PersonalDetailsTwo({
         <Dropdown
           placeholder="Choose option"
           className="text-dark"
-          isTypeable={true}
+          isTypeable={false}
           options={certificateNeeded}
           onValueChange={(selected) =>
             setValue("certificateNeeded", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
+          {...register("certificateNeeded", {
+            required: "Please select an option",
+          })}
         />
         {errors.certificateNeeded && (
           <p className="text-red-500 text-sm mt-1">
@@ -131,7 +153,9 @@ export default function PersonalDetailsTwo({
           placeholder="Write here..."
           rows={4}
           className="w-full border rounded-lg px-4 py-3 text-lg"
-          {...register("dietaryAccessibilityNeeds")}
+          {...register("dietaryAccessibilityNeeds", {
+            required: "Please fill in this field",
+          })}
         />
         {errors.dietaryAccessibilityNeeds && (
           <p className="text-red-500 text-sm mt-1">
@@ -148,7 +172,9 @@ export default function PersonalDetailsTwo({
           placeholder="Write here..."
           rows={4}
           className="w-full border rounded-lg px-4 py-3 text-lg"
-          {...register("referralSource")}
+          {...register("referralSource", {
+            required: "Please fill in this field",
+          })}
         />
         {errors.referralSource && (
           <p className="text-red-500 text-sm mt-1">
@@ -169,8 +195,12 @@ export default function PersonalDetailsTwo({
           onValueChange={(selected) =>
             setValue("joinOnlineCommunity", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
+          {...register("joinOnlineCommunity", {
+            required: "Please select an option",
+          })}
         />
         {errors.joinOnlineCommunity && (
           <p className="text-red-500 text-sm mt-1">

@@ -8,20 +8,22 @@ import ScrollingText from "@/components/ui/Scrolling-text";
 import { ConferenceProps } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const FORM_KEY = "applicationForm";
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+    setError,
+    trigger,
+    formState: { errors, isSubmitting },
   } = useForm<ConferenceProps>({
     defaultValues: {
       fullName: "",
@@ -33,65 +35,93 @@ export default function Page() {
       roleDescription: "",
       expectedGains: "",
       attendanceType: "",
-      certificateNeeded: "",
+      certificateNeeded: false,
       dietaryAccessibilityNeeds: "",
       referralSource: "",
       joinOnlineCommunity: "",
     },
+    mode: "onChange",
   });
 
   const formData = watch();
 
-  const handleNext = () => {
-    if (currentStep < 2) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
-  const handlePrev = () => {
-    if (currentStep !== 0) {
-      setCurrentStep((prev) => prev - 1);
+  console.log(formData);
+
+  const handleNext = async () => {
+    if (currentStep === 0) return setCurrentStep(1);
+
+    if (currentStep === 1) {
+      const isStepValid = await trigger([
+        "fullName",
+        "email",
+        "whatsappNumber",
+        "location",
+        "age",
+        "gender",
+      ]);
+
+      setError("gender", { type: "required", message: "Gender is required" });
+
+      if (isStepValid) {
+        setCurrentStep(2);
+      }
     }
   };
 
-  const onSubmit: SubmitHandler<ConferenceProps> = async (
-    data: ConferenceProps
-  ) => {
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem(FORM_KEY) || "{}");
+    if (savedData) {
+      Object.keys(savedData).forEach((key) => {
+        setValue(key as keyof ConferenceProps, savedData[key]);
+      });
+    }
+  }, [setValue]);
+
+  useEffect(() => {
+    localStorage.setItem(FORM_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  const handlePrev = () => {
+    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
+  };
+
+  const onSubmit: SubmitHandler<ConferenceProps> = async (data) => {
     try {
-      setIsSubmitting(true);
-      console.log("Form submitted successfully", data); // ✅ This logs the actual user input
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log(data);
+      localStorage.removeItem(FORM_KEY);
       router.push("/application-success");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
+    } catch (error: unknown) {
+      setError("root", {
+        message:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
+      });
     }
   };
 
   return (
     <>
-      <section className="bg-[url('/conf-sumit-page-bg/AbstractBg.svg')] bg-no-repeat bg-cover min-h-[50vh] flex items-start justify-center p-2  ">
+      <section className="bg-[url('/conf-sumit-page-bg/AbstractBg.svg')] bg-no-repeat bg-cover min-h-[50vh] flex items-start justify-center p-2">
         {currentStep === 0 && <ConfInfoBanner handleNext={handleNext} />}
 
         {currentStep > 0 && (
           <form
             onSubmit={handleSubmit(onSubmit)}
-            action=""
-            className="md:w-1/2 bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10 p-6 md:p-10 "
+            className="md:w-1/2 bg-[var(--background)] border border-black rounded-2xl flex flex-col gap-10 p-6 md:p-10"
           >
-            <div className="flex flex-col items-start gap-7 w-full ">
-              <div className="w-full flex flex-col md:flex-row items-center justify-between md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
-                <h3 className="text-[var(--color-amber-750)] leading-[100%] ">
-                  Conference/Summit ‘25 Form
-                </h3>
-
-                <div className="flex items-center gap-1 ">
-                  <span
-                    className={`w-8 h-2 bg-[#D9D9D9] rounded-[100px] ${currentStep > 0 ? "bg-[var(--color-amber-750)] " : null}`}
-                  ></span>
-                  <span
-                    className={`w-8 h-2 bg-[#D9D9D9] rounded-[100px] ${currentStep > 1 ? "bg-[var(--color-amber-750)] " : null}`}
-                  ></span>
-                </div>
+            <div className="flex justify-between items-center border-b border-gray-300 pb-6">
+              <h3 className="text-[var(--color-amber-750)]">
+                Conference/Summit ‘25 Form
+              </h3>
+              <div className="flex gap-1">
+                <span
+                  className={`w-8 h-2 rounded-full ${currentStep > 0 ? "bg-[var(--color-amber-750)]" : "bg-gray-300"}`}
+                />
+                <span
+                  className={`w-8 h-2 rounded-full ${currentStep > 1 ? "bg-[var(--color-amber-750)]" : "bg-gray-300"}`}
+                />
               </div>
             </div>
 
@@ -108,16 +138,17 @@ export default function Page() {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                setError={setError}
               />
             )}
 
-            <div className="w-full flex flex-col-rever md:flex-row items-center justify-start gap-3 ">
+            <div className="flex flex-col-reverse md:flex-row items-center gap-3 w-full">
               <Button
                 onClick={handlePrev}
-                className="flex items-center gap-3 md:w-fit w-full"
                 type="button"
                 variant="plain"
                 design="rounded"
+                className="flex items-center gap-3 md:w-fit w-full"
               >
                 <Icon icon="solar:arrow-left-linear" width={18} height={18} />
                 Go back
@@ -129,7 +160,7 @@ export default function Page() {
                 variant="default"
                 design="rounded"
                 className="flex items-center gap-3 md:w-fit w-full"
-                disabled={!formData}
+                disabled={isSubmitting}
               >
                 {isSubmitting
                   ? "Submitting..."
@@ -139,6 +170,10 @@ export default function Page() {
                 <Icon icon="solar:arrow-right-linear" width={18} height={18} />
               </Button>
             </div>
+
+            {errors.root && (
+              <p className="text-red-500 text-sm mt-1">{errors.root.message}</p>
+            )}
           </form>
         )}
       </section>

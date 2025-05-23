@@ -21,27 +21,30 @@ export default function PersonalDetailsOne({
   const options = useMemo(() => countryOptions, []);
 
   const ages = [
-    { label: "Under 18", value: "Under 18" },
-    { label: "18 - 24", value: "18 - 24" },
-    { label: "25 - 34", value: "25 - 34" },
-    { label: "35 - 44", value: "35 - 44" },
-    { label: "45 - 54", value: "45 - 54" },
-    { label: "55 - 64", value: "55 - 64" },
-    { label: "65 and above", value: "65 and above" },
+    { label: "Under 18", value: "AGE_Under_18" },
+    { label: "18 - 24", value: "AGE_18_24" },
+    { label: "25 - 34", value: "AGE_25_34" },
+    { label: "35 - 44", value: "AGE_35_44" },
+    { label: "45 - 54", value: "AGE_45_54" },
+    { label: "55 - 64", value: "AGE_55_64" },
+    { label: "65 and above", value: "AGE_65_and_above" },
   ];
 
   const gender = [
-    { label: "Male", value: "Male" },
-    { label: "Female", value: "Female" },
+    { label: "Male", value: "MALE" },
+    { label: "Female", value: "FEMALE" },
+    { label: "Other", value: "OTHER" },
   ];
 
   return (
-    <div className="w-full flex flex-col gap-8 ">
+    <div className="w-full flex flex-col gap-8">
       <FormInput
         label="Full Name"
         type="text"
         placeholder="Full name"
-        {...register("fullName")}
+        {...register("fullName", {
+          required: "Your Full Name is required",
+        })}
         error={errors.fullName?.message}
       />
 
@@ -49,7 +52,13 @@ export default function PersonalDetailsOne({
         label="Email Address"
         type="email"
         placeholder="johndoe@mail.com"
-        {...register("email")}
+        {...register("email", {
+          required: "Your Email is required",
+          pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: "Invalid email format",
+          },
+        })}
         error={errors.email?.message}
       />
 
@@ -57,13 +66,26 @@ export default function PersonalDetailsOne({
         label="WhatsApp Phone Number"
         type="text"
         placeholder="+234 XXXX XXX XXX"
-        {...register("whatsappNumber")}
+        {...register("whatsappNumber", {
+          required: "Your WhatsApp number is required",
+          pattern: {
+            value:
+              /^\+?\d{1,4}?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+            message: "Enter a valid phone number",
+          },
+        })}
+        onInput={(e) => {
+          const input = e.target as HTMLInputElement;
+          input.value = input.value.replace(/[^0-9+\s()-]/g, "");
+        }}
+        inputMode="tel"
         error={errors.whatsappNumber?.message}
       />
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country, State & City of Residence
+          Country, State & City of Residence{" "}
+          <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Select Location"
@@ -71,52 +93,60 @@ export default function PersonalDetailsOne({
           isTypeable={true}
           options={options}
           onValueChange={(selected) =>
-            setValue("location", selected.value, { shouldValidate: true })
+            setValue("location", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
           }
+          {...register("location", { required: "Please add a location" })}
         />
         {errors.location && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.location.message}{" "}
-          </p>
+          <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
         )}
       </div>
 
       <div className="w-full flex items-center gap-3 justify-between">
         <div className="w-full">
           <label className="block font-bold text-dark text-base mb-1">
-            Age
+            Age <span className="text-red-500">*</span>
           </label>
           <Dropdown
-            placeholder="16 - 19"
+            placeholder="Select Age Range"
             className="text-dark"
             isTypeable={false}
             options={ages}
             onValueChange={(selected) =>
-              setValue("age", selected.value, { shouldValidate: true })
+              setValue("age", selected.value, {
+                shouldValidate: true,
+                shouldDirty: true,
+              })
             }
+            {...register("age", { required: "Please select an age range " })}
           />
           {errors.age && (
-            <p className="text-red-500 text-sm mt-1">{errors.age.message} </p>
+            <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
           )}
         </div>
 
         <div className="w-full">
           <label className="block font-bold text-dark text-base mb-1">
-            Gender
+            Gender <span className="text-red-500">*</span>
           </label>
           <Dropdown
-            placeholder="Male"
+            placeholder="Select Gender"
             className="text-dark"
             isTypeable={false}
             options={gender}
             onValueChange={(selected) =>
-              setValue("gender", selected.value, { shouldValidate: true })
+              setValue("gender", selected.value, {
+                shouldValidate: true,
+                shouldDirty: true,
+              })
             }
+            {...register("gender", { required: "Please select an option" })}
           />
           {errors.gender && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.gender.message}{" "}
-            </p>
+            <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
           )}
         </div>
       </div>
