@@ -98,3 +98,19 @@ export interface SpeakerProps {
   referralSource: string | number;
   joinCommunity: string | number;
 }
+
+export interface ConferenceProps {
+  fullName: string;
+  email: string;
+  whatsappNumber: string;
+  location: string | number;
+  age: string | number;
+  gender: string | number;
+  roleDescription: string | number;
+  expectedGains: string;
+  attendanceType: string | number;
+  certificateNeeded: string | number;
+  dietaryAccessibilityNeeds: string;
+  referralSource: string;
+  joinOnlineCommunity: string | number;
+}

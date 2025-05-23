@@ -42,9 +42,11 @@ export default function Navbar() {
       </div>
 
       <aside className="w-max ml-auto flex items-center gap-4">
-        <Button type="button" variant="plain" design="rounded">
-          Register for event
-        </Button>
+        <Link href={"conference-application"}>
+          <Button type="button" variant="plain" design="rounded">
+            Register for event
+          </Button>
+        </Link>
         <Button
           type="button"
           variant="default"
