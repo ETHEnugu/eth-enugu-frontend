@@ -8,7 +8,7 @@ interface ConInfoBannerProps {
 
 export default function ConfInfoBanner({ handleNext }: ConInfoBannerProps) {
   return (
-    <div className=" w-full max-w-[680px] bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10 p-10 ">
+    <div className=" w-full max-w-[680px] bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10 p-6 md:p-10 ">
       <div className="flex flex-col items-start gap-7 w-full ">
         <div className="w-full flex flex-col md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
           <div className=" md:w-[104px] md:h-[112px] w-[74.3px] h-[80px] ">
@@ -22,7 +22,7 @@ export default function ConfInfoBanner({ handleNext }: ConInfoBannerProps) {
           </div>
 
           <div className="w-full flex flex-col items-start gap-2  ">
-            <h3 className="text-[#B18214] leading-[100%] ">
+            <h3 className="text-[#B18214] leading-[100%] custom-banner-heading ">
               Who Should Attend
               <br /> The Conference/Summit ’25?
             </h3>

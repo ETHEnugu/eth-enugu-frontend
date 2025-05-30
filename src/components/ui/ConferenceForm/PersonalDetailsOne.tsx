@@ -21,13 +21,11 @@ export default function PersonalDetailsOne({
   const options = useMemo(() => countryOptions, []);
 
   const ages = [
-    { label: "Under 18", value: "AGE_Under_18" },
-    { label: "18 - 24", value: "AGE_18_24" },
+    { label: "16 - 19", value: "AGE_16_19" },
+    { label: "20 - 24", value: "AGE_20_24" },
     { label: "25 - 34", value: "AGE_25_34" },
     { label: "35 - 44", value: "AGE_35_44" },
-    { label: "45 - 54", value: "AGE_45_54" },
-    { label: "55 - 64", value: "AGE_55_64" },
-    { label: "65 and above", value: "AGE_65_and_above" },
+    { label: "45 and above", value: "AGE_45_PLUS" },
   ];
 
   const gender = [
@@ -37,7 +35,7 @@ export default function PersonalDetailsOne({
   ];
 
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className="w-full flex flex-col gap-6 md:gap-8">
       <FormInput
         label="Full Name"
         type="text"
@@ -105,7 +103,7 @@ export default function PersonalDetailsOne({
         )}
       </div>
 
-      <div className="w-full flex items-center gap-3 justify-between">
+      <div className="w-full flex items-center flex-col md:flex-row gap-3 justify-between">
         <div className="w-full">
           <label className="block font-bold text-dark text-base mb-1">
             Age <span className="text-red-500">*</span>

@@ -37,8 +37,8 @@ export default function PersonalDetailsTwo({
     { label: "Exhibitor [if open]", value: "EXHIBITOR" },
   ];
   const certificateNeeded = [
-    { label: "Yes", value: true },
-    { label: "No", value: false },
+    { label: "Yes", value: "YES" },
+    { label: "No", value: "NO" },
   ];
 
   const joinOnlineCommunity = [
@@ -47,7 +47,7 @@ export default function PersonalDetailsTwo({
   ];
 
   return (
-    <div className="w-full flex flex-col gap-8 ">
+    <div className="w-full flex flex-col gap-6 md:gap-8 ">
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           What best describes you?
