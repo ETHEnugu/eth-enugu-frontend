@@ -180,9 +180,15 @@ export default function Page() {
                 ) : currentStep < 2 ? (
                   "Continue"
                 ) : (
-                  "Submit"
+                  <>
+                    Submit{" "}
+                    <Icon
+                      icon="solar:arrow-right-linear"
+                      width={18}
+                      height={18}
+                    />
+                  </>
                 )}
-                <Icon icon="solar:arrow-right-linear" width={18} height={18} />
               </Button>
             </div>
 
