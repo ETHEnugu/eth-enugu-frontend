@@ -3,6 +3,7 @@ import Banner from "@/components/ui/Banner";
 import Banner2 from "@/components/ui/Banner2";
 import GallerySection from "@/components/ui/GallerySection";
 import InfoSection from "@/components/ui/InfoSection";
+import ScrollingText from "@/components/ui/Scrolling-text";
 import FaqSection from "@/components/ui/faq-section";
 import HomeHero from "@/components/ui/hero";
 
@@ -19,6 +20,7 @@ export default function Home() {
         content="Apply to mentor rising talent and make an impact in the Southeast tech ecosystem."
       />
       <FaqSection />
+      <ScrollingText />
     </>
   );
 }

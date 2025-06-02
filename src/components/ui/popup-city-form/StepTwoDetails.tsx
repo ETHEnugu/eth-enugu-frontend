@@ -47,7 +47,9 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Select date"
           onValueChange={(selected) =>
-            setValue("attendDay1", selected.value, { shouldValidate: true })
+            setValue("attendDay1", selected.value as string, {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
           options={dateOptions}
@@ -78,7 +80,7 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Answer"
           onValueChange={(selected) =>
-            setValue("volunteringInterest", selected.value, {
+            setValue("volunteringInterest", selected.value as string, {
               shouldValidate: true,
             })
           }
@@ -122,7 +124,7 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose option"
           onValueChange={(selected) =>
-            setValue("joinOnlineCommunity", selected.value, {
+            setValue("joinOnlineCommunity", selected.value as string, {
               shouldValidate: true,
             })
           }

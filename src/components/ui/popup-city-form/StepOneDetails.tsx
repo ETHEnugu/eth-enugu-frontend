@@ -75,7 +75,9 @@ const StepOneDetails = ({
           <Dropdown
             placeholder="Select gender"
             onValueChange={(selected) =>
-              setValue("gender", selected.value, { shouldValidate: true })
+              setValue("gender", selected.value as string, {
+                shouldValidate: true,
+              })
             }
             className="text-dark"
             options={genderOption}
@@ -101,7 +103,9 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Select Location"
           onValueChange={(selected) =>
-            setValue("location", selected.value, { shouldValidate: true })
+            setValue("location", selected.value as string, {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
           options={options}
@@ -119,7 +123,9 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Select Role"
           onValueChange={(selected) =>
-            setValue("currentRole", selected.value, { shouldValidate: true })
+            setValue("currentRole", selected.value as string, {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
           options={roleOptions}
@@ -139,7 +145,7 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Choose Option"
           onValueChange={(selected) =>
-            setValue("web3Familiarity", selected.value, {
+            setValue("web3Familiarity", selected.value as string, {
               shouldValidate: true,
             })
           }
