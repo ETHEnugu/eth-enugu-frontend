@@ -90,6 +90,7 @@ p {
 
 @theme {
   /* Theme color declaration */
+  --color-amber-850: #F08803;
   --color-amber-750: #c38f16;
   --color-amber-550: #e9be24;
   --color-amber-150: #f6deae;
@@ -100,6 +101,7 @@ p {
   --color-green-250: #bedc9a;
   --color-green-150: #d6f4d0;
   --color-green-350:#338933;
+  
 
   --color-orange-650: #fd9003;
   --color-orange-500: #f3a035;
@@ -124,11 +126,24 @@ p {
   position: relative;
   box-shadow: 0.25em 0.25em 0 #1e1e1e;
   cursor: pointer;
+}
 
+.calendar {
+  box-shadow: 0.25em 0.5em 0 #1e1e1e;
 }
 
 .background-h1{
   font-size: 34.375rem;
 }
+.custom-scroll-heading {
+  font-size:  6.25rem;
+  font-weight: 600;
+  line-height: 6.25rem;
+}
 
-
+@media (max-width: 768px) {
+  .custom-scroll-heading {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+  }
+}

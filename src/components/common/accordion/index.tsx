@@ -19,7 +19,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 }) => {
   return (
     <div
-      className="mb-4 rounded-lg bg-amber-150 overflow-hidden border-[1px] border-[var(--color-green-550)] "
+      className="mb-4 rounded-lg bg-amber-150 overflow-hidden border-[1px] border-green-550"
       style={{ boxShadow: "3px 4px 0px 0px #000000" }}
     >
       <button
