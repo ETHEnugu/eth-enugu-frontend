@@ -45,8 +45,8 @@ const StepPersonalInfo = ({
         label="WhatsApp Phone Number"
         placeholder="+234 XXXX XXX XXX"
         type="tel"
-        {...register("phone")}
-        error={errors.phone?.message}
+        {...register("whatsappNumber")}
+        error={errors.whatsappNumber?.message}
       />
       <div>
         <label className="block font-bold text-dark text-base mb-1">
@@ -55,7 +55,9 @@ const StepPersonalInfo = ({
         <Dropdown
           placeholder="Select Location"
           onValueChange={(selected) =>
-            setValue("location", selected.value, { shouldValidate: true })
+            setValue("location", selected.value.toString(), {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
           options={options}
@@ -69,15 +71,15 @@ const StepPersonalInfo = ({
         label="Twitter(X)"
         placeholder="Enter the URL to your X Profile"
         type="url"
-        {...register("twitter")}
-        error={errors.twitter?.message}
+        {...register("twitterProfile")}
+        error={errors.twitterProfile?.message}
       />
       <FormInput
         label="Linkedin"
         placeholder="Enter the URL to your Linkedin Profile"
         type="url"
-        {...register("linkedin")}
-        error={errors.linkedin?.message}
+        {...register("linkedinProfile")}
+        error={errors.linkedinProfile?.message}
       />
       <FormInput
         label="Website"
@@ -92,7 +94,7 @@ const StepPersonalInfo = ({
         disabled={
           !formData.fullName ||
           !formData.email ||
-          !formData.phone ||
+          !formData.whatsappNumber ||
           !formData.location
         }
       >

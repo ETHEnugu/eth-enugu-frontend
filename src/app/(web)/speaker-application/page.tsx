@@ -5,12 +5,12 @@ import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import { SpeakerProps } from "@/types";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
-import { BUILDER_RESIDENCY } from "@/config/ENDPOINTS";
+import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import { speakerValidation } from "@/validations/speakerValidations";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { speakerValidation } from "@/validations/speakerValidations";
 
 const steps = [
   "Personal Information",
@@ -22,7 +22,7 @@ const SpeakerApplicationForm = () => {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const { mutate, isPending } = usePostMutation(
-    BUILDER_RESIDENCY.CREATE,
+    SPEAKER.CREATE,
     "create_builder"
   );
 
@@ -34,24 +34,26 @@ const SpeakerApplicationForm = () => {
     watch,
     formState: { errors },
   } = useForm<SpeakerProps>({
-    // resolver: yupResolver(speakerValidation),
+    resolver: yupResolver(speakerValidation) as Resolver<SpeakerProps>,
     defaultValues: {
       fullName: "",
       email: "",
-      phone: "",
+      whatsappNumber: "",
       location: "",
-      twitter: "",
-      linkedin: "",
+      twitterProfile: "",
+      linkedinProfile: "",
       website: "",
       sessionType: "",
       sessionLength: "",
-      slideAvailable: "",
-      slideLink: "",
-      setupNeeds: "",
-      arrivalDate: "",
-      agreeToSpeak: "",
+      presentationAvailable: false,
+      presentationLink: "",
+      setupRequirements: "",
+      talkTitle: "",
+      talkDescription: "",
+      expectedArrivalDate: "",
+      willingToSpeakWithoutSupport: false,
       referralSource: "",
-      joinCommunity: "",
+      joinOnlineCommunity: "",
     },
   });
 
@@ -60,22 +62,19 @@ const SpeakerApplicationForm = () => {
   const handleNext = () => setStep((prev) => prev + 1);
   const handleBack = () => setStep((prev) => prev - 1);
 
-  const onSubmit = async (data: SpeakerProps) => {
+  const onSubmit = (data: SpeakerProps) => {
+    console.log("Submitting...", data);
+
     mutate(data, {
       onSuccess: () => {
-        toast.success("Builder form submitted succefully");
-        router.push("/sucess");
+        toast.success("Speaker application submitted successfully");
+        router.push("/success");
+      },
+      onError: (error) => {
+        toast.error("Failed to submit application. Please try again.");
+        console.error("Submission error:", error);
       },
     });
-    // try {
-    //   setIsSubmitting(true);
-    //   console.log("Form submitted with data:", data);
-    //   router.push("/success");
-    // } catch (error) {
-    //   console.error("Error submitting form:", error);
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
   };
 
   return (
@@ -125,7 +124,7 @@ const SpeakerApplicationForm = () => {
             setValue={setValue}
             formData={formData}
             onBack={handleBack}
-            onNext={handleSubmit(onSubmit)}
+            submitForm={() => handleSubmit(onSubmit)}
             isSubmitting={isPending}
           />
         )}

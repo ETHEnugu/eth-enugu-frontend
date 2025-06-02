@@ -81,20 +81,27 @@ export interface AccountDetailsProps {
 }
 
 export interface SpeakerProps {
+  // Personal Information
   fullName: string;
   email: string;
-  phone: string;
-  location: string | number;
-  twitter: string;
-  linkedin: string;
-  website: string;
-  sessionType: string | number;
-  sessionLength: string | number;
-  slideAvailable: string | number;
-  slideLink: string | number;
-  setupNeeds: string | number;
-  arrivalDate: string | number;
-  agreeToSpeak: string | number;
-  referralSource: string | number;
-  joinCommunity: string | number;
+  whatsappNumber: string;
+  location: string;
+  twitterProfile?: string;
+  linkedinProfile?: string;
+  website?: string;
+
+  // Session Details
+  sessionType: string;
+  sessionLength: string;
+  presentationAvailable: boolean;
+  presentationLink?: string;
+  setupRequirements?: string;
+  talkTitle: string;
+  talkDescription: string;
+
+  // Other Information
+  expectedArrivalDate: string;
+  willingToSpeakWithoutSupport: boolean;
+  referralSource?: string;
+  joinOnlineCommunity?: string;
 }

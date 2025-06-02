@@ -7,7 +7,7 @@ import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 
 interface StepOtherInfoProps {
   onBack: () => void;
-  onNext: () => void;
+  submitForm: () => void;
   register: UseFormRegister<SpeakerProps>;
   errors: FieldErrors<SpeakerProps>;
   setValue: UseFormSetValue<SpeakerProps>;
@@ -15,25 +15,26 @@ interface StepOtherInfoProps {
   isSubmitting?: boolean;
 }
 
-const sessionOptions = [
-  { label: "Aug 14", value: "Aug 14" },
-  { label: "Aug 15", value: "Aug 15" },
-  { label: "Aug 16", value: "Aug 16" },
+const arrivalDateOptions = [
+  { label: "2025-06-14", value: "2025-06-14" },
+  { label: "2025-06-15", value: "2025-06-15" },
+  { label: "2025-06-16", value: "2025-06-16" },
 ];
 
-const timeOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+const yesNoOptions = [
+  { label: "Yes", value: "true" },
+  { label: "No", value: "false" },
 ];
 
-const slideOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+const communityOptions = [
+  { label: "Yes, I'd like to join", value: "WANTS_TO_JOIN" },
+  { label: "Already a member", value: "ALREADY_MEMBER" },
+  { label: "Not interested", value: "NOT_INTERESTED" },
 ];
 
 const StepOtherInfo = ({
   onBack,
-  onNext,
+  submitForm,
   register,
   errors,
   setValue,
@@ -47,24 +48,27 @@ const StepOtherInfo = ({
           When do you expect to arrive in Enugu?
         </label>
         <Dropdown
-          placeholder="Select or type date – e.g. Aug 14, 15, 16"
+          placeholder="Select or type date - e.g. 2025-06-14, 2025-06-15, 2025-06-16"
           onValueChange={(selected) =>
-            setValue("arrivalDate", selected.value, { shouldValidate: true })
+            setValue("expectedArrivalDate", selected.value.toString(), {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
-          options={sessionOptions}
+          options={arrivalDateOptions}
+          isTypeable={true}
         />
-        {errors.arrivalDate && (
+        {errors.expectedArrivalDate && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.arrivalDate.message}
+            {errors.expectedArrivalDate.message}
           </p>
         )}
       </div>
       <div>
         <p className="block text-lg font-medium mb-1">
           <span className="text-green-550">Note:</span> While we may not be able
-          to cover travel or accommodation for speakers, we’d still love to host
-          you if you’re able to attend.
+          to cover travel or accommodation for speakers, we&apos;d still love to
+          host you if you&apos;re able to attend.
         </p>
       </div>
       <div>
@@ -74,14 +78,18 @@ const StepOtherInfo = ({
         <Dropdown
           placeholder="Choose option"
           onValueChange={(selected) =>
-            setValue("agreeToSpeak", selected.value, { shouldValidate: true })
+            setValue(
+              "willingToSpeakWithoutSupport",
+              selected.value === "true",
+              { shouldValidate: true }
+            )
           }
           className="text-dark"
-          options={timeOptions}
+          options={yesNoOptions}
         />
-        {errors.agreeToSpeak && (
+        {errors.willingToSpeakWithoutSupport && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.agreeToSpeak.message}
+            {errors.willingToSpeakWithoutSupport.message}
           </p>
         )}
       </div>
@@ -104,10 +112,12 @@ const StepOtherInfo = ({
         <Dropdown
           placeholder="Select Option"
           onValueChange={(selected) =>
-            setValue("joinCommunity", selected.value, { shouldValidate: true })
+            setValue("joinOnlineCommunity", selected.value.toString(), {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
-          options={slideOptions}
+          options={communityOptions}
         />
       </div>
       <div className="flex gap-4">
@@ -122,9 +132,11 @@ const StepOtherInfo = ({
         </Button>
         <Button
           className="bg-orange-500 text-black rounded-full"
-          onClick={onNext}
+          onClick={submitForm}
           disabled={
-            isSubmitting || !formData.arrivalDate || !formData.agreeToSpeak
+            isSubmitting ||
+            !formData.expectedArrivalDate ||
+            formData.willingToSpeakWithoutSupport === undefined
           }
         >
           <span className="flex items-center gap-2">
