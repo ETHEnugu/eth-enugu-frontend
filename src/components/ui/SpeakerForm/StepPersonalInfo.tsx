@@ -2,11 +2,11 @@
 import FormInput from "@/components/common/form/FormInput";
 import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
-import { ArrowRight } from "lucide-react";
 import { countryOptions } from "@/data/countries";
 import { useMemo } from "react";
 import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import { Icon } from "@iconify/react";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<SpeakerProps>;
@@ -97,7 +97,8 @@ const StepPersonalInfo = ({
         }
       >
         <span className="flex items-center gap-2">
-          Continue <ArrowRight size={16} />
+          Continue{" "}
+          <Icon icon="solar:arrow-right-linear" width="16" height="16" />
         </span>
       </Button>
     </div>
