@@ -17,7 +17,7 @@ export const popupCityValidation: Yup.ObjectSchema<PopupCityProps> =
     freeLunchConsideration: Yup.string().required(
       "Lunch consideration is required"
     ),
-    volunteringInterest: Yup.string().required(
+    volunteeringInterest: Yup.string().required(
       "Volunteering interest is required"
     ),
     dietaryAccessibilityNeeds: Yup.string().required(

@@ -2,8 +2,14 @@
 import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
 import { PopupCityProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  FieldErrors,
+  useFormContext,
+} from "react-hook-form";
 import { Icon } from "@iconify/react";
+import Spinner from "../Spinner";
 
 interface StepOtherInfoProps {
   onBack: () => void;
@@ -15,19 +21,21 @@ interface StepOtherInfoProps {
 }
 
 const dateOptions = [
-  { label: "Aug 14", value: "Aug 14" },
-  { label: "Aug 15", value: "Aug 15" },
-  { label: "Aug 16", value: "Aug 16" },
+  { label: "August 14, 2025", value: "2025-08-14" },
+  { label: "August 15, 2025", value: "2025-08-15" },
+  { label: "August 16, 2025", value: "2025-08-16" },
 ];
 
-const vOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+const volunteerOptions = [
+  { label: "Yes", value: "YES" },
+  { label: "No", value: "NO" },
+  { label: "Maybe", value: "MAYBE" },
 ];
 
 const joinOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+  { label: "Yes", value: "YES" },
+  { label: "No", value: "NO" },
+  { label: "Already a member", value: "ALREADY_MEMBER" },
 ];
 
 const StepTwoDetails = ({
@@ -38,11 +46,31 @@ const StepTwoDetails = ({
   setValue,
   isPending,
 }: StepOtherInfoProps) => {
+  const { trigger } = useFormContext<PopupCityProps>(); // Access form context
+
+  const handleSubmitWithValidation = async () => {
+    const stepTwoFields: (keyof PopupCityProps)[] = [
+      "attendDay1",
+      "attendDay2",
+      "freeLunchConsideration",
+      "volunteeringInterest",
+      "dietaryAccessibilityNeeds",
+      "referralSource",
+      "joinOnlineCommunity",
+    ];
+
+    const isValid = await trigger(stepTwoFields, { shouldFocus: true });
+
+    if (isValid) {
+      onNext();
+    }
+  };
+
   return (
     <div className="space-y-7">
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What days are you likely to attend?
+          What days are you likely to attend? (Day 1)
         </label>
         <Dropdown
           placeholder="Select date"
@@ -61,7 +89,7 @@ const StepTwoDetails = ({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What days are you likely to attend?
+          What days are you likely to attend? (Day 2)
         </label>
         <Dropdown
           placeholder="Select date"
@@ -102,16 +130,16 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Answer"
           onValueChange={(selected) =>
-            setValue("volunteringInterest", selected.value, {
+            setValue("volunteeringInterest", selected.value, {
               shouldValidate: true,
             })
           }
           className="text-dark"
-          options={vOptions}
+          options={volunteerOptions}
         />
-        {errors.volunteringInterest && (
+        {errors.volunteeringInterest && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.volunteringInterest.message}
+            {errors.volunteeringInterest.message}
           </p>
         )}
       </div>
@@ -133,7 +161,7 @@ const StepTwoDetails = ({
       </div>
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          How did you hear about ETH Enugu &lsquo;25?
+          How did you hear about ETH Enugu ‘25?
         </label>
         <textarea
           {...register("referralSource")}
@@ -181,12 +209,14 @@ const StepTwoDetails = ({
             Go Back
           </span>
         </Button>
+
         <Button
           className="bg-green-550 text-white rounded-full"
-          onClick={onNext}
+          onClick={handleSubmitWithValidation}
+          disabled={isPending}
         >
           <span className="flex items-center gap-2">
-            {isPending ? "Submitting..." : "Submit"}{" "}
+            {isPending ? <Spinner /> : "Submit"}{" "}
             {!isPending && (
               <Icon icon="solar:arrow-right-linear" width="16" height="16" />
             )}

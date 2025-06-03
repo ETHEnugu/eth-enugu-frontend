@@ -9,7 +9,7 @@ import { popupCityValidation } from "@/validations/popupCityValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const PopupCity = () => {
@@ -30,60 +30,63 @@ const PopupCityPage = () => {
     "create_popup"
   );
 
+  const savedData =
+    typeof window !== "undefined"
+      ? localStorage.getItem("popupCityFormData")
+      : null;
+
+  const defaultValues: PopupCityProps = savedData
+    ? JSON.parse(savedData)
+    : {
+        fullName: "",
+        email: "",
+        gender: "",
+        whatsappNumber: "",
+        location: "",
+        currentRole: "",
+        web3Familiarity: "",
+        attendDay1: "",
+        attendDay2: "",
+        freeLunchConsideration: "",
+        volunteeringInterest: "",
+        dietaryAccessibilityNeeds: "",
+        referralSource: "",
+        joinOnlineCommunity: "",
+      };
+
+  const methods = useForm<PopupCityProps>({
+    resolver: yupResolver(popupCityValidation),
+    defaultValues,
+    mode: "onChange",
+  });
+
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
-  } = useForm<PopupCityProps>({
-    resolver: yupResolver(popupCityValidation),
-    defaultValues: {
-      fullName: "",
-      email: "",
-      gender: "",
-      whatsappNumber: "",
-      location: "",
-      currentRole: "",
-      web3Familiarity: "",
-      attendDay1: "",
-      attendDay2: "",
-      freeLunchConsideration: "",
-      volunteringInterest: "",
-      dietaryAccessibilityNeeds: "",
-      referralSource: "",
-      joinOnlineCommunity: "",
-    },
-  });
+  } = methods;
 
-  const formData = watch();
+  // const formData = watch();
 
-  // Persist form data to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("popupCityFormData", JSON.stringify(formData));
-  }, [formData]);
+    const subscription = methods.watch((value) => {
+      localStorage.setItem("popupCityFormData", JSON.stringify(value));
+    });
 
-  // Restore form data from localStorage on component mount
-  useEffect(() => {
-    const savedData = localStorage.getItem("popupCityFormData");
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      Object.keys(parsedData).forEach((key) => {
-        setValue(key as keyof PopupCityProps, parsedData[key]);
-      });
-    }
-  }, [setValue]);
+    return () => subscription.unsubscribe();
+  }, [methods]);
 
   const handleNext = () => updateStepInURL(currentStep + 1);
   const handleBack = () => updateStepInURL(currentStep - 1);
 
   const onSubmit = async (data: PopupCityProps) => {
-    console.log(data);
-
     mutate(data, {
       onSuccess: () => {
-        toast.success("Builder form submitted succefully");
+        toast.success("Popup City form submitted succefully");
         router.replace("/success?form=popup");
+        methods.reset();
+        localStorage.removeItem("popupCityFormData");
       },
     });
   };
@@ -95,45 +98,47 @@ const PopupCityPage = () => {
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
       <div className="mx-auto md:w-1/2 p-6 rounded-xl border shadow-md bg-white">
-        {currentStep != 0 && (
-          <div className="border-b mb-10 flex md:flex-row flex-col justify-between items-center border-light-gray">
-            <h2 className="text-base font-semibold text-orange-500 mb-4">
-              Pop-Up City Form
-            </h2>
-            <div className="flex justify-center items-center gap-1 mb-5">
-              {[1, 2].map((s) => (
-                <div
-                  key={s}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentStep >= s ? "bg-orange-500 w-7" : "bg-gray-300 w-7"
-                  }`}
-                ></div>
-              ))}
+        <FormProvider {...methods}>
+          {currentStep !== 0 && (
+            <div className="border-b mb-10 flex md:flex-row flex-col justify-between items-center border-light-gray">
+              <h2 className="text-base font-semibold text-orange-500 mb-4">
+                Pop-Up City Form
+              </h2>
+              <div className="flex justify-center items-center gap-1 mb-5">
+                {[1, 2].map((s) => (
+                  <div
+                    key={s}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      currentStep >= s ? "bg-orange-500 w-7" : "bg-gray-300 w-7"
+                    }`}
+                  ></div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {currentStep === 0 && <PopupCityInfo onNext={handleNext} />}
+          {currentStep === 0 && <PopupCityInfo onNext={handleNext} />}
 
-        {currentStep === 1 && (
-          <StepOneDetails
-            register={register}
-            errors={errors}
-            setValue={setValue}
-            onBack={handleBack}
-            onNext={handleNext}
-          />
-        )}
-        {currentStep === 2 && (
-          <StepTwoDetails
-            register={register}
-            errors={errors}
-            setValue={setValue}
-            onBack={handleBack}
-            onNext={handleSubmit(onSubmit)}
-            isPending={isPending}
-          />
-        )}
+          {currentStep === 1 && (
+            <StepOneDetails
+              register={register}
+              errors={errors}
+              setValue={setValue}
+              onBack={handleBack}
+              onNext={handleNext}
+            />
+          )}
+          {currentStep === 2 && (
+            <StepTwoDetails
+              register={register}
+              errors={errors}
+              setValue={setValue}
+              onBack={handleBack}
+              onNext={handleSubmit(onSubmit)}
+              isPending={isPending}
+            />
+          )}
+        </FormProvider>
       </div>
     </div>
   );

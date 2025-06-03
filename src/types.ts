@@ -110,7 +110,7 @@ export interface PopupCityProps {
   attendDay1: string | number;
   attendDay2: string | number;
   freeLunchConsideration: string | number;
-  volunteringInterest: string | number;
+  volunteeringInterest: string | number;
   dietaryAccessibilityNeeds: string | number;
   referralSource: string | number;
   joinOnlineCommunity: string | number;

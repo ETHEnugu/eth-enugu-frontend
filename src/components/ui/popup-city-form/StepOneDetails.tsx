@@ -5,7 +5,12 @@ import { Button } from "@/components/common/button";
 import { countryOptions } from "@/data/countries";
 import { useMemo } from "react";
 import { PopupCityProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  FieldErrors,
+  useFormContext,
+} from "react-hook-form";
 import { Icon } from "@iconify/react";
 
 interface StepPersonalInfoProps {
@@ -17,23 +22,23 @@ interface StepPersonalInfoProps {
 }
 
 const roleOptions = [
-  { label: "Student", value: "Student" },
-  { label: "Developer", value: "Developer" },
-  { label: "Designer", value: "Designer" },
-  { label: "Entrepreneur", value: "Entrepreneur" },
-  { label: "Web3 Enthusiast", value: "Web3 Enthusiast" },
-  { label: "Other", value: "Other" },
+  { label: "Student", value: "STUDENT" },
+  { label: "Developer", value: "DEVELOPER" },
+  { label: "Designer", value: "DESIGNER" },
+  { label: "Entrepreneur", value: "ENTREPRENEUR" },
+  { label: "Web3 Enthusiast", value: "WEB3_ENTHUSIAST" },
+  { label: "Other", value: "OTHER" },
 ];
 
 const web3Options = [
-  { label: "I’m new", value: "new" },
-  { label: "I’ve dabbled", value: "dabbled" },
-  { label: "I’m actively building", value: "building" },
+  { label: "I’m new", value: "NEW" },
+  { label: "I’ve dabbled", value: "DABBLED" },
+  { label: "I’m actively building", value: "ACTIVELY_BUILDING" },
 ];
 
 const genderOption = [
-  { label: "Male", value: "Male" },
-  { label: "Female", value: "Female" },
+  { label: "Male", value: "MALE" },
+  { label: "Female", value: "FEMALE" },
 ];
 
 const StepOneDetails = ({
@@ -44,6 +49,25 @@ const StepOneDetails = ({
   onBack,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
+  const { trigger } = useFormContext<PopupCityProps>(); // Access form context
+
+  const handleNextWithValidation = async () => {
+    const stepOneFields: (keyof PopupCityProps)[] = [
+      "fullName",
+      "email",
+      "gender",
+      "whatsappNumber",
+      "location",
+      "currentRole",
+      "web3Familiarity",
+    ];
+
+    const isValid = await trigger(stepOneFields, { shouldFocus: true });
+
+    if (isValid) {
+      onNext();
+    }
+  };
 
   return (
     <div className="space-y-7">
@@ -152,7 +176,7 @@ const StepOneDetails = ({
         )}
       </div>
 
-      <div className="flex   md:flex-row flex-col-reverse gap-4">
+      <div className="flex md:flex-row flex-col-reverse gap-4">
         <Button
           className="bg-white text-black rounded-full border border-gray-300"
           onClick={onBack}
@@ -164,7 +188,7 @@ const StepOneDetails = ({
         </Button>
         <Button
           className="bg-green-550 text-white rounded-full"
-          onClick={onNext}
+          onClick={handleNextWithValidation}
         >
           <span className="flex items-center gap-2">
             Continue{" "}
