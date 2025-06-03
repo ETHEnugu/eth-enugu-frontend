@@ -1,4 +1,4 @@
-import { DropdownOption } from "@/components/common/dropdown";
+import type { DropdownOption } from "@/components/common/dropdown";
 
 export const countryOptions: DropdownOption[] = [
   { label: "Afghanistan", value: "Afghanistan" },
@@ -44,7 +44,7 @@ export const countryOptions: DropdownOption[] = [
   { label: "Croatia", value: "Croatia" },
   { label: "Cuba", value: "Cuba" },
   { label: "Cyprus", value: "Cyprus" },
-  { label: "Czechia (Czech Republic)", value: "Czechia (Czech Republic)" },
+  { label: "Czech Republic", value: "Czech Republic" },
   {
     label: "Democratic Republic of the Congo",
     value: "Democratic Republic of the Congo",
@@ -86,7 +86,7 @@ export const countryOptions: DropdownOption[] = [
   { label: "Ireland", value: "Ireland" },
   { label: "Israel", value: "Israel" },
   { label: "Italy", value: "Italy" },
-  { label: "Ivory Coast", value: "Ivory Coast" },
+  { label: "Côte d'Ivoire", value: "Côte d'Ivoire" },
   { label: "Jamaica", value: "Jamaica" },
   { label: "Japan", value: "Japan" },
   { label: "Jordan", value: "Jordan" },
@@ -121,7 +121,7 @@ export const countryOptions: DropdownOption[] = [
   { label: "Montenegro", value: "Montenegro" },
   { label: "Morocco", value: "Morocco" },
   { label: "Mozambique", value: "Mozambique" },
-  { label: "Myanmar (Burma)", value: "Myanmar (Burma)" },
+  { label: "Myanmar", value: "Myanmar" },
   { label: "Namibia", value: "Namibia" },
   { label: "Nauru", value: "Nauru" },
   { label: "Nepal", value: "Nepal" },
@@ -136,7 +136,7 @@ export const countryOptions: DropdownOption[] = [
   { label: "Oman", value: "Oman" },
   { label: "Pakistan", value: "Pakistan" },
   { label: "Palau", value: "Palau" },
-  { label: "Palestine State", value: "Palestine State" },
+  { label: "Palestine", value: "Palestine" },
   { label: "Panama", value: "Panama" },
   { label: "Papua New Guinea", value: "Papua New Guinea" },
   { label: "Paraguay", value: "Paraguay" },
@@ -156,7 +156,7 @@ export const countryOptions: DropdownOption[] = [
   },
   { label: "Samoa", value: "Samoa" },
   { label: "San Marino", value: "San Marino" },
-  { label: "Sao Tome and Principe", value: "Sao Tome and Principe" },
+  { label: "São Tomé and Príncipe", value: "São Tomé and Príncipe" },
   { label: "Saudi Arabia", value: "Saudi Arabia" },
   { label: "Senegal", value: "Senegal" },
   { label: "Serbia", value: "Serbia" },

@@ -7,8 +7,8 @@ import { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
-import { BUILDER_RESIDENCY } from "@/config/ENDPOINTS";
-import { toast } from "sonner";
+import { SPEAKER } from "@/config/ENDPOINTS";
+// import { toast } from "sonner";
 // import { yupResolver } from "@hookform/resolvers/yup";
 // import { speakerValidation } from "@/validations/speakerValidations";
 
@@ -30,11 +30,7 @@ const SpeakerApplicationFormPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
-
-  const { mutate, isPending } = usePostMutation(
-    BUILDER_RESIDENCY.CREATE,
-    "create_builder"
-  );
+  const { isPending } = usePostMutation(SPEAKER.CREATE, "create_builder");
 
   // Initialize react-hook-form
   const {
@@ -44,7 +40,6 @@ const SpeakerApplicationFormPage = () => {
     watch,
     formState: { errors },
   } = useForm<SpeakerProps>({
-    // resolver: yupResolver(speakerValidation),
     defaultValues: {
       fullName: "",
       email: "",
@@ -71,21 +66,13 @@ const SpeakerApplicationFormPage = () => {
   const handleBack = () => updateStepInURL(currentStep - 1);
 
   const onSubmit = async (data: SpeakerProps) => {
-    mutate(data, {
-      onSuccess: () => {
-        toast.success("Builder form submitted succefully");
-        router.push("/sucess");
-      },
-    });
-    // try {
-    //   setIsSubmitting(true);
-    //   console.log("Form submitted with data:", data);
-    //   router.push("/success");
-    // } catch (error) {
-    //   console.error("Error submitting form:", error);
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+    try {
+      console.log("Form submitted with data:", data);
+      router.push("/success?form=speaker");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+    }
   };
 
   const updateStepInURL = (step: number) => {
@@ -93,9 +80,9 @@ const SpeakerApplicationFormPage = () => {
   };
 
   return (
-    <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
-      <div className="mx-auto md:w-1/2 p-6 rounded-xl border shadow-md bg-white">
-        <div className="border-b mb-10 flex md:flex-row flex-col justify-between items-center border-light-gray">
+    <div className="bg-[url('/bg/bg3.png')] py-16">
+      <div className="mx-auto md:w-1/2 p-6 rounded-xl md:border shadow-md bg-white">
+        <div className="border-b-2 mb-10 flex justify-between items-center border-light-dark">
           <h2 className="text-xl font-semibold text-green-550 mb-4">
             {steps[currentStep]}
           </h2>

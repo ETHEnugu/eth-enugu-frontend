@@ -1,24 +1,15 @@
 "use client";
 import FormInput from "@/components/common/form/FormInput";
 import Dropdown from "@/components/common/dropdown";
-import { Button } from "@/components/common/button";
 import { countryOptions } from "@/data/countries";
 import { useMemo } from "react";
 import { PopupCityProps } from "@/types";
-import {
-  UseFormRegister,
-  UseFormSetValue,
-  FieldErrors,
-  useFormContext,
-} from "react-hook-form";
-import { Icon } from "@iconify/react";
+import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
-  onNext: () => void;
-  onBack: () => void;
 }
 
 const roleOptions = [
@@ -45,29 +36,8 @@ const StepOneDetails = ({
   register,
   errors,
   setValue,
-  onNext,
-  onBack,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
-  const { trigger } = useFormContext<PopupCityProps>(); // Access form context
-
-  const handleNextWithValidation = async () => {
-    const stepOneFields: (keyof PopupCityProps)[] = [
-      "fullName",
-      "email",
-      "gender",
-      "whatsappNumber",
-      "location",
-      "currentRole",
-      "web3Familiarity",
-    ];
-
-    const isValid = await trigger(stepOneFields, { shouldFocus: true });
-
-    if (isValid) {
-      onNext();
-    }
-  };
 
   return (
     <div className="space-y-7">
@@ -97,7 +67,10 @@ const StepOneDetails = ({
           <Dropdown
             placeholder="Select gender"
             onValueChange={(selected) =>
-              setValue("gender", selected.value, { shouldValidate: true })
+              setValue("gender", selected.value, {
+                shouldValidate: true,
+                shouldDirty: true,
+              })
             }
             className="text-dark"
             options={genderOption}
@@ -123,7 +96,10 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Select Location"
           onValueChange={(selected) =>
-            setValue("location", selected.value, { shouldValidate: true })
+            setValue("location", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
           }
           className="text-dark"
           options={options}
@@ -141,7 +117,10 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Select Role"
           onValueChange={(selected) =>
-            setValue("currentRole", selected.value, { shouldValidate: true })
+            setValue("currentRole", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
           }
           className="text-dark"
           options={roleOptions}
@@ -163,6 +142,7 @@ const StepOneDetails = ({
           onValueChange={(selected) =>
             setValue("web3Familiarity", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -174,27 +154,6 @@ const StepOneDetails = ({
             {errors.web3Familiarity.message}
           </p>
         )}
-      </div>
-
-      <div className="flex md:flex-row flex-col-reverse gap-4">
-        <Button
-          className="bg-white text-black rounded-full border border-gray-300"
-          onClick={onBack}
-        >
-          <span className="flex items-center gap-2">
-            <Icon icon="solar:arrow-left-linear" width="16" height="16" /> Go
-            Back
-          </span>
-        </Button>
-        <Button
-          className="bg-green-550 text-white rounded-full"
-          onClick={handleNextWithValidation}
-        >
-          <span className="flex items-center gap-2">
-            Continue{" "}
-            <Icon icon="solar:arrow-right-linear" width="16" height="16" />
-          </span>
-        </Button>
       </div>
     </div>
   );

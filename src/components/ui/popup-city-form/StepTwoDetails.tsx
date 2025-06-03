@@ -1,23 +1,12 @@
 "use client";
 import Dropdown from "@/components/common/dropdown";
-import { Button } from "@/components/common/button";
 import { PopupCityProps } from "@/types";
-import {
-  UseFormRegister,
-  UseFormSetValue,
-  FieldErrors,
-  useFormContext,
-} from "react-hook-form";
-import { Icon } from "@iconify/react";
-import Spinner from "../Spinner";
+import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 
 interface StepOtherInfoProps {
-  onBack: () => void;
-  onNext: () => void;
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
-  isPending?: boolean;
 }
 
 const dateOptions = [
@@ -38,34 +27,7 @@ const joinOptions = [
   { label: "Already a member", value: "ALREADY_MEMBER" },
 ];
 
-const StepTwoDetails = ({
-  onBack,
-  onNext,
-  register,
-  errors,
-  setValue,
-  isPending,
-}: StepOtherInfoProps) => {
-  const { trigger } = useFormContext<PopupCityProps>(); // Access form context
-
-  const handleSubmitWithValidation = async () => {
-    const stepTwoFields: (keyof PopupCityProps)[] = [
-      "attendDay1",
-      "attendDay2",
-      "freeLunchConsideration",
-      "volunteeringInterest",
-      "dietaryAccessibilityNeeds",
-      "referralSource",
-      "joinOnlineCommunity",
-    ];
-
-    const isValid = await trigger(stepTwoFields, { shouldFocus: true });
-
-    if (isValid) {
-      onNext();
-    }
-  };
-
+const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
   return (
     <div className="space-y-7">
       <div>
@@ -75,7 +37,10 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Select date"
           onValueChange={(selected) =>
-            setValue("attendDay1", selected.value, { shouldValidate: true })
+            setValue("attendDay1", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
           }
           className="text-dark"
           options={dateOptions}
@@ -94,7 +59,10 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Select date"
           onValueChange={(selected) =>
-            setValue("attendDay2", selected.value, { shouldValidate: true })
+            setValue("attendDay2", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
           }
           className="text-dark"
           options={dateOptions}
@@ -132,6 +100,7 @@ const StepTwoDetails = ({
           onValueChange={(selected) =>
             setValue("volunteeringInterest", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -186,6 +155,7 @@ const StepTwoDetails = ({
           onValueChange={(selected) =>
             setValue("joinOnlineCommunity", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -196,32 +166,6 @@ const StepTwoDetails = ({
             {errors.joinOnlineCommunity.message}
           </p>
         )}
-      </div>
-
-      <div className="flex md:flex-row flex-col-reverse gap-4">
-        <Button
-          className="bg-white text-black rounded-full border border-gray-300"
-          onClick={onBack}
-          disabled={isPending}
-        >
-          <span className="flex items-center gap-2">
-            <Icon icon="solar:arrow-left-linear" width="16" height="16" />
-            Go Back
-          </span>
-        </Button>
-
-        <Button
-          className="bg-green-550 text-white rounded-full"
-          onClick={handleSubmitWithValidation}
-          disabled={isPending}
-        >
-          <span className="flex items-center gap-2">
-            {isPending ? <Spinner /> : "Submit"}{" "}
-            {!isPending && (
-              <Icon icon="solar:arrow-right-linear" width="16" height="16" />
-            )}
-          </span>
-        </Button>
       </div>
     </div>
   );

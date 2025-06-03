@@ -6,7 +6,7 @@ export default function ScrollingText() {
   const movingText = text;
 
   return (
-    <Marquee speed={50} className="bg-[var(--background)] py-3 ">
+    <Marquee speed={50} className="bg-[var(--background)] py-12  ">
       {movingText.map((text, index) => (
         <span key={index} className="mx-3 flex items-center gap-3  ">
           <h1 className="custom-scroll-heading"> {text} </h1>{" "}
