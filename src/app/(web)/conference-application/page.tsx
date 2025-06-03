@@ -102,7 +102,7 @@ export default function Page() {
     onSuccess: (response) => {
       console.log("Success:", response);
       localStorage.removeItem(FORM_KEY);
-      router.push("/application-zsuccess");
+      router.push("/application-success");
     },
     onError: (error) => {
       console.error("Submission Failed", error);
