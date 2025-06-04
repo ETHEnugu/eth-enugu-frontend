@@ -76,7 +76,6 @@ const StepPersonalInfo = ({
           <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
         )}
       </div>
-
       <FormInput
         label="Twitter(X)"
         placeholder="Enter the URL to your X Profile"
