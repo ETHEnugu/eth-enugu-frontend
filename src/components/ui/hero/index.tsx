@@ -8,7 +8,7 @@ export default function HomeHero() {
   const { isMobile } = useDeviceSize();
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-screen overflow-hidden">
       <Image
         src="/images/main-bg.svg"
         width={0}

@@ -101,7 +101,7 @@ p {
   --color-green-250: #bedc9a;
   --color-green-150: #d6f4d0;
   --color-green-350:#338933;
-  
+
 
   --color-orange-650: #fd9003;
   --color-orange-500: #f3a035;
@@ -112,7 +112,8 @@ p {
   --color-peach-5:#e8e8e8;
 
   --color-dark: #1e1e1e;
-  --color-light-dark: #1e1e1e0a
+  --color-light-dark: #1e1e1e0a;
+  --color-light-gray: #d9d9d9
 
 }
 
@@ -144,5 +145,8 @@ p {
   .custom-scroll-heading {
     font-size: 2.5rem;
     line-height: 2.5rem;
+  }
+  .custom-banner-heading{
+    font-size: 18px;
   }
 }

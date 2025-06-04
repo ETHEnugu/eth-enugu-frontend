@@ -11,7 +11,7 @@ import {
 
 export type DropdownOption = {
   label: string | ReactNode;
-  value: string | number;
+  value: string | number | boolean;
   searchText?: string;
 };
 

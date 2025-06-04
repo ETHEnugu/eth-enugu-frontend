@@ -86,22 +86,55 @@ export interface SpeakerProps {
   email: string;
   whatsappNumber: string;
   location: string;
-  twitterProfile?: string;
-  linkedinProfile?: string;
-  website?: string;
+  twitterProfile?: string | null;
+  linkedinProfile?: string | null;
+  website?: string | null;
 
   // Session Details
   sessionType: string;
   sessionLength: string;
   presentationAvailable: boolean;
-  presentationLink?: string;
-  setupRequirements?: string;
+  presentationLink?: string | null;
+  setupRequirements?: string | null;
   talkTitle: string;
   talkDescription: string;
 
   // Other Information
   expectedArrivalDate: string;
   willingToSpeakWithoutSupport: boolean;
-  referralSource?: string;
+  referralSource?: string | null;
   joinOnlineCommunity?: string;
+}
+
+export interface ConferenceProps {
+  fullName: string;
+  email: string;
+  whatsappNumber: string;
+  location: string | number | boolean;
+  age: string | number | boolean;
+  gender: string | number | boolean;
+  roleDescription: string | number | boolean;
+  expectedGains: string;
+  attendanceType: string | number | boolean;
+  certificateNeeded: string | number | boolean;
+  dietaryAccessibilityNeeds: string;
+  referralSource: string;
+  joinOnlineCommunity: string | number | boolean;
+}
+
+export interface PopupCityProps {
+  fullName: string;
+  email: string;
+  gender: string | number;
+  whatsappNumber: string;
+  location: string | number;
+  currentRole: string | number;
+  web3Familiarity: string | number;
+  attendDay1: string | number;
+  attendDay2: string | number;
+  freeLunchConsideration: string | number;
+  volunteringInterest: string | number;
+  dietaryAccessibilityNeeds: string | number;
+  referralSource: string | number;
+  joinOnlineCommunity: string | number;
 }

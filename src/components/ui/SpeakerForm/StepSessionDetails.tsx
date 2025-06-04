@@ -1,10 +1,10 @@
 "use client";
 import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import FormInput from "@/components/common/form/FormInput";
 import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import { Icon } from "@iconify/react";
 
 interface StepSessionDetailsProps {
   onBack: () => void;
@@ -13,6 +13,7 @@ interface StepSessionDetailsProps {
   errors: FieldErrors<SpeakerProps>;
   setValue: UseFormSetValue<SpeakerProps>;
   formData: SpeakerProps;
+  isValid?: boolean;
 }
 
 const sessionOptions = [
@@ -42,12 +43,15 @@ const StepSessionDetails = ({
   errors,
   setValue,
   formData,
+  isValid = false,
 }: StepSessionDetailsProps) => {
   return (
     <div className="space-y-7">
+      {/* Session Type */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What type of session are you proposing?
+          What type of session are you proposing?{" "}
+          <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Talk, Panel, Workshop, Fireside Chat, Other"
@@ -66,9 +70,11 @@ const StepSessionDetails = ({
           </p>
         )}
       </div>
+
+      {/* Session Length */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Estimated session length
+          Estimated session length <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="15, 30, 45, 60 minutes"
@@ -87,9 +93,10 @@ const StepSessionDetails = ({
         )}
       </div>
 
+      {/* Talk Title */}
       <div className="flex flex-col">
         <label className="block font-bold text-dark text-base mb-1">
-          Talk Title
+          Talk Title <span className="text-red-500">*</span>
         </label>
         <FormInput
           label=""
@@ -100,15 +107,16 @@ const StepSessionDetails = ({
         />
       </div>
 
+      {/* Talk Description */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Talk Description
+          Talk Description <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("talkDescription")}
           placeholder="Describe your talk/session in detail..."
           rows={4}
-          className="w-full border rounded-lg px-4 py-3 text-lg"
+          className="w-full border rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
         />
         {errors.talkDescription && (
           <p className="text-red-500 text-sm mt-1">
@@ -117,9 +125,11 @@ const StepSessionDetails = ({
         )}
       </div>
 
+      {/* Presentation Available */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Is your presentation slide or deck already available?
+          Is your presentation slide or deck already available?{" "}
+          <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Select..."
@@ -137,18 +147,24 @@ const StepSessionDetails = ({
           </p>
         )}
       </div>
-      <div className="flex flex-col">
-        <label className="block font-bold text-dark text-base mb-1">
-          If yes, please share the link:
-        </label>
-        <FormInput
-          label=""
-          type="url"
-          placeholder="Paste link here..."
-          {...register("presentationLink")}
-          error={errors.presentationLink?.message}
-        />
-      </div>
+
+      {/* Presentation Link - Conditional */}
+      {formData.presentationAvailable && (
+        <div className="flex flex-col">
+          <label className="block font-bold text-dark text-base mb-1">
+            Please share the link to your presentation:
+          </label>
+          <FormInput
+            label=""
+            type="url"
+            placeholder="Paste link here..."
+            {...register("presentationLink")}
+            error={errors.presentationLink?.message}
+          />
+        </div>
+      )}
+
+      {/* Setup Requirements */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           Do you need any specific setup or tools? (Optional)
@@ -157,34 +173,50 @@ const StepSessionDetails = ({
           {...register("setupRequirements")}
           placeholder="Write here..."
           rows={4}
-          className="w-full border rounded-lg px-4 py-3 text-lg"
+          className="w-full border rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
         />
+        {errors.setupRequirements && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.setupRequirements.message}
+          </p>
+        )}
       </div>
-      <div className="flex gap-4">
+
+      {/* Action Buttons */}
+      <div className="flex md:flex-row flex-col-reverse gap-4 pt-4">
         <Button
-          className="bg-white text-black rounded-full border border-gray-300"
+          type="button"
+          className="bg-white text-black rounded-full border border-gray-300 hover:bg-gray-50 transition-colors"
           onClick={onBack}
         >
           <span className="flex items-center gap-2">
-            <ArrowLeft size={16} /> Go Back
+            <Icon icon="solar:arrow-left-linear" width="16" height="16" />
+            Go Back
           </span>
         </Button>
+
         <Button
-          className="bg-orange-500 text-black rounded-full"
+          type="button"
+          className={`rounded-full transition-all duration-200 ${
+            isValid
+              ? "bg-orange-500 hover:bg-orange-600 text-black"
+              : "bg-gray-300 cursor-not-allowed text-gray-500"
+          }`}
           onClick={onNext}
-          disabled={
-            !formData.sessionType ||
-            !formData.sessionLength ||
-            formData.presentationAvailable === undefined ||
-            !formData.talkTitle ||
-            !formData.talkDescription
-          }
+          disabled={!isValid}
         >
           <span className="flex items-center gap-2">
-            Continue <ArrowRight size={16} />
+            Continue
+            <Icon icon="solar:arrow-right-linear" width="16" height="16" />
           </span>
         </Button>
       </div>
+
+      {!isValid && (
+        <p className="text-amber-600 text-sm text-center">
+          Please complete all required fields before continuing
+        </p>
+      )}
     </div>
   );
 };
