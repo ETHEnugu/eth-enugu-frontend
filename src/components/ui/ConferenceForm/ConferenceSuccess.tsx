@@ -19,22 +19,38 @@ export default function ConferenceSuccess() {
             Join the ETH Enugu Telegram & Whatsapp community to stay in the loop
             and connect with others before the event:
           </p>
-          <p className="font-medium text-[var(--color-dark)">
-            Join{" "}
-            <Link href={"#"} className="text-[#009FCC] underline ">
-              {" "}
-              Telegram Group
-            </Link>
-          </p>
-          <p className="font-medium text-[var(--color-dark)">
-            Join{" "}
-            <Link
-              href={"#"}
-              className="text-[var(--color-green-250)] underline "
-            >
-              WhatsApp Group
-            </Link>
-          </p>
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-1">
+              Follow
+              <Link
+                href="https://x.com/eth_enugu"
+                target="_blank"
+                className="text-black underline"
+              >
+                ETHEnugu on X
+              </Link>
+            </div>
+            <div className="flex gap-1 mb-2">
+              Join
+              <Link
+                href="https://t.me/ETH_Enugu/1"
+                target="_blank"
+                className="text-blue-800 underline"
+              >
+                Telegram Group
+              </Link>
+            </div>
+            <div className="flex gap-1 mb-2">
+              Join
+              <Link
+                href="#telegram"
+                target="_blank"
+                className="text-green-550 underline"
+              >
+                WhatsApp Group
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

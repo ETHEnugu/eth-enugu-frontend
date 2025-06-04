@@ -138,3 +138,26 @@ export interface PopupCityProps {
   referralSource: string | number | boolean;
   joinOnlineCommunity: string | number | boolean;
 }
+
+export interface BuildersResidencyProps {
+  fullName: string;
+  email: string;
+  gender: string | number | boolean;
+  whatsappNumber: string;
+  location: string | number | boolean;
+  githubProfile: string;
+  twitterProfile: string;
+  linkedinProfile: string;
+  portfolioUrl: string;
+  primaryRole: string | number | boolean;
+  backgroundAndSkills: string;
+  currentlyBuilding: string;
+  previousBuilderPrograms: string | number | boolean;
+  joinReason: string;
+  projectInterest: string | number | boolean;
+  openToCollaboration: string | number | boolean;
+  needsAccommodation: string | number | boolean;
+  dietaryAccessibilityNeeds: string | number | boolean;
+  referralSource: string | number | boolean;
+  joinOnlineCommunity: string | number | boolean;
+}
