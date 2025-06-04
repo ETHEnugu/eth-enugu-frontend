@@ -5,7 +5,7 @@ export const navbar_items = [
   },
   {
     title: "FAQ",
-    link: "#faq",
+    link: "/#faq",
   },
   {
     title: "Event",
@@ -13,10 +13,10 @@ export const navbar_items = [
   },
   {
     title: "Generate DP",
-    link: "generate-dp",
+    link: "/generate-dp",
   },
   {
     title: "Mint NFT",
-    link: "mint-nft",
+    link: "/mint-nft",
   },
 ];

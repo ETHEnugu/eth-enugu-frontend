@@ -1,14 +1,14 @@
 export const hero_socials = [
   {
-    link: "mailto:hello@eth.enugu.ng",
+    link: "mailto:ethenugu@gmail.com",
     icon: "mdi:gmail",
   },
   {
-    link: "https://linkedin.com/company/eth-enugu",
-    icon: "prime:linkedin",
+    link: "https://x.com/eth_enugu",
+    icon: "prime:twitter",
   },
   {
-    link: "https://wa.me/2348100000000",
+    link: "https://chat.whatsapp.com/FipXVEahmnOGiuzQQnKyoo",
     icon: "mdi:whatsapp",
   },
 ];

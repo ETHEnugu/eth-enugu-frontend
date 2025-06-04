@@ -3,7 +3,10 @@ import { accordion_data } from "./_data";
 
 export default function FaqSection() {
   return (
-    <section className=" w-full flex items-start flex-col md:flex-row justify-between gap-12 px-5 py md:p-20  ">
+    <section
+      id="faq"
+      className=" w-full flex items-start flex-col md:flex-row justify-between gap-12 px-5 pt-20 md:p-20  "
+    >
       <div className="w-full md:max-w-sm flex flex-col gap-8 items-start ">
         <h2 className="w-full max-w-[300px] font-extrabold text-2xl md:text-[32px] text-dark leading-[100%]  ">
           Frequently Asked Questions

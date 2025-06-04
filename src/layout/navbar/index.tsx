@@ -4,13 +4,12 @@ import { navbar_items } from "./_data";
 import Link from "next/link";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import MobileNav from "./MobileNav";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -39,7 +38,9 @@ export default function Navbar() {
             key={idx}
             href={item?.link}
             className={`text-base font-medium transition-colors duration-200 hover:text-green-550 ${
-              pathname === item.link ? "text-green-550" : "text-gray-700"
+              pathname === item.link
+                ? "text-green-550 font-semibold"
+                : "text-gray-700"
             }`}
           >
             {item?.title}
@@ -48,19 +49,22 @@ export default function Navbar() {
       </div>
 
       <aside className="w-max ml-auto hidden md:flex items-center gap-4">
-        <Button type="button" variant="plain" design="rounded">
-          Register for event
-        </Button>
-        <Button
-          type="button"
-          variant="default"
-          design="rounded"
-          className="flex items-center gap-3"
-          onClick={() => router.push("/speaker-application")}
-        >
-          Apply to Speak
-          <Icon icon="solar:arrow-right-linear" width={18} height={18} />
-        </Button>
+        <Link href={"conference-application"}>
+          <Button type="button" variant="plain" design="rounded">
+            Register for event
+          </Button>
+        </Link>
+        <Link href={"/speaker-application"}>
+          <Button
+            type="button"
+            variant="default"
+            design="rounded"
+            className="flex items-center gap-3"
+          >
+            Apply to Speak
+            <Icon icon="solar:arrow-right-linear" width={18} height={18} />
+          </Button>
+        </Link>
       </aside>
 
       <button
