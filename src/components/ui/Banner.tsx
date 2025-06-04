@@ -33,7 +33,7 @@ const banner = () => {
         "Access to top-tier mentors and community leaders",
         "Demo Day to show off your project",
       ],
-      link: "/",
+      link: "/conference-application",
     },
   ];
   return (

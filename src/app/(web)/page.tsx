@@ -6,6 +6,7 @@ import InfoSection from "@/components/ui/InfoSection";
 import ScrollingText from "@/components/ui/Scrolling-text";
 import FaqSection from "@/components/ui/faq-section";
 import HomeHero from "@/components/ui/hero";
+import PartnerSponsor from "@/components/ui/partner-sponsor";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         title="Mentor/Speak at EthEnugu ‘25"
         content="Apply to mentor rising talent and make an impact in the Southeast tech ecosystem."
       />
+      <PartnerSponsor />
       <FaqSection />
       <ScrollingText />
     </>

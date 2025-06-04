@@ -2,30 +2,30 @@ export const foot_nav = {
   navigation: [
     {
       title: "About",
-      link: "/about",
+      link: "/eth-enugu",
     },
     {
       title: "Agenda",
-      link: "/agenda",
+      link: "/",
     },
     {
       title: "Sponsored",
-      link: "/sponsored",
+      link: "/",
     },
   ],
   "quick links": [
     {
-      title: "Speakers",
-      link: "/speakers",
+      title: "Become a Speaker",
+      link: "/speaker-application",
     },
     {
-      title: "Tickes",
-      link: "/tickets",
+      title: "Tickets",
+      link: "/conference-application",
     },
-    {
-      title: "Blog",
-      link: "/blog",
-    },
+    // {
+    //   title: "Blog",
+    //   link: "/blog",
+    // },
   ],
   resources: [
     {
@@ -34,7 +34,7 @@ export const foot_nav = {
     },
     {
       title: "FAQs",
-      link: "/faqs",
+      link: "/#faq",
     },
   ],
 };
@@ -42,14 +42,14 @@ export const foot_nav = {
 export const socials = [
   {
     icon: "pajamas:twitter",
-    link: "",
+    link: "https://x.com/eth_enugu",
   },
   {
-    icon: "mingcute:facebook-fill",
-    link: "",
+    icon: "ic:sharp-telegram",
+    link: "https://t.me/ETH_Enugu",
   },
   {
-    icon: "ri:linkedin-fill",
-    link: "",
+    icon: "mdi:whatsapp",
+    link: "https://chat.whatsapp.com/FipXVEahmnOGiuzQQnKyoo",
   },
 ];

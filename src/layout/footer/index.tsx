@@ -8,13 +8,15 @@ export default function Footer() {
       <section role="group" className="bg-dark px-8 flex flex-col gap-5">
         <div className="flex flex-col items-center justify-center md:flex-row md:items-start md:justify-between">
           <aside className="text-white flex flex-col items-center md:items-start gap-5 justify-between mb-8 md:mb-0">
-            <p className="mx-auto text-center md:text-left">DROP US A LINE</p>
+            <p className="mx-auto md:mx-0 text-center md:text-left">
+              DROP US A LINE
+            </p>
 
             <Link
-              href="mailto:hello@ethenugu.com"
+              href="mailto:ethenugu@gmail.com"
               className="text-2xl md:text-4xl font-medium flex items-center text-center md:text-left gap-8"
             >
-              HELLO@ETHENUGU.COM
+              ETHENUGU@GMAIL.COM
               <Icon
                 icon="bitcoin-icons:arrow-right-outline"
                 width={18}
@@ -60,18 +62,19 @@ export default function Footer() {
           </menu>
         </div>
 
-        <div className="text-white flex flex-col md:flex-row items-center gap-8 mx-auto md:ml-auto mb-12">
+        <div className="text-white flex flex-col md:flex-row items-center gap-8 mx-auto md:mx-0 md:ml-auto mb-12">
           <h4>DROP US A LINE</h4>
           <span className="flex items-center gap-4">
             {socials.map((item, idx) => (
-              <button
-                key={idx}
-                role="button"
-                type="button"
-                className="w-12 h-12 flex items-center justify-center text-white transition ease-in-out duration-150 hover:scale-105 cursor-pointer bg-neutral-800 rounded-lg"
-              >
-                <Icon icon={item?.icon} width={24} height={24} />
-              </button>
+              <Link key={idx} href={item?.link} target="_blank">
+                <button
+                  role="button"
+                  type="button"
+                  className="w-12 h-12 flex items-center justify-center text-white transition ease-in-out duration-150 hover:scale-105 cursor-pointer bg-neutral-800 rounded-lg"
+                >
+                  <Icon icon={item?.icon} width={24} height={24} />
+                </button>
+              </Link>
             ))}
           </span>
         </div>
