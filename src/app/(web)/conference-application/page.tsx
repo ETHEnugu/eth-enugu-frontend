@@ -100,7 +100,7 @@ export default function Page() {
   const { mutate, isPending } = useMutation({
     mutationFn: submitApplication,
     onSuccess: (response) => {
-      console.log("Success:", response);
+      toast.success("Success:", response);
       localStorage.removeItem(FORM_KEY);
       router.push("/application-success");
     },
