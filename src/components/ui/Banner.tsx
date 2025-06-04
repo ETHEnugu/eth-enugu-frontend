@@ -90,7 +90,7 @@ const banner = () => {
                       {event.tags.map((tag, i) => (
                         <li
                           key={i}
-                          className={`w-max font-medium ${
+                          className={`md:w-max font-medium ${
                             isGray ? "bg-black/20" : "bg-black/10 text-white"
                           } rounded-full px-4 py-2 text-sm inline-block`}
                         >

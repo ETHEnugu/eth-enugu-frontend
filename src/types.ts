@@ -118,16 +118,16 @@ export interface ConferenceProps {
 export interface PopupCityProps {
   fullName: string;
   email: string;
-  gender: string | number;
+  gender: string | number | boolean;
   whatsappNumber: string;
-  location: string | number;
-  currentRole: string | number;
-  web3Familiarity: string | number;
-  attendDay1: string | number;
-  attendDay2: string | number;
-  freeLunchConsideration: string | number;
-  volunteringInterest: string | number;
-  dietaryAccessibilityNeeds: string | number;
-  referralSource: string | number;
-  joinOnlineCommunity: string | number;
+  location: string | number | boolean;
+  currentRole: string | number | boolean;
+  web3Familiarity: string | number | boolean;
+  attendDay1: string | number | boolean;
+  attendDay2: string | number | boolean;
+  freeLunchConsideration: string | number | boolean;
+  volunteeringInterest: string | number | boolean;
+  dietaryAccessibilityNeeds: string | number | boolean;
+  referralSource: string | number | boolean;
+  joinOnlineCommunity: string | number | boolean;
 }

@@ -58,6 +58,7 @@ apiClient.interceptors.response.use(
         const isProtectedRoute = currentPath.startsWith("/admin");
         // currentPath.startsWith("/tutor") ||
         // currentPath.startsWith("/cart") ||
+        // currentPath.startsWith("/wishlist") ||
         // currentPath.startsWith("/profile");
 
         // Only redirect if on a protected route

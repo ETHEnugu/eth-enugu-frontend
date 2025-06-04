@@ -1,54 +1,45 @@
 "use client";
 import Dropdown from "@/components/common/dropdown";
-import { Button } from "@/components/common/button";
 import { PopupCityProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
-import { Icon } from "@iconify/react";
 
 interface StepOtherInfoProps {
-  onBack: () => void;
-  onNext: () => void;
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
-  isSubmitting?: boolean;
 }
 
 const dateOptions = [
-  { label: "Aug 14", value: "Aug 14" },
-  { label: "Aug 15", value: "Aug 15" },
-  { label: "Aug 16", value: "Aug 16" },
+  { label: "August 14, 2025", value: "2025-08-14" },
+  { label: "August 15, 2025", value: "2025-08-15" },
+  { label: "August 16, 2025", value: "2025-08-16" },
 ];
 
-const vOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+const volunteerOptions = [
+  { label: "Yes", value: "YES" },
+  { label: "No", value: "NO" },
+  { label: "Maybe", value: "MAYBE" },
 ];
 
 const joinOptions = [
-  { label: "Yes", value: "Yes" },
-  { label: "No", value: "No" },
+  { label: "Yes", value: "YES" },
+  { label: "No", value: "NO" },
+  { label: "Already a member", value: "ALREADY_MEMBER" },
 ];
 
-const StepTwoDetails = ({
-  onBack,
-  onNext,
-  register,
-  errors,
-  setValue,
-  isSubmitting = false,
-}: StepOtherInfoProps) => {
+const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
   return (
     <div className="space-y-7">
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What days are you likely to attend?
+          What days are you likely to attend? (Day 1)
         </label>
         <Dropdown
           placeholder="Select date"
           onValueChange={(selected) =>
-            setValue("attendDay1", selected.value as string, {
+            setValue("attendDay1", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -63,6 +54,28 @@ const StepTwoDetails = ({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
+          What days are you likely to attend? (Day 2)
+        </label>
+        <Dropdown
+          placeholder="Select date"
+          onValueChange={(selected) =>
+            setValue("attendDay2", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          className="text-dark"
+          options={dateOptions}
+        />
+        {errors.attendDay2 && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.attendDay2.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
           Would you like to be considered for free lunch during the program?
         </label>
         <textarea
@@ -71,6 +84,11 @@ const StepTwoDetails = ({
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
+        {errors.freeLunchConsideration && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.freeLunchConsideration.message}
+          </p>
+        )}
       </div>
 
       <div>
@@ -80,16 +98,17 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Answer"
           onValueChange={(selected) =>
-            setValue("volunteringInterest", selected.value as string, {
+            setValue("volunteeringInterest", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
-          options={vOptions}
+          options={volunteerOptions}
         />
-        {errors.volunteringInterest && (
+        {errors.volunteeringInterest && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.volunteringInterest.message}
+            {errors.volunteeringInterest.message}
           </p>
         )}
       </div>
@@ -103,10 +122,15 @@ const StepTwoDetails = ({
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
+        {errors.dietaryAccessibilityNeeds && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.dietaryAccessibilityNeeds.message}
+          </p>
+        )}
       </div>
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          How did you hear about ETH Enugu &lsquo;25?
+          How did you hear about ETH Enugu ‘25?
         </label>
         <textarea
           {...register("referralSource")}
@@ -114,6 +138,11 @@ const StepTwoDetails = ({
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
+        {errors.referralSource && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.referralSource.message}
+          </p>
+        )}
       </div>
 
       <div>
@@ -124,8 +153,9 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose option"
           onValueChange={(selected) =>
-            setValue("joinOnlineCommunity", selected.value as string, {
+            setValue("joinOnlineCommunity", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -136,30 +166,6 @@ const StepTwoDetails = ({
             {errors.joinOnlineCommunity.message}
           </p>
         )}
-      </div>
-
-      <div className="flex md:flex-row flex-col-reverse gap-4">
-        <Button
-          className="bg-white text-black rounded-full border border-gray-300"
-          onClick={onBack}
-          disabled={isSubmitting}
-        >
-          <span className="flex items-center gap-2">
-            <Icon icon="solar:arrow-left-linear" width="16" height="16" />
-            Go Back
-          </span>
-        </Button>
-        <Button
-          className="bg-green-550 text-white rounded-full"
-          onClick={onNext}
-        >
-          <span className="flex items-center gap-2">
-            {isSubmitting ? "Submitting..." : "Submit"}{" "}
-            {!isSubmitting && (
-              <Icon icon="solar:arrow-right-linear" width="16" height="16" />
-            )}
-          </span>
-        </Button>
       </div>
     </div>
   );

@@ -1,49 +1,41 @@
 "use client";
 import FormInput from "@/components/common/form/FormInput";
 import Dropdown from "@/components/common/dropdown";
-import { Button } from "@/components/common/button";
 import { countryOptions } from "@/data/countries";
 import { useMemo } from "react";
 import { PopupCityProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
-import { Icon } from "@iconify/react";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
-  formData: PopupCityProps;
-  onNext: () => void;
-  onBack: () => void;
 }
 
 const roleOptions = [
-  { label: "Student", value: "Student" },
-  { label: "Developer", value: "Developer" },
-  { label: "Designer", value: "Designer" },
-  { label: "Entrepreneur", value: "Entrepreneur" },
-  { label: "Web3 Enthusiast", value: "Web3 Enthusiast" },
-  { label: "Other", value: "Other" },
+  { label: "Student", value: "STUDENT" },
+  { label: "Developer", value: "DEVELOPER" },
+  { label: "Designer", value: "DESIGNER" },
+  { label: "Entrepreneur", value: "ENTREPRENEUR" },
+  { label: "Web3 Enthusiast", value: "WEB3_ENTHUSIAST" },
+  { label: "Other", value: "OTHER" },
 ];
 
 const web3Options = [
-  { label: "I’m new", value: "new" },
-  { label: "I’ve dabbled", value: "dabbled" },
-  { label: "I’m actively building", value: "building" },
+  { label: "I’m new", value: "NEW" },
+  { label: "I’ve dabbled", value: "DABBLED" },
+  { label: "I’m actively building", value: "ACTIVELY_BUILDING" },
 ];
 
 const genderOption = [
-  { label: "Male", value: "Male" },
-  { label: "Female", value: "Female" },
+  { label: "Male", value: "MALE" },
+  { label: "Female", value: "FEMALE" },
 ];
 
 const StepOneDetails = ({
   register,
   errors,
   setValue,
-  formData,
-  onNext,
-  onBack,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
 
@@ -75,8 +67,9 @@ const StepOneDetails = ({
           <Dropdown
             placeholder="Select gender"
             onValueChange={(selected) =>
-              setValue("gender", selected.value as string, {
+              setValue("gender", selected.value, {
                 shouldValidate: true,
+                shouldDirty: true,
               })
             }
             className="text-dark"
@@ -103,8 +96,9 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Select Location"
           onValueChange={(selected) =>
-            setValue("location", selected.value as string, {
+            setValue("location", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -123,8 +117,9 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Select Role"
           onValueChange={(selected) =>
-            setValue("currentRole", selected.value as string, {
+            setValue("currentRole", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -145,8 +140,9 @@ const StepOneDetails = ({
         <Dropdown
           placeholder="Choose Option"
           onValueChange={(selected) =>
-            setValue("web3Familiarity", selected.value as string, {
+            setValue("web3Familiarity", selected.value, {
               shouldValidate: true,
+              shouldDirty: true,
             })
           }
           className="text-dark"
@@ -158,30 +154,6 @@ const StepOneDetails = ({
             {errors.web3Familiarity.message}
           </p>
         )}
-      </div>
-
-      <div className="flex   md:flex-row flex-col-reverse gap-4">
-        <Button
-          className="bg-white text-black rounded-full border border-gray-300"
-          onClick={onBack}
-        >
-          <span className="flex items-center gap-2">
-            <Icon icon="solar:arrow-left-linear" width="16" height="16" /> Go
-            Back
-          </span>
-        </Button>
-        <Button
-          className="bg-green-550 text-white rounded-full"
-          onClick={onNext}
-          disabled={
-            !formData.email || !formData.whatsappNumber || !formData.gender
-          }
-        >
-          <span className="flex items-center gap-2">
-            Continue{" "}
-            <Icon icon="solar:arrow-right-linear" width="16" height="16" />
-          </span>
-        </Button>
       </div>
     </div>
   );
