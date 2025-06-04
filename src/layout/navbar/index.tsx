@@ -21,9 +21,9 @@ export default function Navbar() {
         />
       </div>
 
-      <div role="navigation" className="flex items-center gap-4 ml-18">
+      <div role="navigation" className="flex items-center gap-4 ml-8 xl:ml-18">
         {navbar_items.map((item, idx) => (
-          <Link key={idx} href={item?.link}>
+          <Link key={idx} href={item?.link} className="whitespace-nowrap">
             {item?.title}
           </Link>
         ))}
@@ -35,15 +35,17 @@ export default function Navbar() {
             Register for event
           </Button>
         </Link>
-        <Button
-          type="button"
-          variant="default"
-          design="rounded"
-          className="flex items-center gap-3"
-        >
-          Apply to Speak
-          <Icon icon="solar:arrow-right-linear" width={18} height={18} />
-        </Button>
+        <Link href={"/speaker-application"}>
+          <Button
+            type="button"
+            variant="default"
+            design="rounded"
+            className="flex items-center gap-3"
+          >
+            Apply to Speak
+            <Icon icon="solar:arrow-right-linear" width={18} height={18} />
+          </Button>
+        </Link>
       </aside>
     </nav>
   );

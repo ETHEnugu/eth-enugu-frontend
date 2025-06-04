@@ -81,22 +81,29 @@ export interface AccountDetailsProps {
 }
 
 export interface SpeakerProps {
+  // Personal Information
   fullName: string;
   email: string;
-  phone: string;
-  location: string | number | boolean;
-  twitter: string;
-  linkedin: string;
-  website: string;
-  sessionType: string | number | boolean;
-  sessionLength: string | number | boolean;
-  slideAvailable: string | number | boolean;
-  slideLink: string | number | boolean;
-  setupNeeds: string | number | boolean;
-  arrivalDate: string | number | boolean;
-  agreeToSpeak: string | number | boolean;
-  referralSource: string | number | boolean;
-  joinCommunity: string | number | boolean;
+  whatsappNumber: string;
+  location: string;
+  twitterProfile?: string | null;
+  linkedinProfile?: string | null;
+  website?: string | null;
+
+  // Session Details
+  sessionType: string;
+  sessionLength: string;
+  presentationAvailable: boolean;
+  presentationLink?: string | null;
+  setupRequirements?: string | null;
+  talkTitle: string;
+  talkDescription: string;
+
+  // Other Information
+  expectedArrivalDate: string;
+  willingToSpeakWithoutSupport: boolean;
+  referralSource?: string | null;
+  joinOnlineCommunity?: string;
 }
 
 export interface ConferenceProps {

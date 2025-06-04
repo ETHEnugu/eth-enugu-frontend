@@ -11,7 +11,7 @@ export default function DesktopHero() {
   return (
     <>
       <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-8">
-        <div className="flex flex-col items-center justify-center gap-1">
+        <div className="flex flex-col items-center justify-center gap-1 mt-32 xl:mt-20 2xl:mt-0">
           <WordSlideUp text="Welcome To" className="text-center" />
 
           <span>
@@ -29,7 +29,7 @@ export default function DesktopHero() {
         </div>
 
         <div className="relative w-max mx-auto flex items-center">
-          <div className="relative w-[600px] h-[600px]">
+          <div className="relative w-[460px] h-[460px] xl:w-[600px] xl:h-[600px]">
             <Image
               src="/images/unn-lion-banner.svg"
               width={0}

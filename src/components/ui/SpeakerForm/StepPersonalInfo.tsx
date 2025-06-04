@@ -14,14 +14,16 @@ interface StepPersonalInfoProps {
   setValue: UseFormSetValue<SpeakerProps>;
   formData: SpeakerProps;
   onNext: () => void;
+  isValid?: boolean;
 }
 
 const StepPersonalInfo = ({
   register,
   errors,
   setValue,
-  formData,
+  // formData,
   onNext,
+  isValid = false,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
 
@@ -30,32 +32,41 @@ const StepPersonalInfo = ({
       <FormInput
         label="Full Name"
         type="text"
-        placeholder="Full Name"
+        placeholder="Enter your full name"
         {...register("fullName")}
         error={errors.fullName?.message}
+        required
       />
+
       <FormInput
         label="Email Address"
         type="email"
         placeholder="johndoe@mail.com"
         {...register("email")}
         error={errors.email?.message}
+        required
       />
+
       <FormInput
         label="WhatsApp Phone Number"
         placeholder="+234 XXXX XXX XXX"
         type="tel"
-        {...register("phone")}
-        error={errors.phone?.message}
+        {...register("whatsappNumber")}
+        error={errors.whatsappNumber?.message}
+        required
       />
+
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country, State & City of Residence
+          Country, State & City of Residence{" "}
+          <span className="text-red-500">*</span>
         </label>
         <Dropdown
-          placeholder="Select Location"
+          placeholder="Select or type your location"
           onValueChange={(selected) =>
-            setValue("location", selected.value, { shouldValidate: true })
+            setValue("location", selected.value.toString(), {
+              shouldValidate: true,
+            })
           }
           className="text-dark"
           options={options}
@@ -65,20 +76,23 @@ const StepPersonalInfo = ({
           <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
         )}
       </div>
+
       <FormInput
         label="Twitter(X)"
         placeholder="Enter the URL to your X Profile"
         type="url"
-        {...register("twitter")}
-        error={errors.twitter?.message}
+        {...register("twitterProfile")}
+        error={errors.twitterProfile?.message}
       />
+
       <FormInput
-        label="Linkedin"
-        placeholder="Enter the URL to your Linkedin Profile"
+        label="LinkedIn"
+        placeholder="Enter the URL to your LinkedIn Profile"
         type="url"
-        {...register("linkedin")}
-        error={errors.linkedin?.message}
+        {...register("linkedinProfile")}
+        error={errors.linkedinProfile?.message}
       />
+
       <FormInput
         label="Website"
         placeholder="Enter the URL of your website"
@@ -86,21 +100,28 @@ const StepPersonalInfo = ({
         {...register("website")}
         error={errors.website?.message}
       />
+
       <Button
-        className="bg-orange-500 text-black rounded-full"
+        type="button"
+        className={`rounded-full transition-all duration-200 ${
+          isValid
+            ? "bg-orange-500 hover:bg-orange-600 text-black"
+            : "bg-gray-300 cursor-not-allowed text-gray-500"
+        }`}
         onClick={onNext}
-        disabled={
-          !formData.fullName ||
-          !formData.email ||
-          !formData.phone ||
-          !formData.location
-        }
+        disabled={!isValid}
       >
         <span className="flex items-center gap-2">
-          Continue{" "}
+          Continue
           <Icon icon="solar:arrow-right-linear" width="16" height="16" />
         </span>
       </Button>
+
+      {!isValid && (
+        <p className="text-amber-600 text-sm text-center">
+          Please complete all required fields before continuing
+        </p>
+      )}
     </div>
   );
 };
