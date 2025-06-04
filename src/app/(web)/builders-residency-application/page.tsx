@@ -1,13 +1,14 @@
 "use client";
 import { Button } from "@/components/common/button";
 import Spinner from "@/components/common/spinner";
-import PopupCityInfo from "@/components/ui/popup-city-form/PopupCityInfo";
-import StepOneDetails from "@/components/ui/popup-city-form/StepOneDetails";
-import StepTwoDetails from "@/components/ui/popup-city-form/StepTwoDetails";
-import { POPUP_CITY } from "@/config/ENDPOINTS";
+import BStepOneDetails from "@/components/ui/BuilderResidencyForm/BStepOneDetails";
+import BStepThreeDetails from "@/components/ui/BuilderResidencyForm/BStepThreeDetails";
+import BStepTwoDetails from "@/components/ui/BuilderResidencyForm/BStepTwoDetails";
+import BuildersInfo from "@/components/ui/BuilderResidencyForm/BuildersInfo";
+import { BUILDER_RESIDENCY } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
-import { PopupCityProps } from "@/types";
-import { popupCityValidation } from "@/validations/popupCityValidation";
+import { BuildersResidencyProps } from "@/types";
+import { buildersResidencyValidation } from "@/validations/buildersResidencyValidation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -15,30 +16,30 @@ import { Suspense, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const PopupCity = () => {
+const BuildersResidency = () => {
   return (
     <Suspense fallback={<div>Loading form...</div>}>
-      <PopupCityPage />
+      <BuildersResidencyPage />
     </Suspense>
   );
 };
 
-const PopupCityPage = () => {
+const BuildersResidencyPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
 
   const { mutate, isPending } = usePostMutation(
-    POPUP_CITY.CREATE,
-    "create_popup_city"
+    BUILDER_RESIDENCY.CREATE,
+    "create_builders_residency"
   );
 
   const savedData =
     typeof window !== "undefined"
-      ? localStorage.getItem("popupCityFormData")
+      ? localStorage.getItem("BuildersResidencyFormData")
       : null;
 
-  const defaultValues: PopupCityProps = savedData
+  const defaultValues: BuildersResidencyProps = savedData
     ? JSON.parse(savedData)
     : {
         fullName: "",
@@ -46,19 +47,25 @@ const PopupCityPage = () => {
         gender: "",
         whatsappNumber: "",
         location: "",
-        currentRole: "",
-        web3Familiarity: "",
-        attendDay1: "",
-        attendDay2: "",
-        freeLunchConsideration: "",
-        volunteeringInterest: "",
+        githubProfile: "",
+        twitterProfile: "",
+        linkedinProfile: "",
+        portfolioUrl: "",
+        primaryRole: "",
+        backgroundAndSkills: "",
+        currentlyBuilding: "",
+        previousBuilderPrograms: false,
+        joinReason: "",
+        projectInterest: "",
+        openToCollaboration: false,
+        needsAccommodation: false,
         dietaryAccessibilityNeeds: "",
         referralSource: "",
-        joinOnlineCommunity: "",
+        joinOnlineCommunity: false,
       };
 
-  const methods = useForm<PopupCityProps>({
-    resolver: yupResolver(popupCityValidation),
+  const methods = useForm<BuildersResidencyProps>({
+    resolver: yupResolver(buildersResidencyValidation),
     defaultValues,
     mode: "onChange",
   });
@@ -73,7 +80,7 @@ const PopupCityPage = () => {
 
   useEffect(() => {
     const subscription = methods.watch((value) => {
-      localStorage.setItem("popupCityFormData", JSON.stringify(value));
+      localStorage.setItem("BuildersResidencyFormData", JSON.stringify(value));
     });
 
     return () => subscription.unsubscribe();
@@ -84,17 +91,32 @@ const PopupCityPage = () => {
       updateStepInURL(currentStep + 1);
     }
     if (currentStep === 1) {
-      const stepOneFields: (keyof PopupCityProps)[] = [
+      const stepOneFields: (keyof BuildersResidencyProps)[] = [
         "fullName",
         "email",
         "gender",
         "whatsappNumber",
         "location",
-        "currentRole",
-        "web3Familiarity",
+        "githubProfile",
+        "twitterProfile",
+        "linkedinProfile",
+        "portfolioUrl",
       ];
 
       const isValid = await trigger(stepOneFields, { shouldFocus: true });
+
+      if (isValid) {
+        updateStepInURL(currentStep + 1);
+      }
+    } else if (currentStep == 2) {
+      const stepTwoFields: (keyof BuildersResidencyProps)[] = [
+        "primaryRole",
+        "backgroundAndSkills",
+        "currentlyBuilding",
+        "previousBuilderPrograms",
+      ];
+
+      const isValid = await trigger(stepTwoFields, { shouldFocus: true });
 
       if (isValid) {
         updateStepInURL(currentStep + 1);
@@ -104,26 +126,30 @@ const PopupCityPage = () => {
 
   const handleBack = () => updateStepInURL(currentStep - 1);
 
-  const onSubmit = async (data: PopupCityProps) => {
-    const stepTwoFields: (keyof PopupCityProps)[] = [
-      "attendDay1",
-      "attendDay2",
-      "freeLunchConsideration",
-      "volunteeringInterest",
+  const onSubmit = async (data: BuildersResidencyProps) => {
+    const stepThreeFields: (keyof BuildersResidencyProps)[] = [
+      "joinReason",
+      "projectInterest",
+      "openToCollaboration",
+      "needsAccommodation",
       "dietaryAccessibilityNeeds",
       "referralSource",
       "joinOnlineCommunity",
     ];
 
-    const isValid = await trigger(stepTwoFields, { shouldFocus: true });
+    const isValid = await trigger(stepThreeFields, { shouldFocus: true });
 
     if (isValid) {
       mutate(data, {
         onSuccess: () => {
-          toast.success("Popup City form submitted succefully");
-          router.replace("/success?form=popup");
+          toast.success("Builders Residency form submitted succefully");
+          router.replace("/success?form=builders");
           methods.reset();
-          localStorage.removeItem("popupCityFormData");
+          localStorage.removeItem("BuildersResidencyFormData");
+        },
+        onError: (error) => {
+          console.error("Submission Failed", error.message);
+          toast.error(error.message);
         },
       });
     }
@@ -136,17 +162,17 @@ const PopupCityPage = () => {
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
       <div className="mx-auto md:w-1/2 p-6 rounded-xl border shadow-md bg-white">
-        {currentStep === 0 && <PopupCityInfo onNext={handleNext} />}
+        {currentStep === 0 && <BuildersInfo onNext={handleNext} />}
 
         {currentStep > 0 && (
           <FormProvider {...methods}>
             {currentStep !== 0 && (
               <div className="border-b mb-10 flex md:flex-row flex-col justify-between items-center border-light-gray">
-                <h2 className="text-base font-semibold text-orange-500 mb-4">
-                  Pop-Up City Form
+                <h2 className="text-base font-semibold text-green-550 mb-4">
+                  Builder’s Residency Form
                 </h2>
                 <div className="flex justify-center items-center gap-1 mb-5">
-                  {[1, 2].map((s) => (
+                  {[1, 2, 3].map((s) => (
                     <div
                       key={s}
                       className={`h-2 rounded-full transition-all duration-300 ${
@@ -161,14 +187,22 @@ const PopupCityPage = () => {
             )}
 
             {currentStep === 1 && (
-              <StepOneDetails
+              <BStepOneDetails
                 register={register}
                 errors={errors}
                 setValue={setValue}
               />
             )}
             {currentStep === 2 && (
-              <StepTwoDetails
+              <BStepTwoDetails
+                register={register}
+                errors={errors}
+                setValue={setValue}
+              />
+            )}
+
+            {currentStep === 3 && (
+              <BStepThreeDetails
                 register={register}
                 errors={errors}
                 setValue={setValue}
@@ -187,14 +221,14 @@ const PopupCityPage = () => {
               </Button>
 
               <Button
-                className="bg-green-550 text-white rounded-full"
-                onClick={currentStep < 2 ? handleNext : handleSubmit(onSubmit)}
+                className="bg-orange-500 text-dark rounded-full"
+                onClick={currentStep < 3 ? handleNext : handleSubmit(onSubmit)}
                 disabled={isPending}
               >
                 <span className="flex items-center gap-2">
                   {isPending ? (
                     <Spinner />
-                  ) : currentStep < 2 ? (
+                  ) : currentStep < 3 ? (
                     "Continue"
                   ) : (
                     "Submit"
@@ -216,4 +250,4 @@ const PopupCityPage = () => {
   );
 };
 
-export default PopupCity;
+export default BuildersResidency;

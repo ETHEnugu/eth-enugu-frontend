@@ -24,14 +24,32 @@ const Success = ({ title, content }: SuccessProps) => {
 
         {/* Join buttons */}
         <div className="flex gap-1 mb-2">
+          Follow
+          <Link
+            href="https://x.com/eth_enugu"
+            target="_blank"
+            className="text-black underline"
+          >
+            ETHEnugu on X
+          </Link>
+        </div>
+        <div className="flex gap-1 mb-2">
           Join
-          <Link href="#telegram" className="text-blue-800 underline">
+          <Link
+            href="https://t.me/ETH_Enugu/1"
+            target="_blank"
+            className="text-blue-800 underline"
+          >
             Telegram Group
           </Link>
         </div>
         <div className="flex gap-1 mb-2">
           Join
-          <Link href="#telegram" className="text-green-550 underline">
+          <Link
+            href="#telegram"
+            target="_blank"
+            className="text-green-550 underline"
+          >
             WhatsApp Group
           </Link>
         </div>

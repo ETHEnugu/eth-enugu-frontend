@@ -3,7 +3,7 @@ services:
   - type: web
     name: eth-enugu-frontend
     env: node
-    plan: starter # Change to 'standard' or 'pro' as needed
+    plan: free # Change to 'standard' or 'pro' as needed
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /
@@ -20,7 +20,7 @@ services:
   - type: web
     name: eth-enugu-frontend-preview
     env: node
-    plan: starter
+    plan: free
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /
