@@ -12,7 +12,7 @@ const banner = () => {
         "Access to top-tier mentors and community leaders",
         "Good vibes, IRL collabs, and a supportive community",
       ],
-      link: "/",
+      link: "/builder-residency-application",
     },
     {
       title: "EthEnugu ’25 Pop-Up City",

@@ -18,8 +18,8 @@ const roleOptions = [
 ];
 
 const buildOptions = [
-  { label: "Yes", value: "YES" },
-  { label: "No", value: "NO" },
+  { label: "Yes", value: true },
+  { label: "No", value: false },
 ];
 
 const BStepTwoDetails = ({ register, errors, setValue }: StepTwoInfoProps) => {
