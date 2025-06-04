@@ -81,20 +81,60 @@ export interface AccountDetailsProps {
 }
 
 export interface SpeakerProps {
+  // Personal Information
   fullName: string;
   email: string;
-  phone: string;
-  location: string | number;
-  twitter: string;
-  linkedin: string;
-  website: string;
-  sessionType: string | number;
-  sessionLength: string | number;
-  slideAvailable: string | number;
-  slideLink: string | number;
-  setupNeeds: string | number;
-  arrivalDate: string | number;
-  agreeToSpeak: string | number;
-  referralSource: string | number;
-  joinCommunity: string | number;
+  whatsappNumber: string;
+  location: string;
+  twitterProfile?: string | null;
+  linkedinProfile?: string | null;
+  website?: string | null;
+
+  // Session Details
+  sessionType: string;
+  sessionLength: string;
+  presentationAvailable: boolean;
+  presentationLink?: string | null;
+  setupRequirements?: string | null;
+  talkTitle: string;
+  talkDescription: string;
+
+  // Other Information
+  expectedArrivalDate: string;
+  willingToSpeakWithoutSupport: boolean;
+  referralSource?: string | null;
+  joinOnlineCommunity?: string;
+}
+
+export interface ConferenceProps {
+  fullName: string;
+  email: string;
+  whatsappNumber: string;
+  location: string | number | boolean;
+  age: string | number | boolean;
+  gender: string | number | boolean;
+  roleDescription: string | number | boolean;
+  expectedGains: string;
+  attendanceType: string | number | boolean;
+  certificateNeeded: string | number | boolean;
+  dietaryAccessibilityNeeds: string;
+  referralSource: string;
+  joinOnlineCommunity: string | number | boolean;
+}
+
+export interface PopupCityProps {
+  fullName: string;
+  email: string;
+  gender: string | number | boolean;
+  whatsappNumber: string;
+  location: string | number | boolean;
+  currentRole: string | number | boolean;
+  web3Familiarity: string | number | boolean;
+  attendDay1: string | number | boolean;
+  attendDay2: string | number | boolean;
+  freeLunchConsideration: string | number | boolean;
+  volunteeringInterest: string | number | boolean;
+  dietaryAccessibilityNeeds: string | number | boolean;
+  referralSource: string | number | boolean;
+  joinOnlineCommunity: string | number | boolean;
 }

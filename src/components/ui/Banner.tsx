@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "../common/button";
 
 const banner = () => {
@@ -11,6 +12,7 @@ const banner = () => {
         "Access to top-tier mentors and community leaders",
         "Good vibes, IRL collabs, and a supportive community",
       ],
+      link: "/",
     },
     {
       title: "EthEnugu ’25 Pop-Up City",
@@ -21,6 +23,7 @@ const banner = () => {
         "Access to top-tier mentors and community leaders",
         "Good vibes, IRL collabs, and a supportive community",
       ],
+      link: "/popup-city-application",
     },
     {
       title: "Register for Conf/Summit ’25",
@@ -30,6 +33,7 @@ const banner = () => {
         "Access to top-tier mentors and community leaders",
         "Demo Day to show off your project",
       ],
+      link: "/",
     },
   ];
   return (
@@ -86,7 +90,7 @@ const banner = () => {
                       {event.tags.map((tag, i) => (
                         <li
                           key={i}
-                          className={`w-max font-medium ${
+                          className={`md:w-max font-medium ${
                             isGray ? "bg-black/20" : "bg-black/10 text-white"
                           } rounded-full px-4 py-2 text-sm inline-block`}
                         >
@@ -96,12 +100,14 @@ const banner = () => {
                     </ul>
                   </div>
 
-                  <Button
-                    className={`flex items-center gap-3 ${buttonBg} ${isGreen ? "hover:bg-amber-750" : ""}`}
-                    design="rounded"
-                  >
-                    {buttonText}
-                  </Button>
+                  <Link href={event.link}>
+                    <Button
+                      className={`flex items-center gap-3 ${buttonBg} ${isGreen ? "hover:bg-amber-750" : ""}`}
+                      design="rounded"
+                    >
+                      {buttonText}
+                    </Button>
+                  </Link>
                 </div>
               </div>
             );
