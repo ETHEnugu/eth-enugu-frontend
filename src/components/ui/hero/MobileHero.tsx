@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function MobileHero() {
@@ -46,9 +47,11 @@ export default function MobileHero() {
       </section>
 
       <section className="w-max flex flex-col gap-4">
-        <Button type="button" variant="plain" design="rounded">
-          Register for event
-        </Button>
+        <Link href="/conference-application">
+          <Button type="button" variant="plain" design="rounded">
+            Register for event
+          </Button>
+        </Link>
         <Button
           type="button"
           variant="default"
