@@ -6,7 +6,7 @@ const banner = () => {
     {
       title: "2-weeks Builder’s Residency",
       description:
-        "The ETH Enugu Builder Residency is a 2-week in-person program for a select group of builders (developers, designers, founders, researchers, and creatives) who are passionate about Ethereum, Web3, or emerging technologies. Residents will live and work together in Enugu, collaborate on ideas and projects, engage with the local community through the Pop-Up, and get access to dedicated coworking space, curated sessions, mentorship, and possibly meals — all designed to help you build, learn, and grow with others.",
+        "The ETH Enugu Builder's Residency is a 2-week in-person program for a select group of builders (developers, designers, founders, researchers, and creatives) who are passionate about Ethereum, Web3, or emerging technologies. Residents will live and work together in Enugu, collaborate on ideas and projects, engage with the local community through the Pop-Up, and get access to dedicated coworking space, curated sessions, mentorship, and possibly meals — all designed to help you build, learn, and grow with others.",
       tags: [
         " Daily workshops & hands-on building time",
         "Access to top-tier mentors and community leaders",

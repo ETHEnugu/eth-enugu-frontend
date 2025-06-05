@@ -69,33 +69,37 @@ export default function MobileNav({
             transition={{ delay: 0.4 }}
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button type="button" variant="plain" design="rounded">
-                Register for event
-              </Button>
+              <Link href="conference-application">
+                <Button type="button" variant="plain" design="rounded">
+                  Register for event
+                </Button>
+              </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                type="button"
-                variant="default"
-                design="rounded"
-                className="flex items-center gap-3"
-                onClick={() => {
-                  router.push("/speaker-application");
-                  setIsOpen(false);
-                }}
-              >
-                Apply to Speak
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+              <Link href="speaker-application">
+                <Button
+                  type="button"
+                  variant="default"
+                  design="rounded"
+                  className="flex items-center gap-3"
+                  onClick={() => {
+                    router.push("/speaker-application");
+                    setIsOpen(false);
+                  }}
                 >
-                  <Icon
-                    icon="solar:arrow-right-linear"
-                    width={18}
-                    height={18}
-                  />
-                </motion.span>
-              </Button>
+                  Apply to Speak
+                  <motion.span
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <Icon
+                      icon="solar:arrow-right-linear"
+                      width={18}
+                      height={18}
+                    />
+                  </motion.span>
+                </Button>
+              </Link>
             </motion.div>
           </motion.section>
 

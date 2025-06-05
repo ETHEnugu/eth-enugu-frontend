@@ -4,7 +4,7 @@ const AboutSection = () => {
   const times = [
     {
       title: "2-Weeks",
-      description: "Builder Residency, A Populo City",
+      description: "Builder's Residency, A PopUp City",
       icon: "icon1",
     },
     { title: "5 Days", description: "Hackathon", icon: "icon2" },
