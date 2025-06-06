@@ -1,3 +1,4 @@
+"use client";
 import { Icon } from "@iconify/react";
 import { foot_nav, socials } from "./_data";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="tel:+234 XXX XXX XXXX"
+              href="tel:+234XXXXXXXXX"
               className="text-2xl md:text-4xl font-medium flex items-center text-center md:text-left gap-8"
             >
               +234 XXX XXX XXXX
