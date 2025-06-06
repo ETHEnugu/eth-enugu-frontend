@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import { Button } from "../common/button";
 import Image from "next/image";
@@ -9,6 +11,7 @@ interface ReusableHeroSectionProps {
   buttonText?: string | ReactNode;
   hasImage?: boolean;
   imageUrl?: string;
+  btnFunc?: () => void;
 }
 
 export default function ReusableHeroSection({
@@ -18,6 +21,7 @@ export default function ReusableHeroSection({
   buttonText = null,
   hasImage = false,
   imageUrl = "",
+  btnFunc,
 }: ReusableHeroSectionProps) {
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[50vh] bg-[url('/bg/hero_bg.svg')] bg-no-repeat bg-cover bg-center gap-6 text-center py-10 px-5">
@@ -49,6 +53,7 @@ export default function ReusableHeroSection({
 
           {hasButton && buttonText && (
             <Button
+              onClick={btnFunc}
               type="button"
               variant="plain"
               design="rounded"
