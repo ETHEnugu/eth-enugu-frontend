@@ -52,7 +52,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="font-sans px-6 py-4 text-dark/80 text-sm font-normal  ">
+            <div className="font-sans px-6 py-4 text-dark/80 font-normal text-base">
               {content}
             </div>
           </motion.div>

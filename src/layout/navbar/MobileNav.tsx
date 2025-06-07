@@ -9,9 +9,11 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function MobileNav({
   isOpen,
   setIsOpen,
+  onClick,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  onClick: () => void;
 }) {
   const router = useRouter();
 
@@ -69,11 +71,14 @@ export default function MobileNav({
             transition={{ delay: 0.4 }}
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link href="conference-application">
-                <Button type="button" variant="plain" design="rounded">
-                  Register for event
-                </Button>
-              </Link>
+              <Button
+                type="button"
+                variant="plain"
+                design="rounded"
+                onClick={onClick}
+              >
+                Register for event
+              </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link href="speaker-application">
