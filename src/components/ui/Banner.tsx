@@ -67,14 +67,14 @@ const banner = () => {
                 {/* MENTOR Background Text */}
                 <div className="absolute inset-0 flex justify-center items-center pointer-events-none z-0">
                   <h1
-                    className={`background-h1 opacity-10 align-middle font-pixelify select-none ${isGray ? "bg-gray-100" : " text-gray-100 "}`}
+                    className={`background-h1 opacity-5 align-middle font-pixelify select-none ${isGray ? "bg-gray-100" : " text-gray-100/60"}`}
                   >
                     MENTOR
                   </h1>
                 </div>
 
                 {/* Foreground content */}
-                <div className="relative z-10">
+                <div className="relative z-10 flex flex-col items-start">
                   <span className="md:text-5xl text-2xl font-bold mb-4">
                     {event.title}
                   </span>
@@ -100,7 +100,7 @@ const banner = () => {
                     </ul>
                   </div>
 
-                  <Link href={event.link}>
+                  <Link href={event.link} className="no-underline">
                     <Button
                       className={`flex items-center gap-3 ${buttonBg} ${isGreen ? "hover:bg-amber-750" : ""}`}
                       design="rounded"
