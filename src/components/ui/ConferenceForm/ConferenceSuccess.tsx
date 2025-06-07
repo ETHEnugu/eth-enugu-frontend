@@ -50,7 +50,6 @@ export default function ConferenceSuccess() {
                 WhatsApp Group
               </Link>
             </div>
-
             <div className="flex gap-1 mb-2">
               <Link
                 href="/generate-dp?from=conference"

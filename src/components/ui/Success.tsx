@@ -59,7 +59,7 @@ const Success = ({ title, content }: SuccessProps) => {
             href="/generate-dp"
             className="text-[var(--color-green-550)]  font-semibold"
           >
-            Create Your Conference DP
+            Create Your DP
           </Link>
         </div>
       </div>
