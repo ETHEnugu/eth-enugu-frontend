@@ -24,3 +24,7 @@ export const SPEAKER = {
   UPDATE_STATUS: "/speaker/status",
   DELETE: (id: string) => `/speaker/${id}`,
 };
+
+export const DP = {
+  CREATE: "/dp",
+};
