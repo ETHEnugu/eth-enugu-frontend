@@ -81,6 +81,10 @@ export default function PersonalDetailsTwo({
         <textarea
           {...register("expectedGains", {
             required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
           })}
           placeholder="Write here..."
           rows={4}
@@ -155,6 +159,10 @@ export default function PersonalDetailsTwo({
           className="w-full border rounded-lg px-4 py-3 text-lg"
           {...register("dietaryAccessibilityNeeds", {
             required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
           })}
         />
         {errors.dietaryAccessibilityNeeds && (
@@ -174,6 +182,10 @@ export default function PersonalDetailsTwo({
           className="w-full border rounded-lg px-4 py-3 text-lg"
           {...register("referralSource", {
             required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
           })}
         />
         {errors.referralSource && (

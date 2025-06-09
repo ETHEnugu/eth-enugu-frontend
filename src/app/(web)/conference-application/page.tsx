@@ -7,19 +7,18 @@ import PersonalDetailsOne from "@/components/ui/ConferenceForm/PersonalDetailsOn
 import PersonalDetailsTwo from "@/components/ui/ConferenceForm/PersonalDetailsTwo";
 import ScrollingText from "@/components/ui/Scrolling-text";
 import { CONFERENCE } from "@/config/ENDPOINTS";
+import { usePostMutation } from "@/hooks/useApi";
 import { ConferenceProps } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export default function Page() {
   const [currentStep, setCurrentStep] = useState(0);
   const router = useRouter();
   const FORM_KEY = "applicationForm";
-  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const {
     register,
@@ -88,30 +87,19 @@ export default function Page() {
     if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
-  const submitApplication = async (data: ConferenceProps) => {
-    const response = await fetch(`${BASE_URL}${CONFERENCE.CREATE}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+  const { mutate, isPending } = usePostMutation(
+    CONFERENCE.CREATE,
+    "create_conference"
+  );
+
+  const onSubmit = async (data: ConferenceProps) => {
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Conference/Summit form submitted successfully");
+        router.push("/application-success");
+        localStorage.removeItem(FORM_KEY);
+      },
     });
-    return response.json();
-  };
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: submitApplication,
-    onSuccess: (response) => {
-      toast.success("Success:", response);
-      localStorage.removeItem(FORM_KEY);
-      router.push("/application-success");
-    },
-    onError: (error) => {
-      console.error("Submission Failed", error);
-      toast.error("Something went Wrong. Please try again.");
-    },
-  });
-
-  const onSubmit: SubmitHandler<ConferenceProps> = async (data) => {
-    mutate(data);
   };
 
   return (
@@ -122,7 +110,7 @@ export default function Page() {
         {currentStep > 0 && (
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full max-w-[335px] md:w-1/2 md:max-w-none bg-[var(--background)] border border-black rounded-2xl flex flex-col gap-10 py-6 px-5 md:p-10"
+            className="w-full md:w-1/2 md:max-w-none bg-[var(--background)] border border-black rounded-2xl flex flex-col gap-10 py-6 px-5 md:p-10"
           >
             <div className="flex justify-between flex-col gap-4 md:flex-row items-center border-b border-gray-300 pb-6">
               <h3 className="text-[var(--color-amber-750)] custom-banner-heading ">

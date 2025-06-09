@@ -48,8 +48,7 @@ const PopupCityPage = () => {
         location: "",
         currentRole: "",
         web3Familiarity: "",
-        attendDay1: "",
-        attendDay2: "",
+        preferredDates: "",
         freeLunchConsideration: "",
         volunteeringInterest: "",
         dietaryAccessibilityNeeds: "",
@@ -106,8 +105,7 @@ const PopupCityPage = () => {
 
   const onSubmit = async (data: PopupCityProps) => {
     const stepTwoFields: (keyof PopupCityProps)[] = [
-      "attendDay1",
-      "attendDay2",
+      "preferredDates",
       "freeLunchConsideration",
       "volunteeringInterest",
       "dietaryAccessibilityNeeds",

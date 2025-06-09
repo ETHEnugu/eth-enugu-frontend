@@ -12,8 +12,15 @@ export const popupCityValidation: Yup.ObjectSchema<PopupCityProps> =
     location: Yup.string().required("Location is required"),
     currentRole: Yup.string().required("Current role is required"),
     web3Familiarity: Yup.string().required("Web3 familiarity is required"),
-    attendDay1: Yup.string().required("Attendance for Day 1 is required"),
-    attendDay2: Yup.string().required("Attendance for Day 2 is required"),
+    preferredDates: Yup.array()
+      .of(
+        Yup.string()
+          .required("Each date is required")
+          .matches(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
+      )
+      .min(1, "Select at least one date")
+      .required("Preferred dates are required"),
+
     freeLunchConsideration: Yup.string().required(
       "Lunch consideration is required"
     ),
