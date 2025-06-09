@@ -10,14 +10,30 @@ import { CONFERENCE } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { ConferenceProps } from "@/types";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-export default function Page() {
-  const [currentStep, setCurrentStep] = useState(0);
+export default function Conference() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full h-[50vh] ">
+          {" "}
+          <Spinner />{" "}
+        </div>
+      }
+    >
+      <Page />
+    </Suspense>
+  );
+}
+
+function Page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentStep = Number(searchParams.get("steps")) || 0;
   const FORM_KEY = "applicationForm";
 
   const {
@@ -50,7 +66,9 @@ export default function Page() {
   const formData = watch();
 
   const handleNext = async () => {
-    if (currentStep === 0) return setCurrentStep(1);
+    if (currentStep === 0) {
+      updateStepInURL(1);
+    }
 
     if (currentStep === 1) {
       const isStepValid = await trigger([
@@ -65,7 +83,7 @@ export default function Page() {
       setError("gender", { type: "required", message: "Gender is required" });
 
       if (isStepValid) {
-        setCurrentStep(2);
+        updateStepInURL(2);
       }
     }
   };
@@ -84,7 +102,7 @@ export default function Page() {
   }, [formData]);
 
   const handlePrev = () => {
-    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
+    if (currentStep > 0) updateStepInURL(currentStep - 1);
   };
 
   const { mutate, isPending } = usePostMutation(
@@ -102,6 +120,10 @@ export default function Page() {
     });
   };
 
+  const updateStepInURL = (step: number) => {
+    router.push(`?steps=${step}`);
+  };
+
   return (
     <>
       <section className="bg-[url('/conf-sumit-page-bg/AbstractBg.svg')] bg-no-repeat bg-cover min-h-[50vh] flex items-start justify-center py-[60px] px-5 md:py-20 md:px-16">
@@ -110,7 +132,7 @@ export default function Page() {
         {currentStep > 0 && (
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full md:w-1/2 md:max-w-none bg-[var(--background)] border border-black rounded-2xl flex flex-col gap-10 py-6 px-5 md:p-10"
+            className="w-full min-w-[300px] md:w-1/2 md:max-w-none bg-[var(--background)] border border-black rounded-2xl flex flex-col gap-10 py-6 px-5 md:p-10"
           >
             <div className="flex justify-between flex-col gap-4 md:flex-row items-center border-b border-gray-300 pb-6">
               <h3 className="text-[var(--color-amber-750)] custom-banner-heading ">

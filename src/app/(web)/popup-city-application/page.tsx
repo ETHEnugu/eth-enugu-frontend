@@ -17,7 +17,14 @@ import { toast } from "sonner";
 
 const PopupCity = () => {
   return (
-    <Suspense fallback={<div>Loading form...</div>}>
+    <Suspense
+      fallback={
+        <div className="w-full h-[50vh] ">
+          {" "}
+          <Spinner />{" "}
+        </div>
+      }
+    >
       <PopupCityPage />
     </Suspense>
   );
