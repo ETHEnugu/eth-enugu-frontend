@@ -42,6 +42,10 @@ export default function PersonalDetailsOne({
         placeholder="Full name"
         {...register("fullName", {
           required: "Your Full Name is required",
+          minLength: {
+            value: 3,
+            message: "Your response must be at least 3 characters long",
+          },
         })}
         error={errors.fullName?.message}
       />

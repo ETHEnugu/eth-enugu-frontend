@@ -17,7 +17,14 @@ import { toast } from "sonner";
 
 const PopupCity = () => {
   return (
-    <Suspense fallback={<div>Loading form...</div>}>
+    <Suspense
+      fallback={
+        <div className="w-full h-[50vh] ">
+          {" "}
+          <Spinner />{" "}
+        </div>
+      }
+    >
       <PopupCityPage />
     </Suspense>
   );
@@ -48,8 +55,7 @@ const PopupCityPage = () => {
         location: "",
         currentRole: "",
         web3Familiarity: "",
-        attendDay1: "",
-        attendDay2: "",
+        preferredDates: "",
         freeLunchConsideration: "",
         volunteeringInterest: "",
         dietaryAccessibilityNeeds: "",
@@ -106,8 +112,7 @@ const PopupCityPage = () => {
 
   const onSubmit = async (data: PopupCityProps) => {
     const stepTwoFields: (keyof PopupCityProps)[] = [
-      "attendDay1",
-      "attendDay2",
+      "preferredDates",
       "freeLunchConsideration",
       "volunteeringInterest",
       "dietaryAccessibilityNeeds",
