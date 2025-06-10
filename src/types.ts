@@ -130,8 +130,7 @@ export interface PopupCityProps {
   location: string | number | boolean;
   currentRole: string | number | boolean;
   web3Familiarity: string | number | boolean;
-  attendDay1: string | number | boolean;
-  attendDay2: string | number | boolean;
+  preferredDates: string[] | null;
   freeLunchConsideration: string | number | boolean;
   volunteeringInterest: string | number | boolean;
   dietaryAccessibilityNeeds: string | number | boolean;

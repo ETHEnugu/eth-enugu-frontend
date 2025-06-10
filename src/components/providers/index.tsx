@@ -9,7 +9,7 @@ export default function Providers({
   return (
     <>
       <NextQueryProvider>
-        <Toaster position="top-center" closeButton />
+        <Toaster position="bottom-right" closeButton />
         {children}
       </NextQueryProvider>
     </>
