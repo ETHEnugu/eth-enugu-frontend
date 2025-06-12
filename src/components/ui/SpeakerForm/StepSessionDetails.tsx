@@ -5,6 +5,7 @@ import FormInput from "@/components/common/form/FormInput";
 import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 import { Icon } from "@iconify/react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface StepSessionDetailsProps {
   onBack: () => void;
@@ -167,14 +168,44 @@ const StepSessionDetails = ({
       {/* Setup Requirements */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Do you need any specific setup or tools? (Optional)
+          <p>
+            {" "}
+            As the dates draw near, it is also likely that the topic you submit
+            might be adjusted a bit to align more with the event&apos;s focus.
+            We will however send you a message if you are approved to speak or
+            mentor.
+          </p>
+          <br />
+
+          <span className="my-3"> Are you comfortable with this?</span>
         </label>
-        <textarea
-          {...register("setupRequirements")}
-          placeholder="Write here..."
-          rows={4}
-          className="w-full border rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-        />
+
+        <RadioGroup
+          defaultValue=""
+          onValueChange={(value) => console.log(value)}
+          {...register("spApplicationType", {
+            required: "Please select a category",
+          })}
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option1" id="option1" />
+            <label htmlFor="option1">
+              Yes, I am flexible and open to having the topic adjusted if need
+              be
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option2" id="option2" />
+            <label htmlFor="option2">
+              No, I can only speak/mentor on the topic I entered{" "}
+            </label>
+          </div>
+        </RadioGroup>
+        <p className="text-red-500 text-sm mt-1">
+          {" "}
+          {errors.spApplicationType?.message}{" "}
+        </p>
+
         {errors.setupRequirements && (
           <p className="text-red-500 text-sm mt-1">
             {errors.setupRequirements.message}

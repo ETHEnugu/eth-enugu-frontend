@@ -4,6 +4,10 @@ import { Button } from "@/components/common/button";
 import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 import { Icon } from "@iconify/react";
+import Spinner from "@/components/common/spinner";
+import { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface StepOtherInfoProps {
   onBack: () => void;
@@ -16,21 +20,15 @@ interface StepOtherInfoProps {
   isValid?: boolean; // Added validation prop
 }
 
-const arrivalDateOptions = [
-  { label: "June 14, 2025", value: "2025-06-14" },
-  { label: "June 15, 2025", value: "2025-06-15" },
-  { label: "June 16, 2025", value: "2025-06-16" },
-];
-
 const yesNoOptions = [
   { label: "Yes", value: "true" },
   { label: "No", value: "false" },
 ];
 
 const communityOptions = [
-  { label: "Yes, I'd like to join", value: "WANTS_TO_JOIN" },
+  { label: "Yes, I'd like to join", value: "YES" },
   { label: "Already a member", value: "ALREADY_MEMBER" },
-  { label: "Not interested", value: "NOT_INTERESTED" },
+  { label: "Not interested", value: "NO" },
 ];
 
 const StepOtherInfo = ({
@@ -54,6 +52,40 @@ const StepOtherInfo = ({
     onSubmit();
   };
 
+  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+
+  const minDate = new Date("2025-08-04");
+  const maxDate = new Date("2025-08-16");
+
+  const handleDateChange = (date: Date | null) => {
+    if (!date) return;
+
+    setSelectedDates((prevDates) => {
+      const dateExists = prevDates.some(
+        (d) => d.toDateString() === date.toDateString()
+      );
+      const updatedDates = dateExists
+        ? prevDates.filter((d) => d.toDateString() !== date.toDateString())
+        : [...prevDates, date];
+
+      const formatted = updatedDates.map((d) => d.toISOString().split("T")[0]);
+      setValue("expectedArrivalDate", formatted, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+
+      return updatedDates;
+    });
+  };
+
+  const clearAllDates = () => {
+    setSelectedDates([]);
+    setValue("expectedArrivalDate", [], {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
   return (
     <div className="space-y-7">
       {/* Expected Arrival Date */}
@@ -62,17 +94,49 @@ const StepOtherInfo = ({
           When do you expect to arrive in Enugu?{" "}
           <span className="text-red-500">*</span>
         </label>
-        <Dropdown
-          placeholder="Select or type date - e.g. 2025-06-14, 2025-06-15, 2025-06-16"
-          onValueChange={(selected) =>
-            setValue("expectedArrivalDate", selected.value.toString(), {
-              shouldValidate: true,
-            })
-          }
-          className="text-dark"
-          options={arrivalDateOptions}
-          isTypeable={true}
+
+        <DatePicker
+          selected={null}
+          onChange={handleDateChange}
+          minDate={minDate}
+          maxDate={maxDate}
+          placeholderText="Click to select multiple dates"
+          className="block w-full border rounded-lg px-4 py-3 text-lg cursor-pointer"
+          wrapperClassName="w-full"
         />
+
+        {selectedDates.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="font-medium text-dark">Selected Dates:</p>
+              <button
+                type="button"
+                onClick={clearAllDates}
+                className="text-red-500 text-sm hover:text-red-700"
+              >
+                Clear All
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {selectedDates.map((date, index) => (
+                <div
+                  key={index}
+                  className="bg-orange-200 text-orange-500 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                >
+                  <span>{date.toDateString()}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleDateChange(date)}
+                    className="text-orange-500 hover:text-orange-700 font-bold cursor-pointer"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {errors.expectedArrivalDate && (
           <p className="text-red-500 text-sm mt-1">
             {errors.expectedArrivalDate.message}
@@ -84,8 +148,9 @@ const StepOtherInfo = ({
       <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
         <p className="block text-base font-medium mb-1">
           <span className="text-green-550 font-bold">Note:</span> While we may
-          not be able to cover travel or accommodation for speakers, we&apos;d
-          still love to host you if you&apos;re able to attend.
+          not be able to cover travel or full accommodation for speakers and
+          mentors, we&apos;d still love to host you if you&apos;re able to
+          attend.
         </p>
       </div>
 
@@ -184,8 +249,7 @@ const StepOtherInfo = ({
           <span className="flex items-center gap-2">
             {isSubmitting ? (
               <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Submitting...
+                <Spinner />
               </>
             ) : (
               <>

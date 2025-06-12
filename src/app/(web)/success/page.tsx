@@ -2,10 +2,11 @@
 import { useSearchParams } from "next/navigation";
 import Success from "@/components/ui/Success";
 import { Suspense } from "react";
+import Spinner from "@/components/common/spinner";
 
 const SuccessPage = () => {
   return (
-    <Suspense fallback={<div>Loading form...</div>}>
+    <Suspense fallback={<Spinner />}>
       <SuccessP />
     </Suspense>
   );

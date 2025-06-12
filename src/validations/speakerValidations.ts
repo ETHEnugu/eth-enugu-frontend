@@ -102,11 +102,18 @@ export const speakerValidation = yup.object().shape({
     .min(50, "Talk description must be at least 50 characters")
     .max(2000, "Talk description must not exceed 2000 characters"),
 
+  spApplicationType: yup.string().trim().required("Please select a category"),
   // Other Information
   expectedArrivalDate: yup
-    .string()
-    .required("Expected arrival date is required")
-    .matches(/^\d{4}-\d{2}-\d{2}$/, "Please enter a valid date"),
+    .array()
+    .of(
+      yup
+        .string()
+        .required("Each date is required")
+        .matches(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
+    )
+    .min(1, "Select at least one date")
+    .required("Preferred dates are required"),
 
   willingToSpeakWithoutSupport: yup
     .boolean()
@@ -123,9 +130,6 @@ export const speakerValidation = yup.object().shape({
     .string()
     .optional()
     .nullable()
-    .oneOf(
-      ["WANTS_TO_JOIN", "ALREADY_MEMBER", "NOT_INTERESTED", ""],
-      "Invalid community preference"
-    )
+    .oneOf(["YES", "ALREADY_MEMBER", "NO", ""], "Invalid community preference")
     .transform((value) => value || undefined),
 });

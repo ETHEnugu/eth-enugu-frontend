@@ -1,12 +1,20 @@
 "use client";
 import Dropdown from "@/components/common/dropdown";
+import FormInput from "@/components/common/form/FormInput";
 import { BuildersResidencyProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import { useEffect } from "react";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  FieldErrors,
+  UseFormWatch,
+} from "react-hook-form";
 
 interface StepTwoInfoProps {
   register: UseFormRegister<BuildersResidencyProps>;
   errors: FieldErrors<BuildersResidencyProps>;
   setValue: UseFormSetValue<BuildersResidencyProps>;
+  watch: UseFormWatch<BuildersResidencyProps>;
 }
 
 const roleOptions = [
@@ -22,7 +30,23 @@ const buildOptions = [
   { label: "No", value: false },
 ];
 
-const BStepTwoDetails = ({ register, errors, setValue }: StepTwoInfoProps) => {
+const BStepTwoDetails = ({
+  register,
+  errors,
+  setValue,
+  watch,
+}: StepTwoInfoProps) => {
+  const primaryRole = watch("primaryRole");
+
+  useEffect(() => {
+    if (primaryRole && primaryRole !== "OTHER") {
+      setValue("otherPrimaryRole", "", {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
+    }
+  }, [primaryRole, setValue]);
+
   return (
     <div className="space-y-7">
       <div>
@@ -47,14 +71,36 @@ const BStepTwoDetails = ({ register, errors, setValue }: StepTwoInfoProps) => {
         )}
       </div>
 
+      {primaryRole === "OTHER" && (
+        <FormInput
+          type="text"
+          label="Please enter your primary role"
+          placeholder="e.g. Community Manager"
+          {...register("otherPrimaryRole", {
+            required: "Please enter your role",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 10 characters long",
+            },
+          })}
+          error={errors.otherPrimaryRole?.message}
+        />
+      )}
+
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           Share a bit about your background and skills
         </label>
         <textarea
-          {...register("backgroundAndSkills")}
+          {...register("backgroundAndSkills", {
+            required: "Please fill in this form ",
+            minLength: {
+              value: 10,
+              message: "Your repsonse must be at least 10 characters",
+            },
+          })}
           placeholder="Write here..."
-          rows={3}
+          rows={4}
           className="w-full border rounded-lg px-4 py-3 text-lg"
         />
         {errors.backgroundAndSkills && (

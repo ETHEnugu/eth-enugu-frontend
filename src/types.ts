@@ -100,10 +100,11 @@ export interface SpeakerProps {
   talkDescription: string;
 
   // Other Information
-  expectedArrivalDate: string;
+  expectedArrivalDate: string[] | null;
   willingToSpeakWithoutSupport: boolean;
   referralSource?: string | null;
   joinOnlineCommunity?: string;
+  spApplicationType: string;
 }
 
 export interface ConferenceProps {
@@ -120,6 +121,7 @@ export interface ConferenceProps {
   dietaryAccessibilityNeeds: string;
   referralSource: string;
   joinOnlineCommunity: string | number | boolean;
+  otherRole: string;
 }
 
 export interface PopupCityProps {
@@ -129,6 +131,7 @@ export interface PopupCityProps {
   whatsappNumber: string;
   location: string | number | boolean;
   currentRole: string | number | boolean;
+  otherCurrentRole: string;
   web3Familiarity: string | number | boolean;
   preferredDates: string[] | null;
   freeLunchConsideration: string | number | boolean;
@@ -159,4 +162,5 @@ export interface BuildersResidencyProps {
   dietaryAccessibilityNeeds: string | number | boolean;
   referralSource: string | number | boolean;
   joinOnlineCommunity: string | number | boolean;
+  otherPrimaryRole: string;
 }

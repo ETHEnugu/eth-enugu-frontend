@@ -15,6 +15,16 @@ export default function ConferenceSuccess() {
             Thanks for registering for the ETH Enugu ‘25 Conference/Summit.
             You’ll receive updates via email or WhatsApp.
           </p>
+
+          <div className="flex gap-1 mb-2">
+            <Link
+              href="/generate-dp?from=conference"
+              className="text-[var(--color-green-550)] font-semibold"
+            >
+              Click to generate your DP
+            </Link>
+          </div>
+
           <p className="font-medium text-[var(--color-dark)">
             Join the ETH Enugu Telegram & Whatsapp community to stay in the loop
             and connect with others before the event:
@@ -48,14 +58,6 @@ export default function ConferenceSuccess() {
                 className="text-green-550 underline"
               >
                 WhatsApp Group
-              </Link>
-            </div>
-            <div className="flex gap-1 mb-2">
-              <Link
-                href="/generate-dp?from=conference"
-                className="text-[var(--color-green-550)] font-semibold"
-              >
-                Create Your Conference DP
               </Link>
             </div>
           </div>

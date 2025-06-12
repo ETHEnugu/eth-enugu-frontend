@@ -75,21 +75,29 @@ const SpeakerApplicationForm = () => {
       setupRequirements: "",
       talkTitle: "",
       talkDescription: "",
-      expectedArrivalDate: "",
+      expectedArrivalDate: [],
       willingToSpeakWithoutSupport: false,
       referralSource: "",
       joinOnlineCommunity: "",
+      spApplicationType: "",
     },
   });
 
   const formData = watch();
+  console.log(formData);
 
   // Enhanced navigation with validation
   const handleNext = async () => {
     let fieldsToValidate: (keyof SpeakerProps)[] = [];
 
     if (currentStep === 0) {
-      fieldsToValidate = ["fullName", "email", "whatsappNumber", "location"];
+      fieldsToValidate = [
+        "fullName",
+        "email",
+        "whatsappNumber",
+        "location",
+        "spApplicationType",
+      ];
     } else if (currentStep === 1) {
       fieldsToValidate = [
         "sessionType",
@@ -173,7 +181,8 @@ const SpeakerApplicationForm = () => {
           formData.fullName &&
           formData.email &&
           formData.whatsappNumber &&
-          formData.location
+          formData.location &&
+          formData.spApplicationType
         );
       case 1:
         return !!(

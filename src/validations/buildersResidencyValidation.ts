@@ -32,6 +32,9 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
             ? false
             : value
       ),
+
+    otherPrimaryRole: Yup.string().required("Please fill in this form"),
+
     joinReason: Yup.string().required("Tell us why you want to join"),
     projectInterest: Yup.string().required(
       "Share the kind of project you’re interested in"

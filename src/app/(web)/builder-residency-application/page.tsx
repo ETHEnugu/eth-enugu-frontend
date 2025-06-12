@@ -69,6 +69,7 @@ const BuildersResidencyPage = () => {
         dietaryAccessibilityNeeds: "",
         referralSource: "",
         joinOnlineCommunity: false,
+        otherPrimaryRole: "",
       };
 
   const methods = useForm<BuildersResidencyProps>({
@@ -82,6 +83,7 @@ const BuildersResidencyPage = () => {
     handleSubmit,
     setValue,
     trigger,
+    watch,
     formState: { errors },
   } = methods;
 
@@ -118,6 +120,7 @@ const BuildersResidencyPage = () => {
     } else if (currentStep == 2) {
       const stepTwoFields: (keyof BuildersResidencyProps)[] = [
         "primaryRole",
+        "otherPrimaryRole",
         "backgroundAndSkills",
         "currentlyBuilding",
         "previousBuilderPrograms",
@@ -149,14 +152,11 @@ const BuildersResidencyPage = () => {
     if (isValid) {
       mutate(data, {
         onSuccess: () => {
+          console.log(data);
           toast.success("Builders Residency form submitted succefully");
           router.replace("/success?form=builders");
           methods.reset();
           localStorage.removeItem("BuildersResidencyFormData");
-        },
-        onError: (error) => {
-          console.error("Submission Failed", error.message);
-          toast.error(error.message);
         },
       });
     }
@@ -165,6 +165,9 @@ const BuildersResidencyPage = () => {
   const updateStepInURL = (step: number) => {
     router.push(`?step=${step}`);
   };
+
+  const formValues = watch();
+  console.log(formValues);
 
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
@@ -205,6 +208,7 @@ const BuildersResidencyPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
               />
             )}
 

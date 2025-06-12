@@ -14,7 +14,16 @@ const Success = ({ title, content }: SuccessProps) => {
         </div>
 
         <div className="text-dark mb-6 text-left">
-          <p className="mb-4">{content}</p>
+          <p className="mb-2">{content}</p>
+
+          <div className="flex gap-1 mb-2">
+            <Link
+              href="/generate-dp"
+              className="text-[var(--color-green-550)]  font-semibold mb-4"
+            >
+              Click to create your DP
+            </Link>
+          </div>
 
           <p className="mb-4">
             Join the ETH Enugu Telegram & WhatsApp community to stay in the loop
@@ -51,15 +60,6 @@ const Success = ({ title, content }: SuccessProps) => {
             className="text-green-550 underline"
           >
             WhatsApp Group
-          </Link>
-        </div>
-
-        <div className="flex gap-1 mb-2">
-          <Link
-            href="/generate-dp"
-            className="text-[var(--color-green-550)]  font-semibold"
-          >
-            Create Your DP
           </Link>
         </div>
       </div>

@@ -13,12 +13,6 @@ const volunteerOptions = [
   { label: "Yes", value: true },
   { label: "No", value: false },
 ];
-
-const projectOptions = [
-  { label: "Yes", value: "YES" },
-  { label: "No", value: "NO" },
-];
-
 const openOptions = [
   { label: "Yes", value: true },
   { label: "No", value: false },
@@ -41,7 +35,12 @@ const BStepThreeDetails = ({
           Why do you want to join the ETH Enugu Residency?
         </label>
         <textarea
-          {...register("joinReason")}
+          {...register("joinReason", {
+            minLength: {
+              value: 10,
+              message: "Your response must be at least 3 characters long",
+            },
+          })}
           placeholder="Write here..."
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
@@ -57,17 +56,20 @@ const BStepThreeDetails = ({
         <label className="block font-bold text-dark text-base mb-1">
           What would you like to work on during the residency?
         </label>
-        <Dropdown
-          placeholder="Select Option"
-          onValueChange={(selected) =>
-            setValue("projectInterest", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          className="text-dark"
-          options={projectOptions}
+
+        <textarea
+          placeholder="Write here..."
+          rows={4}
+          className="w-full border rounded-lg px-4 py-3 text-lg"
+          {...register("projectInterest", {
+            required: "Please fill in this field",
+            minLength: {
+              value: 10,
+              message: "Your response must be at least 3 characters long",
+            },
+          })}
         />
+
         {errors.projectInterest && (
           <p className="text-red-500 text-sm mt-1">
             {errors.projectInterest.message}

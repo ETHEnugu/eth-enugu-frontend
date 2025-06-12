@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import { SpeakerProps } from "@/types";
 import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
 import { Icon } from "@iconify/react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<SpeakerProps>;
@@ -36,6 +37,7 @@ const StepPersonalInfo = ({
         {...register("fullName")}
         error={errors.fullName?.message}
         required
+        isRequired={true}
       />
 
       <FormInput
@@ -48,12 +50,13 @@ const StepPersonalInfo = ({
       />
 
       <FormInput
-        label="WhatsApp Phone Number"
+        label=" Phone Number"
         placeholder="+234 XXXX XXX XXX"
         type="tel"
         {...register("whatsappNumber")}
         error={errors.whatsappNumber?.message}
         required
+        isRequired={true}
       />
 
       <div>
@@ -82,6 +85,7 @@ const StepPersonalInfo = ({
         type="url"
         {...register("twitterProfile")}
         error={errors.twitterProfile?.message}
+        isRequired={true}
       />
 
       <FormInput
@@ -92,13 +96,49 @@ const StepPersonalInfo = ({
         error={errors.linkedinProfile?.message}
       />
 
-      <FormInput
+      {/* <FormInput
         label="Website"
         placeholder="Enter the URL of your website"
         type="url"
         {...register("website")}
         error={errors.website?.message}
-      />
+      /> */}
+
+      <div>
+        <p className="block font-bold text-dark text-base mb-1">
+          Are you applying to mentor during the Pop-up city OR speak on the
+          Conf/Summit day? <span className="text-red-500">*</span>{" "}
+        </p>
+
+        <RadioGroup
+          defaultValue=""
+          onValueChange={(value) => console.log(value)}
+          {...register("spApplicationType", {
+            required: "Please select a category",
+          })}
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option1" id="option1" />
+            <label htmlFor="option1">
+              Mentor on any of the days during the Pop-up city (Aug 4th-15th)
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option2" id="option2" />
+            <label htmlFor="option2">
+              Speak on the Conf/Summit day (Aug 16th)
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option3" id="option3" />
+            <label htmlFor="option3">Both</label>
+          </div>
+        </RadioGroup>
+        <p className="text-red-500 text-sm mt-1">
+          {" "}
+          {errors.spApplicationType?.message}{" "}
+        </p>
+      </div>
 
       <Button
         type="button"
