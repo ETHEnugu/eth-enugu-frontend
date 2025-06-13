@@ -4,6 +4,7 @@ import { Button } from "../common/button";
 import Image from "next/image";
 import LinksDisplayModal from "@/layout/navbar/LinksDisplayModal";
 import { useState } from "react";
+import { Icon } from "@iconify/react";
 
 const Banner = () => {
   const events = [
@@ -21,11 +22,11 @@ const Banner = () => {
       ],
       attachments: {
         particpants: {
-          icon: "",
+          icon: "formkit:people",
           number: 50,
         },
         duration: {
-          icon: "",
+          icon: "cuida:calendar-outline",
           number: "04 - 15 AUG",
         },
       },
@@ -36,7 +37,7 @@ const Banner = () => {
     {
       title: "EthEnugu '25 Pop-Up City",
       description:
-        "The pop up is different from the residency, there&apos;s no accomodation, Open to students, designers, developers, or any curious mind. you can come from your home each day",
+        "The pop up is different from the residency, there's no accomodation, Open to students, designers, developers, or any curious mind. you can come from your home each day",
       tags: [
         "Meet & Build alongside participants of the ETH Enugu builder residency",
         "Open to both local residents and international participants",
@@ -81,7 +82,7 @@ const Banner = () => {
         "On Ecosystem Day, we shine a light on all thriving non-EVM ecosystem. This day is about learning, unlearning, and collaboration",
       tags: ["Unique Strengths", "Tools", "Collaboration", "Learning"],
       link: "",
-      image: "/banner/conference.jpg",
+      image: "/banner/ecosystem.png",
       rotate: 6,
     },
   ];
@@ -146,11 +147,11 @@ const Banner = () => {
                         {event.description}
                       </p>
 
-                      <section>
+                      <section className="flex flex-col md:flex-row items-start gap-4">
                         <ul
                           className={`flex flex-col gap-4 mb-6 w-fit ${
                             isGray ? "bg-black/20" : "bg-black/10 text-white"
-                          } rounded-md p-6 text-sm inline-block`}
+                          } rounded-md p-6 text-base inline-block`}
                         >
                           {event.tags.map((tag, i) => (
                             <li
@@ -167,6 +168,41 @@ const Banner = () => {
                             </li>
                           ))}
                         </ul>
+
+                        {event?.attachments && (
+                          <aside className="w-full md:w-84 space-y-4 bg-black/20 p-6 rounded-2xl">
+                            <h4>Audience Forecast</h4>
+                            <div className="bg-black/10 p-4 rounded-2xl text-amber-400">
+                              Participants: <br />
+                              <span className="flex items-center gap-2 text-white">
+                                <Icon
+                                  icon={
+                                    event?.attachments?.particpants
+                                      ?.icon as string
+                                  }
+                                  width={24}
+                                  height={24}
+                                />
+                                <h2>
+                                  {event?.attachments?.particpants?.number}
+                                </h2>
+                              </span>
+                            </div>
+                            <div className="bg-black/10 p-4 rounded-2xl text-amber-400">
+                              Duration: <br />
+                              <span className="flex items-center gap-2 text-white">
+                                <Icon
+                                  icon={
+                                    event?.attachments?.duration?.icon as string
+                                  }
+                                  width={24}
+                                  height={24}
+                                />
+                                <h2>{event?.attachments?.duration?.number}</h2>
+                              </span>
+                            </div>
+                          </aside>
+                        )}
                       </section>
                     </aside>
                     <aside className="w-full md:w-[45%] h-full ml-auto">
