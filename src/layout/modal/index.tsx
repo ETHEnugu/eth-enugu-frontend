@@ -43,7 +43,7 @@ const Modal = ({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
-            className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] max-w-2xl min-h-[200px] max-h-[90vh] bg-white rounded-xl shadow-xl z-50 flex flex-col"
+            className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%] max-w-3xl min-h-[200px] max-h-[95vh] bg-white rounded-xl shadow-xl z-50 flex flex-col"
             role="document"
           >
             {/* Header */}

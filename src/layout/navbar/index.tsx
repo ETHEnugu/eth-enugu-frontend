@@ -71,7 +71,7 @@ export default function Navbar() {
               design="rounded"
               className="flex items-center gap-3"
             >
-              Apply to Speak
+              Apply to Mentor/Speak
               <Icon icon="solar:arrow-right-linear" width={18} height={18} />
             </Button>
           </Link>
