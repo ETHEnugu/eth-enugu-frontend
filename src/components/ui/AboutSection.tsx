@@ -22,14 +22,14 @@ const AboutSection = () => {
         <h2 className="text-2xl font-bold text-center text-green-550 mb-4">
           About EthEnugu &lsquo;25
         </h2>
-        <p className="text-dark text-center md:text-left text-lg mb-6">
+        <p className="text-dark text-center md:text-left text-lg mb-6 max-md:text-justify">
           Nestled in the hills of southeastern Nigeria, Enugu—fondly known as
           The Coal City—has long been a symbol of resilience, heritage, and
           innovation. From its colonial-era coal mines to its bustling streets
           filled with Igbo art, tech startups, and spirited youth, Enugu stands
           as a city rich in culture and ambition.
         </p>
-        <p className="text-dark text-center md:text-left text-lg mx-auto">
+        <p className="text-dark text-center md:text-left text-lg mx-auto max-md:text-justify">
           EthEnugu is where this spirit meets the future. It&lsquo;s more than
           an event-it&lsquo;s an experience connecting Enugu&lsquo;s vibrant
           energy with the decentralized world of Ethereum & L2s. Here, builders,

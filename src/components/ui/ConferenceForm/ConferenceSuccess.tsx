@@ -64,6 +64,14 @@ export default function ConferenceSuccess() {
                 WhatsApp Group
               </Link>
             </div>
+            <div className="flex gap-1 mb-2">
+              <Link
+                href="/generate-dp?from=conference"
+                className="text-[var(--color-green-550)] font-semibold"
+              >
+                Create Your Conference DP
+              </Link>
+            </div>
           </div>
         </div>
       </div>

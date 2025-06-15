@@ -117,7 +117,7 @@ export default function MobileNav({
                     setIsOpen(false);
                   }}
                 >
-                  Apply to Speak
+                  Apply to Mentor/Speak
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}

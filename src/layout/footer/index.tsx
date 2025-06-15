@@ -2,8 +2,16 @@
 import { Icon } from "@iconify/react";
 import { foot_nav, socials } from "./_data";
 import Link from "next/link";
+import { useState } from "react";
+import LinksDisplayModal from "../navbar/LinksDisplayModal";
 
 export default function Footer() {
+  const [show, setShow] = useState<boolean>(false);
+
+  const handleToggelModal = () => {
+    setShow((prev) => !prev);
+  };
+
   return (
     <footer className="w-full bg-dark pt-20">
       <section role="group" className="bg-dark px-8 flex flex-col gap-5">
@@ -25,22 +33,9 @@ export default function Footer() {
                 color="#F08803"
               />
             </Link>
-
-            <Link
-              href="tel:+234XXXXXXXXX"
-              className="text-2xl md:text-4xl font-medium flex items-center text-center md:text-left gap-8"
-            >
-              +234 XXX XXX XXXX
-              <Icon
-                icon="bitcoin-icons:arrow-right-outline"
-                width={18}
-                height={18}
-                color="#F08803"
-              />
-            </Link>
           </aside>
 
-          <menu className="flex flex-col md:flex-row items-start gap-8">
+          <menu className="w-max flex flex-col md:flex-row md:items-start gap-8">
             {Object.entries(foot_nav).map(([key, value], idx) => (
               <div
                 key={idx}
@@ -51,9 +46,19 @@ export default function Footer() {
                 </span>
                 {value.map((item, index) => (
                   <Link
-                    href={item.link}
+                    href={item.title === "Get a Ticket" ? "" : item.link}
                     key={index}
                     className="w-max text-gray-400 hover:text-white"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      if (item.title === "Get a Ticket") {
+                        handleToggelModal();
+                      } else {
+                        return null;
+                      }
+                    }}
                   >
                     {item.title}
                   </Link>
@@ -81,14 +86,16 @@ export default function Footer() {
         </div>
       </section>
 
-      <section
+      {/* <section
         role="banner"
         className="relative w-full h-32 md:h-62 bg-green-750 text-white flex justify-center overflow-hidden"
       >
         <span className="absolute text-[6em] md:text-[20em] font-bold mx-auto mt-12 md:mt-0">
           ETH ENUGU
         </span>
-      </section>
+      </section> */}
+
+      <LinksDisplayModal isOpen={show} onClose={handleToggelModal} />
     </footer>
   );
 }
