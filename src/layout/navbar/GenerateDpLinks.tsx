@@ -27,7 +27,7 @@ export default function GenerateDpLinks({
         >
           Generate DP
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-white p-3 z-50 border-[1px] rounded-sm mt-[-10px] md:mt-4 ">
+        <DropdownMenuContent className="bg-white p-3 z-50 border-[1px] rounded-sm mt-[-10px] md:mt-2 ">
           <Link onClick={() => onClick?.(false)} href={"/generate-dp"}>
             {" "}
             <DropdownMenuItem className="border-0 outline-0 cursor-pointer transition-colors duration-200 hover:text-green-550 my-0.5  ">

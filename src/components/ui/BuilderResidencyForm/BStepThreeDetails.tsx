@@ -16,7 +16,6 @@ const openOptions = [
   },
   { label: "No, I am not open to it", value: false },
 ];
-// fix this to the Dropdown,
 
 const BStepThreeDetails = ({
   register,

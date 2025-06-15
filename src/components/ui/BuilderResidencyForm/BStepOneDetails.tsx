@@ -15,6 +15,7 @@ import {
 import { State } from "country-state-city";
 import Spinner from "@/components/common/spinner";
 import { Checkbox } from "../checkbox";
+import { rolesOptions } from "@/data/roles";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<BuildersResidencyProps>;
@@ -39,7 +40,7 @@ const BStepOneDetails = ({
   const options = useMemo(() => countryOptions, []);
 
   const watchedCountry = watch("country");
-  const [stateOptions, setStatesOptions] = useState<DropdownOption[]>([]);
+  const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
 
   useEffect(() => {
     if (watchedCountry) {
@@ -62,65 +63,6 @@ const BStepOneDetails = ({
       }
     }
   }, [watchedCountry, setValue]);
-
-  const roleDescriptionOptions = [
-    {
-      label: "    Blockchain Developer/Engineer",
-      value: "BLOCKCHAIN_DEVELOPER_ENGINEER",
-    },
-    {
-      label: "Core Protocol Engineer",
-      value: "CORE_PROTOCOL_ENGINEER",
-    },
-    {
-      label: "  Frontend, Backend or Fullstack Developer",
-      value: "FRONTEND_BACKEND_FULLSTACK_DEVELOPER",
-    },
-    {
-      label: "Technical Writer",
-      value: "TECHNICAL_WRITER",
-    },
-    {
-      label: "Researchers",
-      value: "RESEARCHERS",
-    },
-    {
-      label: "Node runners and Operators",
-      value: "NODE_RUNNERS_AND_OPERATORS",
-    },
-    {
-      label: "Web3 Security and Auditors",
-      value: "WEB3_SECURITY_AND_AUDITORS",
-    },
-    {
-      label: "General Blockchain/Crypto Ethusiast",
-      value: "GENERAL_BLOCKCHAIN_CRYPTO_ETHUSIAST",
-    },
-    {
-      label: "Content Creators & Content Writers",
-      value: "CONTENT_CREATORS_&_CONTENT_WRITERS",
-    },
-    {
-      label: "UI/UX & Creative designers",
-      value: "UI/UX_&_CREATIVE_DESIGNERS",
-    },
-    {
-      label: "Community/Social Media Manager",
-      value: "COMMUNITY/SOCIAL_MEDIA_MANAGER",
-    },
-    {
-      label: "Web3 Community Leader",
-      value: "WEB3_COMMUNITY_LEADER",
-    },
-    {
-      label: "Crypto Traders/Degens",
-      value: "CRYPTO_TRADERS/DEGENS",
-    },
-    {
-      label: "Other",
-      value: "OTHER",
-    },
-  ];
 
   const watchedRole = watch("role");
 
@@ -222,22 +164,27 @@ const BStepOneDetails = ({
           <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
             Please select a country first
           </div>
-        ) : stateOptions.length === 0 ? (
+        ) : statesOptions.length === 0 ? (
           <Spinner />
         ) : (
-          <Dropdown
-            key={watchedCountry}
-            placeholder="State of residence"
-            onValueChange={(selected) =>
-              setValue("state", selected.value.toString(), {
-                shouldValidate: true,
-                shouldDirty: true,
-              })
-            }
-            className="text-dark"
-            options={stateOptions}
-            isTypeable={true}
-            {...register("state", { required: "Please select a state" })}
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Dropdown
+                key={watchedCountry}
+                placeholder="State of residence"
+                onValueChange={(selected) => {
+                  field.onChange(selected.value);
+                  setValue("state", selected.value.toString(), {
+                    shouldValidate: true,
+                  });
+                }}
+                className="text-dark"
+                options={statesOptions}
+                isTypeable={true}
+              />
+            )}
           />
         )}
         {errors.state && (
@@ -263,7 +210,7 @@ const BStepOneDetails = ({
           defaultValue={[]}
           render={({ field }) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
-              {roleDescriptionOptions.map((role, index) => {
+              {rolesOptions.map((role, index) => {
                 const isChecked = field.value?.includes(role.value);
                 return (
                   <div

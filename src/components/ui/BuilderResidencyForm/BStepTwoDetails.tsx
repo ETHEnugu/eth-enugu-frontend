@@ -98,6 +98,12 @@ const BStepTwoDetails = ({
             );
           }}
         ></Controller>
+
+        {errors.canAttendIRL && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.canAttendIRL.message}
+          </p>
+        )}
       </div>
 
       <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
