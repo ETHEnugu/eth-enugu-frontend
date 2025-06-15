@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function ConferenceSuccess() {
+export default function BuilderResidencySuccess() {
   return (
     <div className=" w-full max-w-[680px] bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10 p-10 ">
       <div className="flex flex-col items-start gap-7 w-full ">
@@ -12,7 +12,7 @@ export default function ConferenceSuccess() {
 
         <div className="w-full flex flex-col items-start gap-4  ">
           <p className="font-medium text-[var(--color-dark)">
-            Thanks for registering for the ETH Enugu ‘25 Conference/Summit.
+            Thanks for registering for the ETH Enugu ‘25 Builder residency.
             You’ll receive updates via email or WhatsApp.
           </p>
 
@@ -62,14 +62,6 @@ export default function ConferenceSuccess() {
                 className="text-green-550 underline"
               >
                 WhatsApp Group
-              </Link>
-            </div>
-            <div className="flex gap-1 mb-2">
-              <Link
-                href="/generate-dp?from=conference"
-                className="text-[var(--color-green-550)] font-semibold"
-              >
-                Create Your Conference DP
               </Link>
             </div>
           </div>

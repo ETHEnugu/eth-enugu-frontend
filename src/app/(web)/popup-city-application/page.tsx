@@ -61,6 +61,7 @@ const PopupCityPage = () => {
         dietaryAccessibilityNeeds: "",
         referralSource: "",
         joinOnlineCommunity: "",
+        otherCurrentRole: "",
       };
 
   const methods = useForm<PopupCityProps>({
@@ -74,6 +75,7 @@ const PopupCityPage = () => {
     handleSubmit,
     setValue,
     trigger,
+    watch,
     formState: { errors },
   } = methods;
 
@@ -138,9 +140,13 @@ const PopupCityPage = () => {
     router.push(`?step=${step}`);
   };
 
+  const formData = watch();
+
+  console.log(formData);
+
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
-      <div className="mx-auto md:w-1/2 p-6 rounded-xl border shadow-md bg-white">
+      <div className="mx-auto w-full max-w-3xl p-6 rounded-xl border shadow-md bg-white">
         {currentStep === 0 && <PopupCityInfo onNext={handleNext} />}
 
         {currentStep > 0 && (
@@ -170,6 +176,7 @@ const PopupCityPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
               />
             )}
             {currentStep === 2 && (

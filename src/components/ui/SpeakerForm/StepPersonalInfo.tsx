@@ -1,31 +1,120 @@
 "use client";
 import FormInput from "@/components/common/form/FormInput";
-import Dropdown from "@/components/common/dropdown";
+import Dropdown, { type DropdownOption } from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
 import { countryOptions } from "@/data/countries";
-import { useMemo } from "react";
-import { SpeakerProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import { useEffect, useMemo, useState } from "react";
+import type { SpeakerProps } from "@/types";
+import {
+  type UseFormRegister,
+  type UseFormSetValue,
+  type FieldErrors,
+  Controller,
+  type Control,
+  type UseFormWatch,
+} from "react-hook-form";
 import { Icon } from "@iconify/react";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { Checkbox } from "../checkbox";
+import { State } from "country-state-city";
+import Spinner from "@/components/common/spinner";
+import { rolesOptions } from "@/data/roles";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<SpeakerProps>;
   errors: FieldErrors<SpeakerProps>;
   setValue: UseFormSetValue<SpeakerProps>;
-  formData: SpeakerProps;
   onNext: () => void;
   isValid?: boolean;
+  control: Control<SpeakerProps>;
+  watch: UseFormWatch<SpeakerProps>;
 }
 
 const StepPersonalInfo = ({
   register,
   errors,
   setValue,
-  // formData,
+  control,
   onNext,
+  watch,
   isValid = false,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
+  const genderOption = [
+    { label: "Male", value: "MALE" },
+    { label: "Female", value: "FEMALE" },
+    { label: "Rather not say", value: "OTHER" },
+  ];
+
+  const participationTypeOptions = [
+    {
+      label: "Mentor on any of the days during the Pop-up city (Aug 4th-15th)",
+      id: "option1",
+      value: "MENTOR_ONLY",
+    },
+    {
+      label: "Speak on the Conf/Summit day (Aug 16th)",
+      id: "option2",
+      value: "SPEAK_ONLY",
+    },
+    {
+      label: "Both",
+      id: "option3",
+      value: "BOTH",
+    },
+  ];
+
+  const watchedRole = useMemo(
+    () => watch("roles") || [],
+    [watch("roles")?.join(",")]
+  );
+  const watchedCountry = watch("country");
+  const watchedState = watch("state");
+
+  const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
+
+  useEffect(() => {
+    if (watchedCountry) {
+      const selectedCountry = countryOptions.find(
+        (country) => country.value === watchedCountry
+      );
+
+      if (selectedCountry && selectedCountry.iso) {
+        const fetchedStates = State.getStatesOfCountry(selectedCountry.iso);
+
+        const stateOptions = fetchedStates.map((state) => ({
+          label: state.name,
+          value: state.name,
+        }));
+
+        setStatesOptions(stateOptions);
+        if (
+          watchedState &&
+          !stateOptions.find((s) => s.value === watchedState)
+        ) {
+          setValue("state", "", { shouldValidate: true });
+        }
+      } else {
+        setStatesOptions([]);
+        setValue("state", "", { shouldValidate: true });
+      }
+    }
+  }, [watchedCountry, setValue, watchedState]);
+
+  useEffect(() => {
+    const hasOther = watchedRole?.includes("OTHER");
+    const hasNonOther = watchedRole?.some((r) => r !== "OTHER");
+
+    if (hasOther && hasNonOther) {
+      if (watchedRole?.[watchedRole.length - 1] === "OTHER") {
+        setValue("roles", ["OTHER"], { shouldValidate: true });
+      } else {
+        setValue("roles", watchedRole?.filter((r) => r !== "OTHER") || [], {
+          shouldValidate: true,
+        });
+      }
+    }
+  }, [watchedRole, setValue]);
 
   return (
     <div className="space-y-7">
@@ -36,52 +125,218 @@ const StepPersonalInfo = ({
         {...register("fullName")}
         error={errors.fullName?.message}
         required
+        isRequired={true}
       />
 
-      <FormInput
-        label="Email Address"
-        type="email"
-        placeholder="johndoe@mail.com"
-        {...register("email")}
-        error={errors.email?.message}
-        required
-      />
+      <div className="flex justify-between md:flex-row flex-col gap-2">
+        <div className="md:w-lg">
+          <FormInput
+            label="Email Address"
+            type="email"
+            placeholder="johndoe@mail.com"
+            {...register("email")}
+            error={errors.email?.message}
+            isRequired={true}
+          />
+        </div>
+
+        <div className="md:w-2xs w-full">
+          <label className="block font-bold text-dark text-base mb-1">
+            Gender <span className="text-red-500">*</span>
+          </label>
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field }) => (
+              <Dropdown
+                placeholder="Select gender"
+                onValueChange={(selected) => {
+                  field.onChange(selected.value);
+                  setValue("gender", selected.value, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+                }}
+                className="text-dark"
+                options={genderOption}
+                isTypeable={false}
+              />
+            )}
+          />
+          {errors.gender && (
+            <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
+          )}
+        </div>
+      </div>
 
       <FormInput
-        label="WhatsApp Phone Number"
+        label="Phone Number"
         placeholder="+234 XXXX XXX XXX"
         type="tel"
         {...register("whatsappNumber")}
         error={errors.whatsappNumber?.message}
         required
+        isRequired={true}
       />
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country, State & City of Residence{" "}
+          Country
           <span className="text-red-500">*</span>
         </label>
-        <Dropdown
-          placeholder="Select or type your location"
-          onValueChange={(selected) =>
-            setValue("location", selected.value.toString(), {
-              shouldValidate: true,
-            })
-          }
-          className="text-dark"
-          options={options}
-          isTypeable={true}
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <Dropdown
+              placeholder="Country of residence"
+              onValueChange={(selected) => {
+                field.onChange(selected.value);
+                setValue("country", selected.value.toString(), {
+                  shouldValidate: true,
+                });
+              }}
+              className="text-dark"
+              options={options}
+              isTypeable={true}
+            />
+          )}
         />
-        {errors.location && (
-          <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
+        {errors.country && (
+          <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
         )}
       </div>
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          State
+          <span className="text-red-500">*</span>
+        </label>
+        {!watchedCountry ? (
+          <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
+            Please select a country first
+          </div>
+        ) : statesOptions.length === 0 ? (
+          <Spinner />
+        ) : (
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Dropdown
+                key={watchedCountry}
+                placeholder="State of residence"
+                onValueChange={(selected) => {
+                  field.onChange(selected.value);
+                  setValue("state", selected.value.toString(), {
+                    shouldValidate: true,
+                  });
+                }}
+                className="text-dark"
+                options={statesOptions}
+                isTypeable={true}
+              />
+            )}
+          />
+        )}
+        {errors.state && (
+          <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <label
+          htmlFor="roleDescriptions"
+          className="font-bold text-dark text-base mb-1 flex flex-col gap-[2px] items-start"
+        >
+          <span>
+            Which of these best defines you?{" "}
+            <span className="text-red-500">*</span>
+          </span>
+          <span>Select all that apply (Not just one)</span>
+        </label>
+
+        <Controller
+          control={control}
+          name="roles"
+          defaultValue={[]}
+          render={({ field }) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full justify-between">
+              {rolesOptions.map((roles, index) => {
+                const isChecked = field.value?.includes(roles.value);
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <Checkbox
+                      className="border-1 border-[#F3A035] data-[state=checked]:bg-[#F3A035] data-[state=checked]:border-[#F3A035] text-white cursor-pointer"
+                      id={roles.value}
+                      checked={isChecked}
+                      onCheckedChange={(checked) => {
+                        const value = [...(field.value || [])];
+                        if (checked && !value.includes(roles.value)) {
+                          const newValue = [...value, roles.value];
+                          field.onChange(newValue);
+                          setValue("roles", newValue, { shouldValidate: true });
+                        } else {
+                          const newValue = value.filter(
+                            (v) => v !== roles.value
+                          );
+                          field.onChange(newValue);
+                          setValue("roles", newValue, { shouldValidate: true });
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={roles.value}
+                      className="cursor-pointer text-sm"
+                    >
+                      {roles.label}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        />
+
+        {errors.roles && (
+          <p className="text-red-500 text-sm mt-1">{errors.roles.message}</p>
+        )}
+      </div>
+
+      {watchedRole.includes("OTHER") && (
+        <FormInput
+          type="text"
+          label="Please specify your role"
+          {...register("otherRole")}
+          error={errors.otherRole?.message}
+        />
+      )}
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          Bio <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          placeholder="Write your full bio to help us describe you better on our visual fliers and social posts"
+          rows={5}
+          className="w-full border rounded-lg px-4 py-3 text-lg"
+          {...register("bio")}
+        />
+        {errors.bio && (
+          <p className="text-red-500 text-sm mt-1">{errors.bio.message}</p>
+        )}
+      </div>
+
       <FormInput
         label="Twitter(X)"
         placeholder="Enter the URL to your X Profile"
         type="url"
         {...register("twitterProfile")}
         error={errors.twitterProfile?.message}
+        isRequired={true}
       />
 
       <FormInput
@@ -92,13 +347,48 @@ const StepPersonalInfo = ({
         error={errors.linkedinProfile?.message}
       />
 
-      <FormInput
-        label="Website"
-        placeholder="Enter the URL of your website"
-        type="url"
-        {...register("website")}
-        error={errors.website?.message}
-      />
+      <div>
+        <p className="block font-bold text-dark text-base mb-1">
+          Are you applying to mentor during the Pop-up city OR speak on the
+          Conf/Summit day? <span className="text-red-500">*</span>
+        </p>
+
+        <Controller
+          name="participationType"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup
+              onValueChange={(value) => {
+                field.onChange(value);
+                setValue("participationType", value, { shouldValidate: true });
+              }}
+              value={field.value}
+              className="flex flex-col gap-2"
+            >
+              {participationTypeOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <RadioGroupItem
+                    value={option.value}
+                    id={option.id}
+                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                  />
+                  <label htmlFor={option.id} className="cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+        />
+        {errors.participationType && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.participationType.message}
+          </p>
+        )}
+      </div>
 
       <Button
         type="button"
@@ -115,12 +405,6 @@ const StepPersonalInfo = ({
           <Icon icon="solar:arrow-right-linear" width="16" height="16" />
         </span>
       </Button>
-
-      {!isValid && (
-        <p className="text-amber-600 text-sm text-center">
-          Please complete all required fields before continuing
-        </p>
-      )}
     </div>
   );
 };

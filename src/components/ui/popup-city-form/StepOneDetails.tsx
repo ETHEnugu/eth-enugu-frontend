@@ -2,14 +2,20 @@
 import FormInput from "@/components/common/form/FormInput";
 import Dropdown from "@/components/common/dropdown";
 import { countryOptions } from "@/data/countries";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { PopupCityProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import {
+  UseFormRegister,
+  UseFormSetValue,
+  FieldErrors,
+  UseFormWatch,
+} from "react-hook-form";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
+  watch: UseFormWatch<PopupCityProps>;
 }
 
 const roleOptions = [
@@ -36,8 +42,20 @@ const StepOneDetails = ({
   register,
   errors,
   setValue,
+  watch,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
+
+  const currentRole = watch("currentRole");
+
+  useEffect(() => {
+    if (currentRole && currentRole !== "OTHER") {
+      setValue("otherCurrentRole", "", {
+        shouldDirty: false,
+        shouldValidate: false,
+      });
+    }
+  }, [currentRole, setValue]);
 
   return (
     <div className="space-y-7">
@@ -132,6 +150,22 @@ const StepOneDetails = ({
           </p>
         )}
       </div>
+
+      {currentRole === "OTHER" && (
+        <FormInput
+          type="text"
+          label="Please enter your current role"
+          placeholder="e.g. Blockchain Researcher"
+          {...register("otherCurrentRole", {
+            required: "Please enter your role",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 10 characters long",
+            },
+          })}
+          error={errors.otherCurrentRole?.message}
+        />
+      )}
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">

@@ -75,6 +75,10 @@ export default function PersonalDetailsOne({
               /^\+?\d{1,4}?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
             message: "Enter a valid phone number",
           },
+          minLength: {
+            value: 10,
+            message: "please a minimum of 10 digits is required",
+          },
         })}
         onInput={(e) => {
           const input = e.target as HTMLInputElement;
