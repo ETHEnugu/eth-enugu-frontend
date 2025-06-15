@@ -53,9 +53,9 @@ const BuildersInfo = ({ onNext }: BuildersResidencyProps) => {
         </div>
 
         <div className="mb-6">
-          <h3 className="text-md font-semibold text-gray-800 mb-2">
+          <h5 className="text-md !font-semibold text-gray-800 mb-2">
             What You Get as a Resident
-          </h3>
+          </h5>
           <ul className="list-disc ml-5 list-inside text-base text-dark space-y-1">
             <li>Shared accommodation of two per room (August 4–16)</li>
             <li>Daily access to coworking space</li>

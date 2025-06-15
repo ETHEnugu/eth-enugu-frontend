@@ -53,23 +53,22 @@ const BuildersResidencyPage = () => {
         email: "",
         gender: "",
         whatsappNumber: "",
-        location: "",
+        country: "",
+        state: "",
+        role: "",
+        otherRole: "",
         githubProfile: "",
         twitterProfile: "",
         linkedinProfile: "",
         portfolioUrl: "",
-        primaryRole: "",
+        canAttendIRL: "",
         backgroundAndSkills: "",
         currentlyBuilding: "",
         previousBuilderPrograms: false,
         joinReason: "",
-        projectInterest: "",
         openToCollaboration: false,
-        needsAccommodation: false,
         dietaryAccessibilityNeeds: "",
         referralSource: "",
-        joinOnlineCommunity: false,
-        otherPrimaryRole: "",
       };
 
   const methods = useForm<BuildersResidencyProps>({
@@ -84,6 +83,7 @@ const BuildersResidencyPage = () => {
     setValue,
     trigger,
     watch,
+    control,
     formState: { errors },
   } = methods;
 
@@ -105,10 +105,10 @@ const BuildersResidencyPage = () => {
         "email",
         "gender",
         "whatsappNumber",
-        "location",
-        "githubProfile",
+        "country",
+        "state",
+        "role",
         "twitterProfile",
-        "linkedinProfile",
         "portfolioUrl",
       ];
 
@@ -119,8 +119,6 @@ const BuildersResidencyPage = () => {
       }
     } else if (currentStep == 2) {
       const stepTwoFields: (keyof BuildersResidencyProps)[] = [
-        "primaryRole",
-        "otherPrimaryRole",
         "backgroundAndSkills",
         "currentlyBuilding",
         "previousBuilderPrograms",
@@ -139,12 +137,9 @@ const BuildersResidencyPage = () => {
   const onSubmit = async (data: BuildersResidencyProps) => {
     const stepThreeFields: (keyof BuildersResidencyProps)[] = [
       "joinReason",
-      "projectInterest",
       "openToCollaboration",
-      "needsAccommodation",
       "dietaryAccessibilityNeeds",
       "referralSource",
-      "joinOnlineCommunity",
     ];
 
     const isValid = await trigger(stepThreeFields, { shouldFocus: true });
@@ -154,7 +149,7 @@ const BuildersResidencyPage = () => {
         onSuccess: () => {
           console.log(data);
           toast.success("Builders Residency form submitted succefully");
-          router.replace("/success?form=builders");
+          router.replace("/success?form=BuilderResidency");
           methods.reset();
           localStorage.removeItem("BuildersResidencyFormData");
         },
@@ -201,12 +196,15 @@ const BuildersResidencyPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
+                control={control}
               />
             )}
             {currentStep === 2 && (
               <BStepTwoDetails
                 register={register}
                 errors={errors}
+                control={control}
                 setValue={setValue}
                 watch={watch}
               />

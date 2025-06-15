@@ -35,4 +35,6 @@ export const popupCityValidation: Yup.ObjectSchema<PopupCityProps> =
       "Online community join preference is required"
     ),
     otherCurrentRole: Yup.string().required("Other current role is required"),
+    setupRequirements: Yup.string().required("Setup requirements are required"),
+    spApplicationType: Yup.string().required("Application type is required"),
   });

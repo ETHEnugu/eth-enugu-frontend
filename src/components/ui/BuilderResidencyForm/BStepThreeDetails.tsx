@@ -9,19 +9,14 @@ interface StepOtherInfoProps {
   setValue: UseFormSetValue<BuildersResidencyProps>;
 }
 
-const volunteerOptions = [
-  { label: "Yes", value: true },
-  { label: "No", value: false },
-];
 const openOptions = [
-  { label: "Yes", value: true },
-  { label: "No", value: false },
+  {
+    label: "Yes, I am open to it. It will help me bond with others",
+    value: true,
+  },
+  { label: "No, I am not open to it", value: false },
 ];
-
-const joinOptions = [
-  { label: "Yes", value: true },
-  { label: "No", value: false },
-];
+// fix this to the Dropdown,
 
 const BStepThreeDetails = ({
   register,
@@ -32,7 +27,8 @@ const BStepThreeDetails = ({
     <div className="space-y-7">
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Why do you want to join the ETH Enugu Residency?
+          Why do you want to join the ETH Enugu Residency?{" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("joinReason", {
@@ -54,32 +50,8 @@ const BStepThreeDetails = ({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What would you like to work on during the residency?
-        </label>
-
-        <textarea
-          placeholder="Write here..."
-          rows={4}
-          className="w-full border rounded-lg px-4 py-3 text-lg"
-          {...register("projectInterest", {
-            required: "Please fill in this field",
-            minLength: {
-              value: 10,
-              message: "Your response must be at least 3 characters long",
-            },
-          })}
-        />
-
-        {errors.projectInterest && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.projectInterest.message}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Are you open to collaborating with others?
+          Are you open to sharing a room with one other person? (We plan to
+          house 2 persons per room) <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Select Option"
@@ -90,7 +62,7 @@ const BStepThreeDetails = ({
             })
           }
           className="text-dark"
-          options={volunteerOptions}
+          options={openOptions}
         />
         {errors.openToCollaboration && (
           <p className="text-red-500 text-sm mt-1">
@@ -101,28 +73,8 @@ const BStepThreeDetails = ({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Will you need accommodation provided?
-        </label>
-        <Dropdown
-          placeholder="Choose Option"
-          onValueChange={(selected) =>
-            setValue("needsAccommodation", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          className="text-dark"
-          options={openOptions}
-        />
-        {errors.needsAccommodation && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.needsAccommodation.message}
-          </p>
-        )}
-      </div>
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Any dietary or accessibility needs?
+          Any dietary or accessibility needs?{" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("dietaryAccessibilityNeeds")}
@@ -138,7 +90,8 @@ const BStepThreeDetails = ({
       </div>
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          How did you hear about ETH Enugu ‘25?
+          How did you hear about ETH Enugu ‘25?{" "}
+          <span className="text-red-500">*</span>
         </label>
         <textarea
           {...register("referralSource")}
@@ -149,29 +102,6 @@ const BStepThreeDetails = ({
         {errors.referralSource && (
           <p className="text-red-500 text-sm mt-1">
             {errors.referralSource.message}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Would you like to join the ETH Enugu online community
-          (Telegram/WhatsApp)?
-        </label>
-        <Dropdown
-          placeholder="Choose option"
-          onValueChange={(selected) =>
-            setValue("joinOnlineCommunity", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          className="text-dark"
-          options={joinOptions}
-        />
-        {errors.joinOnlineCommunity && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.joinOnlineCommunity.message}
           </p>
         )}
       </div>

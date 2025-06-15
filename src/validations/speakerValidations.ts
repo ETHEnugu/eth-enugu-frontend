@@ -20,18 +20,30 @@ export const speakerValidation = yup.object().shape({
     .string()
     .trim()
     .required("WhatsApp number is required")
-    .matches(/^\+?[\d\s\-\(\)]+$/, "Please enter a valid phone number"),
+    .matches(/^\+?[\d\s\-$$$$]+$/, "Please enter a valid phone number"),
 
-  location: yup
+  country: yup.string().trim().required("Country of residence is required"),
+
+  state: yup.string().trim().required("State of residence is required"),
+
+  roles: yup
+    .array()
+    .of(yup.string().required("Please select a role"))
+    .min(1, "Select at least one role")
+    .required("Role is required"),
+
+  otherRole: yup.string().trim().optional(),
+
+  bio: yup
     .string()
     .trim()
-    .required("Location is required")
-    .min(2, "Location must be at least 2 characters"),
+    .required("Please enter your bio")
+    .min(10, "Your bio must be at least 10 characters"),
 
   twitterProfile: yup
     .string()
     .url("Please enter a valid URL")
-    .optional()
+    .required("Please enter your Twitter(X) handle")
     .nullable()
     .transform((value) => value || undefined),
 
@@ -42,12 +54,7 @@ export const speakerValidation = yup.object().shape({
     .nullable()
     .transform((value) => value || undefined),
 
-  website: yup
-    .string()
-    .url("Please enter a valid URL")
-    .optional()
-    .nullable()
-    .transform((value) => value || undefined),
+  participationType: yup.string().trim().required("Please select a category"),
 
   // Session Details
   sessionType: yup
@@ -58,13 +65,24 @@ export const speakerValidation = yup.object().shape({
       "Invalid session type"
     ),
 
+  otherSessionType: yup.string().optional(),
+
   sessionLength: yup
     .string()
     .required("Please select session length")
     .oneOf(
-      ["MINUTES_15", "MINUTES_30", "MINUTES_45", "MINUTES_60"],
+      [
+        "MINUTES_5",
+        "MINUTES_10",
+        "MINUTES_15",
+        "MINUTES_30",
+        "MINUTES_45",
+        "MINUTES_60",
+      ],
       "Invalid session length"
     ),
+
+  gender: yup.string().required("Please select an option"),
 
   presentationAvailable: yup
     .boolean()
@@ -81,13 +99,6 @@ export const speakerValidation = yup.object().shape({
       then: (schema) => schema.required("Please provide the presentation link"),
     }),
 
-  setupRequirements: yup
-    .string()
-    .optional()
-    .nullable()
-    .max(1000, "Setup requirements must not exceed 1000 characters")
-    .transform((value) => value || undefined),
-
   talkTitle: yup
     .string()
     .trim()
@@ -102,34 +113,25 @@ export const speakerValidation = yup.object().shape({
     .min(50, "Talk description must be at least 50 characters")
     .max(2000, "Talk description must not exceed 2000 characters"),
 
-  spApplicationType: yup.string().trim().required("Please select a category"),
+  comfortableWithTopicChange: yup.boolean().required("Please select an option"),
+
   // Other Information
-  expectedArrivalDate: yup
+  canMakeItToEnugu: yup.boolean().required("Please select an option"),
+
+  expectedArrivalDates: yup
     .array()
     .of(
       yup
         .string()
         .required("Each date is required")
-        .matches(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format")
+        .matches(
+          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+          "Date must be in ISO format"
+        )
     )
     .min(1, "Select at least one date")
     .required("Preferred dates are required"),
 
-  willingToSpeakWithoutSupport: yup
-    .boolean()
-    .required("Please specify if you're willing to speak without support"),
-
-  referralSource: yup
-    .string()
-    .optional()
-    .nullable()
-    .max(500, "Referral source must not exceed 500 characters")
-    .transform((value) => value || undefined),
-
-  joinOnlineCommunity: yup
-    .string()
-    .optional()
-    .nullable()
-    .oneOf(["YES", "ALREADY_MEMBER", "NO", ""], "Invalid community preference")
-    .transform((value) => value || undefined),
+  participateInERV: yup.boolean().required("Please select an option"),
+  ervInvolvement: yup.string().optional(),
 });

@@ -9,12 +9,24 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
     whatsappNumber: Yup.string()
       .matches(/^\+?[\d\s-]{10,}$/, "Invalid WhatsApp number")
       .required("WhatsApp number is required"),
-    location: Yup.string().required("Location is required"),
+    country: Yup.string().required("Country is required"),
+    state: Yup.string().required("State is required"),
     githubProfile: Yup.string().required("Github Profile is required"),
     twitterProfile: Yup.string().required("Twitter Profile is required"),
-    linkedinProfile: Yup.string().required("Linkedin Profile is required"),
+    linkedinProfile: Yup.string().optional(),
     portfolioUrl: Yup.string().required("Portfolio Url is required"),
-    primaryRole: Yup.string().required("Please select your primary role"),
+    canAttendIRL: Yup.string().required(),
+
+    role: Yup.array()
+      .of(Yup.string().required("Please select a role"))
+      .min(1, "Select at least one role")
+      .required("Role is required"),
+
+    otherRole: Yup.string()
+      .trim()
+      .optional()
+      .min(3, "Your response must be at least 3 characters long"),
+
     backgroundAndSkills: Yup.string().required(
       "Please share your background and skills"
     ),

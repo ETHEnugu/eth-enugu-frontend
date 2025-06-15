@@ -1,13 +1,21 @@
 "use client";
-import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
-import { SpeakerProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import type { SpeakerProps } from "@/types";
+import {
+  type UseFormRegister,
+  type UseFormSetValue,
+  type FieldErrors,
+  type UseFormWatch,
+  Controller,
+  type Control,
+} from "react-hook-form";
 import { Icon } from "@iconify/react";
 import Spinner from "@/components/common/spinner";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import Link from "next/link";
 
 interface StepOtherInfoProps {
   onBack: () => void;
@@ -18,35 +26,24 @@ interface StepOtherInfoProps {
   formData: SpeakerProps;
   isSubmitting?: boolean;
   isValid?: boolean; // Added validation prop
+  watch: UseFormWatch<SpeakerProps>;
+  control: Control<SpeakerProps>;
 }
-
-const yesNoOptions = [
-  { label: "Yes", value: "true" },
-  { label: "No", value: "false" },
-];
-
-const communityOptions = [
-  { label: "Yes, I'd like to join", value: "YES" },
-  { label: "Already a member", value: "ALREADY_MEMBER" },
-  { label: "Not interested", value: "NO" },
-];
 
 const StepOtherInfo = ({
   onBack,
   onSubmit,
-  register,
   errors,
   setValue,
+  watch,
+  control,
   formData,
   isSubmitting = false,
   isValid = false,
 }: StepOtherInfoProps) => {
   // Handle form submission with validation
   const handleSubmit = () => {
-    if (!formData.expectedArrivalDate) {
-      return; // Let the form validation handle this
-    }
-    if (formData.willingToSpeakWithoutSupport === undefined) {
+    if (!formData.expectedArrivalDates) {
       return; // Let the form validation handle this
     }
     onSubmit();
@@ -54,8 +51,8 @@ const StepOtherInfo = ({
 
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
-  const minDate = new Date("2025-08-04");
-  const maxDate = new Date("2025-08-16");
+  const minDate = new Date("2025-08-01");
+  const maxDate = new Date("2025-08-31");
 
   const handleDateChange = (date: Date | null) => {
     if (!date) return;
@@ -68,8 +65,10 @@ const StepOtherInfo = ({
         ? prevDates.filter((d) => d.toDateString() !== date.toDateString())
         : [...prevDates, date];
 
-      const formatted = updatedDates.map((d) => d.toISOString().split("T")[0]);
-      setValue("expectedArrivalDate", formatted, {
+      // Format as ISO string
+      const formatted = updatedDates.map((d) => d.toISOString());
+
+      setValue("expectedArrivalDates", formatted, {
         shouldDirty: true,
         shouldValidate: true,
       });
@@ -80,14 +79,126 @@ const StepOtherInfo = ({
 
   const clearAllDates = () => {
     setSelectedDates([]);
-    setValue("expectedArrivalDate", [], {
+    setValue("expectedArrivalDates", [], {
       shouldValidate: true,
       shouldDirty: true,
     });
   };
 
+  const selectedSpApplicationType = watch("participationType");
+
+  const conferenceType = () => {
+    if (selectedSpApplicationType === "MENTOR_ON_POPUP_CITY")
+      return "Pop-up city";
+    else if (selectedSpApplicationType === "SPEAK_ON_THE_CONF")
+      return "Conference";
+    else return "Pop-up city or Conference";
+  };
+
+  const canMakeItToEnuguOptions = [
+    {
+      label: (
+        <>
+          {" "}
+          Yes, I will be attending the ETH-Enugu {conferenceType()} IRL on
+          select days.
+        </>
+      ),
+      value: true,
+      id: "option1IRL",
+    },
+    {
+      label:
+        " No, I may not be able to attend IRL but I can speak virtually if there are provisions for it.",
+      value: false,
+      id: "option2IRl",
+    },
+  ];
+
+  const participateInERVOptions = [
+    {
+      label: "   Yes, I'd love to get involved",
+      value: true,
+      id: "option1ERV",
+    },
+    {
+      label: "  Not interested",
+      value: false,
+      id: "option2ERV",
+    },
+  ];
+
+  const selectedparticipateInERV = watch("participateInERV");
+  const ervInvolvementTypeOptions = [
+    {
+      label: "  Mentor during the Ethereum Research Village",
+      value: "MENTOR_DURING_ERV",
+      id: "involvementOption1",
+    },
+    {
+      label: "Learn during the Ethereum Research Village",
+      value: "LEARN_DURING_ERV",
+      id: "involvementOption2",
+    },
+  ];
+
   return (
-    <div className="space-y-7">
+    <div className="space-y-8">
+      {/* Information Note */}
+      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+        <p className="block text-base font-medium mb-1">
+          <span className="text-green-550 font-extrabold">Note:</span> Although
+          we may not be able to cover travel costs, we may be able to partially
+          cover accommodation (up to 20-50%) for select keynote speakers and
+          mentors for few days. We&apos;d love to have you if you&apos;re able
+          to attend.
+        </p>
+      </div>
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-2">
+          <span className=" ">
+            {" "}
+            Can you make it to Enugu IRL for this session during the{" "}
+            {conferenceType()} ? <span className="text-red-500">*</span>{" "}
+          </span>
+        </label>
+
+        <Controller
+          name="canMakeItToEnugu"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup
+              onValueChange={(value) => {
+                const boolValue = value === "true";
+                field.onChange(boolValue);
+                setValue("canMakeItToEnugu", boolValue, {
+                  shouldValidate: true,
+                });
+              }}
+              value={field.value?.toString()}
+              className="flex flex-col gap-2"
+            >
+              {canMakeItToEnuguOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <RadioGroupItem
+                    value={option.value.toString()}
+                    id={option.id}
+                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                  />
+                  <label htmlFor={option.id} className="cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+        />
+      </div>
+
       {/* Expected Arrival Date */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
@@ -137,88 +248,124 @@ const StepOtherInfo = ({
           </div>
         )}
 
-        {errors.expectedArrivalDate && (
+        {errors.expectedArrivalDates && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.expectedArrivalDate.message}
+            {errors.expectedArrivalDates.message}
           </p>
         )}
       </div>
 
-      {/* Information Note */}
-      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-        <p className="block text-base font-medium mb-1">
-          <span className="text-green-550 font-bold">Note:</span> While we may
-          not be able to cover travel or full accommodation for speakers and
-          mentors, we&apos;d still love to host you if you&apos;re able to
-          attend.
-        </p>
-      </div>
-
-      {/* Willingness to Speak */}
       <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Would you still be open to speaking under these conditions?{" "}
-          <span className="text-red-500">*</span>
+        <label className=" font-bold text-dark text-base mb-1 flex flex-col gap-1">
+          <p>
+            {" "}
+            Would you like to be involved in the Ethereum Research Village?{" "}
+            <span className=" text-sm text-[#131313]/70">
+              ( A 4 week initiative - 2 weeks during the Pop-up city + 2 weeks
+              virtually post EthEnugu &apos;25)
+            </span>
+            <Link
+              href={
+                "https://x.com/eth_enugu/status/1926906551274541056?s=46&t=zaDhrGydSI43aMot8l9mIg"
+              }
+            >
+              {" "}
+              <span className="underline text-sm text-blue-600">
+                See details
+              </span>{" "}
+            </Link>
+          </p>
+          <p className="!text-sm">
+            For: Devs, Technical Writers, Node Runners, Protocol Engineers,
+            Researchers & Academic papers
+          </p>
         </label>
-        <Dropdown
-          placeholder="Choose option"
-          onValueChange={(selected) =>
-            setValue(
-              "willingToSpeakWithoutSupport",
-              selected.value === "true",
-              { shouldValidate: true }
-            )
-          }
-          className="text-dark"
-          options={yesNoOptions}
+
+        <Controller
+          control={control}
+          name="participateInERV"
+          render={({ field }) => (
+            <RadioGroup
+              onValueChange={(value) => {
+                const boolValue = value === "true";
+                field.onChange(boolValue);
+                setValue("participateInERV", boolValue, {
+                  shouldValidate: true,
+                });
+              }}
+              value={field.value?.toString()}
+              className="flex flex-col gap-2"
+            >
+              {participateInERVOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <RadioGroupItem
+                    value={option.value.toString()}
+                    id={option.id}
+                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                  />
+                  <label htmlFor={option.id} className="cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
         />
-        {errors.willingToSpeakWithoutSupport && (
+
+        {errors.participateInERV && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.willingToSpeakWithoutSupport.message}
+            {errors.participateInERV.message}
           </p>
         )}
       </div>
 
-      {/* Referral Source */}
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          How did you hear about ETH Enugu &lsquo;25?
-        </label>
-        <textarea
-          {...register("referralSource")}
-          placeholder="Write here..."
-          rows={3}
-          className="w-full border rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-        />
-        {errors.referralSource && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.referralSource.message}
-          </p>
-        )}
-      </div>
+      {selectedparticipateInERV === true && (
+        <div>
+          <label className="block font-bold text-dark text-base mb-1">
+            How would you like to get involved?
+          </label>
 
-      {/* Online Community */}
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Would you like to join the ETH Enugu online community
-          (Telegram/WhatsApp)?
-        </label>
-        <Dropdown
-          placeholder="Select Option"
-          onValueChange={(selected) =>
-            setValue("joinOnlineCommunity", selected.value.toString(), {
-              shouldValidate: true,
-            })
-          }
-          className="text-dark"
-          options={communityOptions}
-        />
-        {errors.joinOnlineCommunity && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.joinOnlineCommunity.message}
-          </p>
-        )}
-      </div>
+          <Controller
+            control={control}
+            name="ervInvolvement"
+            render={({ field }) => (
+              <RadioGroup
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  setValue("ervInvolvement", value, { shouldValidate: true });
+                }}
+                value={field.value}
+                className="flex flex-col gap-2"
+              >
+                {ervInvolvementTypeOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
+                    <RadioGroupItem
+                      value={option.value}
+                      id={option.id}
+                      className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                    />
+                    <label htmlFor={option.id} className="cursor-pointer">
+                      {option.label}
+                    </label>
+                  </div>
+                ))}
+              </RadioGroup>
+            )}
+          />
+
+          {errors.ervInvolvement && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.ervInvolvement.message}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div className="flex md:flex-row flex-col-reverse gap-4 pt-4">
@@ -260,13 +407,6 @@ const StepOtherInfo = ({
           </span>
         </Button>
       </div>
-
-      {/* Validation Message */}
-      {!isValid && !isSubmitting && (
-        <p className="text-amber-600 text-sm text-center mt-2">
-          Please complete all required fields before submitting
-        </p>
-      )}
     </div>
   );
 };

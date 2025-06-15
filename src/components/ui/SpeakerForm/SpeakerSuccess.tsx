@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function ConferenceSuccess() {
+export default function SpeakerSuccess() {
   return (
     <div className=" w-full max-w-[680px] bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10 p-10 ">
       <div className="flex flex-col items-start gap-7 w-full ">
@@ -12,16 +12,17 @@ export default function ConferenceSuccess() {
 
         <div className="w-full flex flex-col items-start gap-4  ">
           <p className="font-medium text-[var(--color-dark)">
-            Thanks for registering for the ETH Enugu ‘25 Conference/Summit.
-            You’ll receive updates via email or WhatsApp.
+            Thank you for applying to speak at ETH Enugu ‘25. We’re excited to
+            review your proposal and will be in touch shortly.{" "}
           </p>
 
           <div className="flex gap-1 mb-2">
             <Link
-              href="/generate-dp?from=conference"
+              href="https://t.me/ETH_Enugu"
               className="text-[var(--color-green-550)] font-semibold"
+              target="_blank"
             >
-              Click to generate DP
+              Click to Join Telegram group
             </Link>
           </div>
 
@@ -30,20 +31,6 @@ export default function ConferenceSuccess() {
             and connect with others before the event:
           </p>
           <div className="flex flex-col gap-1">
-            <div className="flex gap-1">
-              <Link
-                href="https://t.me/ETH_Enugu"
-                className="text-[var(--color-green-550)] "
-                target="_blank"
-              >
-                Join{" "}
-                <span className="text-[#009FCC] underline ">
-                  {" "}
-                  Telegram group
-                </span>
-              </Link>
-            </div>
-
             <div className="flex gap-1">
               Follow
               <Link

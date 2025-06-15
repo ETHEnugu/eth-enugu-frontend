@@ -2,10 +2,18 @@
 import Dropdown from "@/components/common/dropdown";
 import { Button } from "@/components/common/button";
 import FormInput from "@/components/common/form/FormInput";
-import { SpeakerProps } from "@/types";
-import { UseFormRegister, UseFormSetValue, FieldErrors } from "react-hook-form";
+import type { SpeakerProps } from "@/types";
+import {
+  type UseFormRegister,
+  type UseFormSetValue,
+  type FieldErrors,
+  type UseFormWatch,
+  Controller,
+  type Control,
+} from "react-hook-form";
 import { Icon } from "@iconify/react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { useEffect } from "react";
 
 interface StepSessionDetailsProps {
   onBack: () => void;
@@ -15,6 +23,8 @@ interface StepSessionDetailsProps {
   setValue: UseFormSetValue<SpeakerProps>;
   formData: SpeakerProps;
   isValid?: boolean;
+  watch: UseFormWatch<SpeakerProps>;
+  control: Control<SpeakerProps>;
 }
 
 const sessionOptions = [
@@ -26,6 +36,8 @@ const sessionOptions = [
 ];
 
 const timeOptions = [
+  { label: "5 minutes", value: "MINUTES_5" },
+  { label: "10 minutes", value: "MINUTES_10" },
   { label: "15 minutes", value: "MINUTES_15" },
   { label: "30 minutes", value: "MINUTES_30" },
   { label: "45 minutes", value: "MINUTES_45" },
@@ -33,8 +45,23 @@ const timeOptions = [
 ];
 
 const slideOptions = [
-  { label: "Yes", value: "true" },
-  { label: "No", value: "false" },
+  { label: "Yes, it is", value: "true" },
+  { label: "No, not yet", value: "false" },
+];
+
+const comfortableWithTopicChangeOptions = [
+  {
+    label:
+      "  Yes, I am flexible and open to having the topic and time adjusted if need be",
+    value: true,
+    id: "option1",
+  },
+  {
+    label:
+      "    No, I can only speak/mentor on the topic and timeframe I entered",
+    value: false,
+    id: "option2",
+  },
 ];
 
 const StepSessionDetails = ({
@@ -44,8 +71,18 @@ const StepSessionDetails = ({
   errors,
   setValue,
   formData,
+  watch,
+  control,
   isValid = false,
 }: StepSessionDetailsProps) => {
+  const sessionType = watch("sessionType");
+
+  useEffect(() => {
+    if (sessionType !== "OTHER") {
+      setValue("otherSessionType", "");
+    }
+  }, [sessionType, setValue]);
+
   return (
     <div className="space-y-7">
       {/* Session Type */}
@@ -72,13 +109,22 @@ const StepSessionDetails = ({
         )}
       </div>
 
+      {sessionType === "OTHER" && (
+        <FormInput
+          label="Please input session type"
+          type="text"
+          {...register("otherSessionType")}
+          error={errors.otherSessionType?.message}
+        />
+      )}
+
       {/* Session Length */}
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           Estimated session length <span className="text-red-500">*</span>
         </label>
         <Dropdown
-          placeholder="15, 30, 45, 60 minutes"
+          placeholder="5, 10, 15, 30, 45, 60 minutes"
           onValueChange={(selected) =>
             setValue("sessionLength", selected.value.toString(), {
               shouldValidate: true,
@@ -165,50 +211,57 @@ const StepSessionDetails = ({
         </div>
       )}
 
-      {/* Setup Requirements */}
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          <p>
+      <div className="flex flex-col gap-[2px]">
+        <label className="block font-bold text-dark text-base ">
+          We will send you a response if you are approved to speak or mentor.{" "}
+          <span className="text-[#131313]/80 ">
             {" "}
-            As the dates draw near, it is also likely that the topic you submit
-            might be adjusted a bit to align more with the event&apos;s focus.
-            We will however send you a message if you are approved to speak or
-            mentor.
-          </p>
-          <br />
-
-          <span className="my-3"> Are you comfortable with this?</span>
+            However, as the dates draw near, it is also likely that the topic
+            you submit and its duration might be adjusted
+          </span>{" "}
+          a bit to align more with the event&apos;s focus.{" "}
+          <span className="text-red-500">*</span>
         </label>
-
-        <RadioGroup
-          defaultValue=""
-          onValueChange={(value) => console.log(value)}
-          {...register("spApplicationType", {
-            required: "Please select a category",
-          })}
-        >
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="option1" id="option1" />
-            <label htmlFor="option1">
-              Yes, I am flexible and open to having the topic adjusted if need
-              be
-            </label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="option2" id="option2" />
-            <label htmlFor="option2">
-              No, I can only speak/mentor on the topic I entered{" "}
-            </label>
-          </div>
-        </RadioGroup>
-        <p className="text-red-500 text-sm mt-1">
+        <span className="my-3 block font-bold text-dark text-base mb-1">
           {" "}
-          {errors.spApplicationType?.message}{" "}
-        </p>
-
-        {errors.setupRequirements && (
+          Are you comfortable with this?
+        </span>
+        <Controller
+          name="comfortableWithTopicChange"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup
+              onValueChange={(value) => {
+                const boolValue = value === "true";
+                field.onChange(boolValue);
+                setValue("comfortableWithTopicChange", boolValue, {
+                  shouldValidate: true,
+                });
+              }}
+              value={field.value?.toString()}
+              className="flex flex-col gap-2"
+            >
+              {comfortableWithTopicChangeOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <RadioGroupItem
+                    value={option.value.toString()}
+                    id={option.id}
+                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                  />
+                  <label htmlFor={option.id} className="cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+        />
+        {errors.comfortableWithTopicChange && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.setupRequirements.message}
+            {errors.comfortableWithTopicChange.message}
           </p>
         )}
       </div>
@@ -242,12 +295,6 @@ const StepSessionDetails = ({
           </span>
         </Button>
       </div>
-
-      {!isValid && (
-        <p className="text-amber-600 text-sm text-center">
-          Please complete all required fields before continuing
-        </p>
-      )}
     </div>
   );
 };
