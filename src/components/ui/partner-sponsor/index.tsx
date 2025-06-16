@@ -1,13 +1,13 @@
 "use client";
 import { partners } from "../eth-enugu/_data";
-import Image from "next/image";
+// import Image from "next/image";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
-import useDeviceSize from "@/hooks/useDeviceSize";
+// import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function PartnerSponsor() {
-  const { isMobile } = useDeviceSize();
+  // const { isMobile } = useDeviceSize();
 
   return (
     <div className="w-full max-w-6xl max-md:px-4 mx-auto flex flex-col gap-24 py-18">
@@ -31,7 +31,7 @@ export default function PartnerSponsor() {
 
       <section className="w-full bg-dark rounded-3xl md:rounded-[60px] p-20 flex flex-col items-center justify-center gap-12">
         <span className="w-full mx-auto text-center text-white text-4xl md:text-6xl">
-          We&apos;re offering Empowerment and <br />
+          {/* We&apos;re offering Empowerment and <br />
           <span
             className={`w-max items-start gap-1 mx-auto ${isMobile ? "inline-block" : "flex"}`}
           >
@@ -45,7 +45,10 @@ export default function PartnerSponsor() {
               />
               Way!
             </span>
-          </span>
+          </span> */}
+          We believe that innovation{" "}
+          <span className="text-amber-500">isn’t siloed but shared</span>,
+          support & join us on this Journey!
         </span>
 
         <Link

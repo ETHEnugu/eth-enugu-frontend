@@ -8,7 +8,7 @@ export const hero_socials = [
     icon: "prime:twitter",
   },
   {
-    link: "https://chat.whatsapp.com/FipXVEahmnOGiuzQQnKyoo",
-    icon: "mdi:whatsapp",
+    link: "https://t.me/ETH_Enugu",
+    icon: "ic:sharp-telegram",
   },
 ];

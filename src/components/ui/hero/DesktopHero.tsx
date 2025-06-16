@@ -23,13 +23,13 @@ export default function DesktopHero() {
           </span>
 
           <span className="flex flex-col items-center justify-center text-center">
-            <WordSlideUp text="South East Nigeria's first Ethereum Conference & Pop-up City." />
+            <WordSlideUp text="Nigeria's first Builder Residency & Pop-up City + South-East Nigeria's First Ethereum Conference" />
             <WordSlideUp text="From Enugu to the Ethereum network — a gathering of minds, culture, and innovation." />
           </span>
         </div>
 
         <div className="relative w-max mx-auto flex items-center">
-          <div className="relative w-[460px] h-[460px] xl:w-[600px] xl:h-[600px]">
+          <div className="relative w-[460px] h-[460px] xl:w-[500px] xl:h-[500px]">
             <Image
               src="/images/unn-lion-banner.svg"
               width={0}
@@ -68,7 +68,7 @@ export default function DesktopHero() {
       <aside
         role="menubar"
         id="socials"
-        className="absolute bottom-64 left-3 flex flex-col items-center justify-center gap-4"
+        className="absolute bottom-52 left-3 flex flex-col items-center justify-center gap-4"
       >
         <span className="flex flex-col items-center justify-center gap-2">
           {hero_socials.map((item, idx) => (
@@ -76,9 +76,9 @@ export default function DesktopHero() {
               href={item.link}
               key={idx}
               target="_blank"
-              className="w-10 h-10 flex items-center justify-center rounded-md bg-white border-2 border-black"
+              className="w-8 h-8 flex items-center justify-center rounded-md bg-white border-2 border-black"
             >
-              <Icon icon={item.icon} width={32} height={32} />
+              <Icon icon={item.icon} width={18} height={18} />
             </Link>
           ))}
         </span>

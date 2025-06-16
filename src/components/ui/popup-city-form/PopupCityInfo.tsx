@@ -1,5 +1,6 @@
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 
 interface PopupCityInfoProps {
   onNext: () => void;
@@ -8,49 +9,78 @@ interface PopupCityInfoProps {
 const PopupCityInfo = ({ onNext }: PopupCityInfoProps) => {
   return (
     <>
-      <div className="space-y-7">
-        <div className="border-b border-light-gray pb-7">
-          <h2 className="text-lg font-semibold text-orange-500">
-            Who Should Attend
-          </h2>
-          <h2 className="text-lg font-bold text-orange-500 -mt-2 mb-4">
-            The Pop-Up City?
-          </h2>
-          <p className="text-gray-600">
-            The Pop-Up City is for anyone based in Enugu or the Southeast who
-            wants to explore Ethereum, Web3, and the future of the internet.
-          </p>
+      <div className="space-y-7 w-full  ">
+        <div className="w-full flex flex-col md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
+          <div className=" w-16 h-16 md:w-20 md:h-20 ">
+            <Image
+              src={"/conf-sumit-page-bg/Group 52.svg"}
+              width={0}
+              height={0}
+              alt="Image"
+              className="object-cover w-full h-full "
+            />
+          </div>
+
+          <div className="">
+            <h3 className=" leading-[100%] font-semibold text-orange-500 mb-2">
+              Who Should Attend <br />
+              The Pop-Up City?
+            </h3>
+            <h6 className="text-gray-600">
+              Open for two weeks to anyone who can be in Enugu and walks in to
+              the co-working space - with daily workshops, Mentorship sessions,
+              networking with residents & locals and a hackathon happening to
+              ignite blockchain adoption.
+              <br />
+              <br />
+              We&apos;d also kickstart the{" "}
+              <span className=" font-bold ">
+                {" "}
+                Ethereum Research village{" "}
+              </span>{" "}
+              workshops during the pop-up city.
+            </h6>
+          </div>
         </div>
 
         <div className="mb-6">
-          <h3 className="text-md font-semibold text-gray-800 mb-2">
+          <h5 className=" !font-semibold text-gray-800 mb-2">
             You should join if you are:
-          </h3>
-          <ul className="list-disc ml-5 list-inside text-base text-dark space-y-1">
-            <li>A student or young professional curious about Web3</li>
-            <li>A local builder who wants a place to work and collaborate</li>
-            <li>
-              Someone looking to meet new people and be part of a tech-forward
-              community
+          </h5>
+          <ul className="list-disc pl-5">
+            <li className="font-normal text-sm text-[#000000]">
+              A student, young professional or builder who wants a place to work
+              and collaborate{" "}
             </li>
-            <li>
-              Interested in learning, attending workshops, or contributing to
-              open projects
+            <li className="font-normal text-sm text-[#000000]">
+              Someone looking to meet new people, be part of the Web3 ecosystem
+              and contribute to Open Source projects
+            </li>
+            <li className="font-normal text-sm text-[#000000]">
+              Curious about Ethereum research, academic papers, node operations,
+              protocol engineering, security, infra and deep tech.
             </li>
           </ul>
         </div>
 
         <div className="mb-6">
-          <h3 className="text-md font-semibold text-gray-800 mb-2">
-            What You Get
-          </h3>
+          <h5 className="!font-semibold text-gray-800 mb-2">What You Get</h5>
           <ul className="list-disc ml-5 list-inside text-base text-dark space-y-1">
-            <li>Free daily access to a coworking space (Aug 4–8)</li>
-            <li>A chance to meet and collaborate with Builder Residents</li>
-            <li>Access to community activities, hangouts, and peer learning</li>
-            <li>Possible lunch on select days</li>
-            <li>Early access or discounts to the ETH Enugu Conference</li>
-            <li>A chance to grow your local network and get noticed</li>
+            <li className="font-normal text-sm text-[#000000]">
+              Free daily access to a coworking space (Aug 4th – 16th)
+            </li>
+            <li className="font-normal text-sm text-[#000000]">
+              A chance to meet and collaborate with Builder Residents
+            </li>
+            <li className="font-normal text-sm text-[#000000]">
+              Access to community activities, hangouts, and peer learning
+            </li>
+            <li className="font-normal text-sm text-[#000000]">
+              Access to mentors, Opportunities and the Pop-up city hackathon
+            </li>
+            <li className="font-normal text-sm text-[#000000]">
+              A chance to grow your local network and get noticed
+            </li>
           </ul>
         </div>
 

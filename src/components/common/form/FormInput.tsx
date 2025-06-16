@@ -9,10 +9,22 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
   className?: string;
   isGrayInput?: boolean;
+  isRequired?: boolean;
 }
 
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  ({ label, error, type = "text", className, isGrayInput, ...props }, ref) => {
+  (
+    {
+      label,
+      error,
+      type = "text",
+      className,
+      isRequired,
+      isGrayInput,
+      ...props
+    },
+    ref
+  ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
@@ -26,7 +38,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       <div className="relative w-full font-sans">
         {label && (
           <label className="block mb-1 font-bold text-dark text-base">
-            {label}
+            {label} {isRequired && <span className="text-red-500">*</span>}
           </label>
         )}
 

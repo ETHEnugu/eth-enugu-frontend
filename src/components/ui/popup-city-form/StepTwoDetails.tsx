@@ -9,6 +9,7 @@ import type {
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface StepOtherInfoProps {
   register: UseFormRegister<PopupCityProps>;
@@ -20,12 +21,6 @@ const volunteerOptions = [
   { label: "Yes", value: "YES" },
   { label: "No", value: "NO" },
   { label: "Maybe", value: "MAYBE" },
-];
-
-const joinOptions = [
-  { label: "Yes", value: "YES" },
-  { label: "No", value: "NO" },
-  { label: "Already a member", value: "ALREADY_MEMBER" },
 ];
 
 const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
@@ -65,7 +60,63 @@ const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
 
   return (
     <div className="space-y-7">
+      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+        <p className="block text-base font-medium mb-1">
+          <span className="text-green-550 font-extrabold">Note:</span> The
+          Pop-up city is open for 2 weeks to all who can attend - not just
+          residents or locals. There is no accomodation provided for the popup
+          city, However there would be lunch provided occasionally
+        </p>
+      </div>
+
       <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          <span className="my-3">
+            {" "}
+            Can you make it to Enugu IRL for this Pop-up city if accepted ?{" "}
+            <span className="text-red-500">*</span>{" "}
+          </span>
+          {/* Add adequate spacing before the options  */}
+          {/* Depends on the selected radio from step one  */}
+        </label>
+
+        <RadioGroup
+          defaultValue=""
+          onValueChange={(value) => console.log(value)}
+          {...register("spApplicationType", {
+            required: "Please select a category",
+          })}
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option1" id="option1" />
+            <label htmlFor="option1">
+              Yes, I will be attending the ETH-Enugu Pop-up City IRL on select
+              days
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="option2" id="option2" />
+            <label htmlFor="option2">
+              No yet certain that i will be able to attend IRL
+            </label>
+          </div>
+        </RadioGroup>
+        <p className="text-red-500 text-sm mt-1">
+          {" "}
+          {errors.spApplicationType?.message}{" "}
+        </p>
+
+        {errors.setupRequirements && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.setupRequirements.message}
+          </p>
+        )}
+      </div>
+
+      {/* Would you likw to paricipate in the ETHEnugu '25 popup city hackathon */}
+
+      <div>
+        {/* this input is dependent on if they will be attending IRL, implement the condiotn */}
         <label className="block font-bold text-dark text-base mb-1">
           What days are you likely to attend?
         </label>
@@ -156,7 +207,7 @@ const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Any dietary or accessibility needs?
+          Any Medical, Physical or Accessibility needs?
         </label>
         <textarea
           {...register("dietaryAccessibilityNeeds")}
@@ -188,7 +239,7 @@ const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
         )}
       </div>
 
-      <div>
+      {/* <div>
         <label className="block font-bold text-dark text-base mb-1">
           Would you like to join the ETH Enugu online community
           (Telegram/WhatsApp)?
@@ -209,7 +260,8 @@ const StepTwoDetails = ({ register, errors, setValue }: StepOtherInfoProps) => {
             {errors.joinOnlineCommunity.message}
           </p>
         )}
-      </div>
+      </div> */}
+      {/* this input should be removed form the BE */}
     </div>
   );
 };

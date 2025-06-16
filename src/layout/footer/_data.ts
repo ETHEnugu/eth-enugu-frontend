@@ -8,19 +8,15 @@ export const foot_nav = {
       title: "Agenda",
       link: "/",
     },
-    {
-      title: "Sponsored",
-      link: "/",
-    },
   ],
   "quick links": [
     {
-      title: "Become a Speaker",
+      title: "Become a Mentor/Speaker",
       link: "/speaker-application",
     },
     {
-      title: "Tickets",
-      link: "/conference-application",
+      title: "Get a Ticket",
+      link: "",
     },
     // {
     //   title: "Blog",
@@ -29,8 +25,8 @@ export const foot_nav = {
   ],
   resources: [
     {
-      title: "Privacy",
-      link: "/privacy",
+      title: "Sponsor",
+      link: "https://docs.google.com/presentation/d/14CTUVGzj6fXICJLnSzNqXc-iLpWardOwjIH-AHFQwPs/edit?usp=drivesdk",
     },
     {
       title: "FAQs",
