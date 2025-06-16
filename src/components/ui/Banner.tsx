@@ -67,7 +67,7 @@ const Banner = () => {
             return (
               <div
                 key={item?.id}
-                className={`w-full max-w-[90%] mx-auto flex flex-col gap-4 ${containerColor} ${textColor} rounded-xl md:px-20 py-8 px-5 md:py-[60px] border border-dark overflow-hidden`}
+                className={`w-full max-w-[90%] mx-auto flex flex-col gap-4 ${containerColor} ${textColor} rounded-2xl md:px-20 py-8 px-5 md:py-[60px] border border-dark overflow-hidden`}
               >
                 <div
                   className={`w-full flex flex-col md:flex-row items-start justify-between gap-8 md:gap-12`}
@@ -96,7 +96,7 @@ const Banner = () => {
                               ))}
                             </div>
                           ) : (
-                            <ul className="flex flex-col gap-2 mb-6 w-fit bg-black/10 rounded-md p-6 text-base">
+                            <ul className="flex flex-col gap-2 mb-6 w-fit bg-white/10 rounded-2xl p-6 text-base">
                               {item?.features.map((feature, i) => (
                                 <li
                                   key={i}
@@ -117,12 +117,18 @@ const Banner = () => {
                       )}
 
                       {(item?.participants > 0 || item?.duration) && (
-                        <aside className="w-full md:w-84 space-y-4 bg-black/20 p-6 rounded-2xl">
+                        <aside
+                          className={`w-full md:w-84 space-y-4 bg-white/20 p-6 rounded-2xl`}
+                        >
                           <h4>Event Details</h4>
                           {item?.participants > 0 && (
-                            <div className="bg-black/10 p-4 rounded-2xl text-amber-400">
+                            <div
+                              className={`bg-black/30 p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
+                            >
                               Participants: <br />
-                              <span className="flex items-center gap-2 text-white">
+                              <span
+                                className={`flex items-center gap-2 ${item?.type === "popup" ? "text-dark" : "text-white"}`}
+                              >
                                 <Icon
                                   icon="mdi:account-group"
                                   width={24}
@@ -133,9 +139,13 @@ const Banner = () => {
                             </div>
                           )}
                           {item?.duration && (
-                            <div className="bg-black/10 p-4 rounded-2xl text-amber-400">
+                            <div
+                              className={`p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
+                            >
                               Duration: <br />
-                              <span className="flex items-center gap-2 text-white">
+                              <span
+                                className={`flex items-center gap-2 ${item?.type === "popup" ? "text-dark" : "text-white"}`}
+                              >
                                 <Icon
                                   icon="mdi:calendar"
                                   width={24}
