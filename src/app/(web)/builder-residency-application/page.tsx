@@ -64,11 +64,13 @@ const BuildersResidencyPage = () => {
         canAttendIRL: "",
         backgroundAndSkills: "",
         currentlyBuilding: "",
-        previousBuilderPrograms: false,
+        previousBuilderPrograms: "",
         joinReason: "",
-        openToCollaboration: false,
+        shareRoom: false,
         dietaryAccessibilityNeeds: "",
         referralSource: "",
+        ervInvolvement: "",
+        participateInERV: false,
       };
 
   const methods = useForm<BuildersResidencyProps>({
@@ -137,7 +139,7 @@ const BuildersResidencyPage = () => {
   const onSubmit = async (data: BuildersResidencyProps) => {
     const stepThreeFields: (keyof BuildersResidencyProps)[] = [
       "joinReason",
-      "openToCollaboration",
+      "shareRoom",
       "dietaryAccessibilityNeeds",
       "referralSource",
     ];
@@ -215,6 +217,8 @@ const BuildersResidencyPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                control={control}
+                watch={watch}
               />
             )}
             <div className="flex md:flex-row flex-col-reverse gap-4 mt-5">

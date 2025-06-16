@@ -11,17 +11,17 @@ const PopupCityInfo = ({ onNext }: PopupCityInfoProps) => {
     <>
       <div className="space-y-7 w-full  ">
         <div className="w-full flex flex-col md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
-          <div className=" w-16 h-16 md:w-20 md:h-20 ">
+          <div className=" md:w-[104px] md:h-[112px] w-[74.3px] h-[80px] ">
             <Image
               src={"/conf-sumit-page-bg/Group 52.svg"}
-              width={0}
-              height={0}
+              width={100}
+              height={100}
               alt="Image"
               className="object-cover w-full h-full "
             />
           </div>
 
-          <div className="">
+          <div className="w-full flex flex-col items-start gap-2 ">
             <h3 className=" leading-[100%] font-semibold text-orange-500 mb-2">
               Who Should Attend <br />
               The Pop-Up City?

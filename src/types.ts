@@ -134,7 +134,8 @@ export interface PopupCityProps {
   email: string;
   gender: string | number | boolean;
   whatsappNumber: string;
-  location: string | number | boolean;
+  country: string;
+  state: string;
   currentRole: string | number | boolean;
   otherCurrentRole: string;
   web3Familiarity: string | number | boolean;
@@ -146,6 +147,10 @@ export interface PopupCityProps {
   joinOnlineCommunity: string | number | boolean;
   setupRequirements: string;
   spApplicationType: string;
+  twitterProfile?: string | null;
+  linkedinProfile?: string | null;
+  participateInERV: boolean;
+  ervInvolvement?: string | null;
 }
 
 export interface BuildersResidencyProps {
@@ -165,7 +170,9 @@ export interface BuildersResidencyProps {
   currentlyBuilding: string;
   previousBuilderPrograms: string | number | boolean;
   joinReason: string;
-  openToCollaboration: string | number | boolean;
+  shareRoom: string | number | boolean;
   dietaryAccessibilityNeeds: string | number | boolean;
   referralSource: string | number | boolean;
+  participateInERV: boolean;
+  ervInvolvement?: string;
 }

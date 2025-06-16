@@ -136,7 +136,7 @@ const BStepOneDetails = ({
       />
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country of Residence<span className="text-red-500">*</span>
+          Country<span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Select Country"

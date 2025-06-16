@@ -33,7 +33,7 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
     currentlyBuilding: Yup.string().required(
       "Let us know if you’re currently building something"
     ),
-    previousBuilderPrograms: Yup.boolean()
+    previousBuilderPrograms: Yup.string()
       .required(
         "Please tell us if you’ve joined any builder programs or hackathons"
       )
@@ -51,7 +51,7 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
     projectInterest: Yup.string().required(
       "Share the kind of project you’re interested in"
     ),
-    openToCollaboration: Yup.boolean()
+    shareRoom: Yup.boolean()
       .required("Let us know if you're open to collaboration")
       .transform((value, originalValue) =>
         originalValue === "true"
@@ -82,4 +82,7 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
             ? false
             : value
       ),
+
+    participateInERV: Yup.boolean().required("Please select an option"),
+    ervInvolvement: Yup.string().optional(),
   });

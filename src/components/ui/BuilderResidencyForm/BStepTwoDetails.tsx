@@ -22,14 +22,20 @@ interface StepTwoInfoProps {
 const buildOptions = [
   {
     label: "Yes, I have been part of a builder resisdency/program",
-    value: true,
+    value: "YES_I_HAVE_BEEN_PART_OF_A_BUILDER_RESISDENCY",
   },
-  { label: "Yes, I have been part of a Pop-up city in the past", value: true },
+  {
+    label: "Yes, I have been part of a Pop-up city in the past",
+    value: "YES_I_HAVE_BEEN_PART_OF_A_POPUP_CITY_IN_THE_PAST",
+  },
   {
     label: "Yes, I have been part of hackathons before in the past",
-    value: true,
+    value: "YES_I_HAVE_BEEN_PART_OF_A_HACKATHONS_BEFORE_IN_THE_PAST",
   },
-  { label: "No, I have not been involved in any", value: false },
+  {
+    label: "No, I have not been involved in any",
+    value: "NO_I_HAVE_NOT_BEEN_INVOLVED_IB_ANY",
+  },
 ];
 
 const canAttendIRLOptions = [

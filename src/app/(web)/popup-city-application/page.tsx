@@ -52,7 +52,8 @@ const PopupCityPage = () => {
         email: "",
         gender: "",
         whatsappNumber: "",
-        location: "",
+        country: "",
+        state: "",
         currentRole: "",
         web3Familiarity: "",
         preferredDates: "",
@@ -62,6 +63,10 @@ const PopupCityPage = () => {
         referralSource: "",
         joinOnlineCommunity: "",
         otherCurrentRole: "",
+        twitterProfile: "",
+        linkedinProfile: "",
+        participateInERV: false,
+        ervInvolvement: "",
       };
 
   const methods = useForm<PopupCityProps>({
@@ -76,6 +81,7 @@ const PopupCityPage = () => {
     setValue,
     trigger,
     watch,
+    control,
     formState: { errors },
   } = methods;
 
@@ -97,9 +103,11 @@ const PopupCityPage = () => {
         "email",
         "gender",
         "whatsappNumber",
-        "location",
+        "country",
         "currentRole",
         "web3Familiarity",
+        "twitterProfile",
+        "linkedinProfile",
       ];
 
       const isValid = await trigger(stepOneFields, { shouldFocus: true });
@@ -177,6 +185,7 @@ const PopupCityPage = () => {
                 errors={errors}
                 setValue={setValue}
                 watch={watch}
+                control={control}
               />
             )}
             {currentStep === 2 && (
@@ -184,6 +193,8 @@ const PopupCityPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                control={control}
+                watch={watch}
               />
             )}
             <div className="flex md:flex-row flex-col-reverse gap-4 mt-5">
