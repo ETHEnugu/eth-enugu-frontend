@@ -1,69 +1,42 @@
 "use client";
+
+import BuilderResidencySuccess from "@/components/ui/BuilderResidencyForm/BuilderResidencySuccess";
+import ConferenceSuccess from "@/components/ui/ConferenceForm/ConferenceSuccess";
+import PopupSuccess from "@/components/ui/popup-city-form/PopupSuccess";
+import SpeakerSuccess from "@/components/ui/SpeakerForm/SpeakerSuccess";
 import { useSearchParams } from "next/navigation";
-import Success from "@/components/ui/Success";
 import { Suspense } from "react";
 
-const SuccessPage = () => {
-  return (
-    <Suspense fallback={<div>Loading form...</div>}>
-      <SuccessP />
-    </Suspense>
-  );
-};
-
-const SuccessP = () => {
+function SuccessPageContent() {
   const searchParams = useSearchParams();
   const formType = searchParams.get("form");
 
-  let successContent;
+  const renderSuccessComponent = () => {
+    switch (formType) {
+      case "Conference":
+        return <ConferenceSuccess />;
+      case "Speaker":
+        return <SpeakerSuccess />;
+      case "Popup-city":
+        return <PopupSuccess />;
+      case "BuilderResidency":
+        return <BuilderResidencySuccess />;
+      default:
+        return <p>No form type found</p>;
+    }
+  };
 
-  switch (formType) {
-    case "speaker":
-      successContent = (
-        <Success
-          title="Application Received! 🎉"
-          content="Thank you for applying to speak at ETH Enugu &lsquo;25. We&lsquo;re excited to review your proposal and will be in touch shortly."
-        />
-      );
-      break;
+  return (
+    <div className="bg-[url('/conf-sumit-page-bg/AbstractBg.svg')] bg-no-repeat bg-cover min-h-[75vh] flex items-start justify-center px-[5%] py-20">
+      {renderSuccessComponent()}
+    </div>
+  );
+}
 
-    case "popup":
-      successContent = (
-        <Success
-          title="You&lsquo;re In! 🎉"
-          content="Thanks for registering for the ETH Enugu &lsquo;25 Pop-Up City. You&lsquo;ll receive updates via email or WhatsApp."
-        />
-      );
-      break;
-
-    case "builders":
-      successContent = (
-        <Success
-          title="You&lsquo;re In! 🎉"
-          content="Thanks for registering for the ETH Enugu &lsquo;25 Builder residency. You&lsquo;ll receive updates via email or WhatsApp."
-        />
-      );
-      break;
-
-    case "summit":
-      successContent = (
-        <Success
-          title="You&lsquo;re In! 🎉"
-          content=" Thanks for registering for the ETH Enugu &lsquo;25 Conference/Summit. You&lsquo;ll receive updates via email or WhatsApp."
-        />
-      );
-      break;
-
-    default:
-      successContent = (
-        <Success
-          title="Success! 🎉"
-          content="Thank you! Your form has been submitted successfully."
-        />
-      );
-  }
-
-  return <>{successContent}</>;
-};
-
-export default SuccessPage;
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SuccessPageContent />
+    </Suspense>
+  );
+}

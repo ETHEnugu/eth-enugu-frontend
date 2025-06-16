@@ -27,8 +27,8 @@ export default function ConfInfoBanner({ handleNext }: ConInfoBannerProps) {
               <br /> The Conference/Summit ’25?
             </h3>
             <h6 className=" w-full max-w-[336px] ">
-              The ETH Enugu Conference/Summit is for everyone — from curious
-              newcomers to seasoned builders.
+              The ETH Enugu Conference/Summit is a 1-day event for everyone -
+              from curious newcomers to seasoned builders.
             </h6>
           </div>
         </div>

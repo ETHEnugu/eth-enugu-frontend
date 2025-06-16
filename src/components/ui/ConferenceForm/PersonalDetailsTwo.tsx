@@ -1,12 +1,15 @@
 "use client";
 
 import Dropdown from "@/components/common/dropdown";
+import FormInput from "@/components/common/form/FormInput";
 import { ConferenceProps } from "@/types";
+import { useEffect } from "react";
 import {
   FieldErrors,
   UseFormRegister,
   UseFormSetError,
   UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
 
 interface PersonalDetailsTwoProps {
@@ -14,12 +17,14 @@ interface PersonalDetailsTwoProps {
   errors: FieldErrors<ConferenceProps>;
   setValue: UseFormSetValue<ConferenceProps>;
   setError: UseFormSetError<ConferenceProps>;
+  watch: UseFormWatch<ConferenceProps>;
 }
 
 export default function PersonalDetailsTwo({
   errors,
   register,
   setValue,
+  watch,
 }: PersonalDetailsTwoProps) {
   const roles = [
     { label: "Student", value: "STUDENT" },
@@ -45,6 +50,17 @@ export default function PersonalDetailsTwo({
     { label: "Yes", value: "YES" },
     { label: "No", value: "NO" },
   ];
+
+  const roleDescription = watch("roleDescription");
+
+  useEffect(() => {
+    if (roleDescription && roleDescription !== "OTHER") {
+      setValue("otherRole", "", {
+        shouldValidate: false,
+        shouldDirty: false,
+      });
+    }
+  }, [roleDescription, setValue]);
 
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8 ">
@@ -74,6 +90,21 @@ export default function PersonalDetailsTwo({
         )}
       </div>
 
+      {roleDescription === "OTHER" && (
+        <FormInput
+          type="text"
+          label="Please enter a description"
+          {...register("otherRole", {
+            required: "Please enter your role Description",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
+          })}
+          error={errors.otherRole?.message}
+        />
+      )}
+
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           What are you hoping to gain from the conference?
@@ -81,6 +112,10 @@ export default function PersonalDetailsTwo({
         <textarea
           {...register("expectedGains", {
             required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
           })}
           placeholder="Write here..."
           rows={4}
@@ -155,6 +190,10 @@ export default function PersonalDetailsTwo({
           className="w-full border rounded-lg px-4 py-3 text-lg"
           {...register("dietaryAccessibilityNeeds", {
             required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
           })}
         />
         {errors.dietaryAccessibilityNeeds && (
@@ -174,6 +213,10 @@ export default function PersonalDetailsTwo({
           className="w-full border rounded-lg px-4 py-3 text-lg"
           {...register("referralSource", {
             required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
           })}
         />
         {errors.referralSource && (

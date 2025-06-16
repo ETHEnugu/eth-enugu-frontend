@@ -17,7 +17,14 @@ import { toast } from "sonner";
 
 const PopupCity = () => {
   return (
-    <Suspense fallback={<div>Loading form...</div>}>
+    <Suspense
+      fallback={
+        <div className="w-full h-[50vh] ">
+          {" "}
+          <Spinner />{" "}
+        </div>
+      }
+    >
       <PopupCityPage />
     </Suspense>
   );
@@ -48,13 +55,13 @@ const PopupCityPage = () => {
         location: "",
         currentRole: "",
         web3Familiarity: "",
-        attendDay1: "",
-        attendDay2: "",
+        preferredDates: "",
         freeLunchConsideration: "",
         volunteeringInterest: "",
         dietaryAccessibilityNeeds: "",
         referralSource: "",
         joinOnlineCommunity: "",
+        otherCurrentRole: "",
       };
 
   const methods = useForm<PopupCityProps>({
@@ -68,6 +75,7 @@ const PopupCityPage = () => {
     handleSubmit,
     setValue,
     trigger,
+    watch,
     formState: { errors },
   } = methods;
 
@@ -106,8 +114,7 @@ const PopupCityPage = () => {
 
   const onSubmit = async (data: PopupCityProps) => {
     const stepTwoFields: (keyof PopupCityProps)[] = [
-      "attendDay1",
-      "attendDay2",
+      "preferredDates",
       "freeLunchConsideration",
       "volunteeringInterest",
       "dietaryAccessibilityNeeds",
@@ -133,9 +140,13 @@ const PopupCityPage = () => {
     router.push(`?step=${step}`);
   };
 
+  const formData = watch();
+
+  console.log(formData);
+
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
-      <div className="mx-auto md:w-1/2 p-6 rounded-xl border shadow-md bg-white">
+      <div className="mx-auto w-full max-w-3xl p-6 rounded-xl border shadow-md bg-white">
         {currentStep === 0 && <PopupCityInfo onNext={handleNext} />}
 
         {currentStep > 0 && (
@@ -165,6 +176,7 @@ const PopupCityPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
               />
             )}
             {currentStep === 2 && (

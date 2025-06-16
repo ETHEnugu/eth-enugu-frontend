@@ -5,6 +5,7 @@ import { Button } from "@/components/common/button";
 import { useRouter } from "next/navigation";
 import { hero_socials } from "@/components/ui/_data";
 import { motion, AnimatePresence } from "framer-motion";
+import GenerateDpLinks from "./GenerateDpLinks";
 
 export default function MobileNav({
   isOpen,
@@ -45,6 +46,30 @@ export default function MobileNav({
           >
             {navbar_items
               .filter((item) => item.title !== "Event")
+              .slice(0, 2)
+              .map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + idx * 0.1 }}
+                  className="w-full border-b border-black/40"
+                >
+                  <Link
+                    href={item.link}
+                    className="block py-4 text-lg font-medium hover:text-green-550 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item?.title}
+                  </Link>
+                </motion.div>
+              ))}
+
+            <GenerateDpLinks onClick={() => setIsOpen(false)} />
+
+            {navbar_items
+              .filter((item) => item.title !== "Event")
+              .slice(3, 4)
               .map((item, idx) => (
                 <motion.div
                   key={idx}
@@ -92,7 +117,7 @@ export default function MobileNav({
                     setIsOpen(false);
                   }}
                 >
-                  Apply to Speak
+                  Apply to Mentor/Speak
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}

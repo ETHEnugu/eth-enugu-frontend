@@ -42,6 +42,10 @@ export default function PersonalDetailsOne({
         placeholder="Full name"
         {...register("fullName", {
           required: "Your Full Name is required",
+          minLength: {
+            value: 3,
+            message: "Your response must be at least 3 characters long",
+          },
         })}
         error={errors.fullName?.message}
       />
@@ -70,6 +74,10 @@ export default function PersonalDetailsOne({
             value:
               /^\+?\d{1,4}?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
             message: "Enter a valid phone number",
+          },
+          minLength: {
+            value: 10,
+            message: "please a minimum of 10 digits is required",
           },
         })}
         onInput={(e) => {

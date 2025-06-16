@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import MobileNav from "./MobileNav";
 import LinksDisplayModal from "./LinksDisplayModal";
+import GenerateDpLinks from "./GenerateDpLinks";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -40,7 +41,23 @@ export default function Navbar() {
           role="navigation"
           className="hidden md:flex items-center gap-4 ml-18"
         >
-          {navbar_items.map((item, idx) => (
+          {navbar_items.slice(0, 2).map((item, idx) => (
+            <Link
+              key={idx}
+              href={item?.link}
+              className={`text-base font-medium transition-colors duration-200 hover:text-green-550 ${
+                pathname === item.link
+                  ? "text-green-550 font-semibold"
+                  : "text-gray-700"
+              }`}
+            >
+              {item?.title}
+            </Link>
+          ))}
+
+          <GenerateDpLinks pathname={pathname} />
+
+          {navbar_items.slice(3, 4).map((item, idx) => (
             <Link
               key={idx}
               href={item?.link}
@@ -71,7 +88,7 @@ export default function Navbar() {
               design="rounded"
               className="flex items-center gap-3"
             >
-              Apply to Speak
+              Apply to Mentor/Speak
               <Icon icon="solar:arrow-right-linear" width={18} height={18} />
             </Button>
           </Link>

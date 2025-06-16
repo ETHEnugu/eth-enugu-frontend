@@ -15,17 +15,41 @@ export default function ConferenceSuccess() {
             Thanks for registering for the ETH Enugu ‘25 Conference/Summit.
             You’ll receive updates via email or WhatsApp.
           </p>
+
+          <div className="flex gap-1 mb-2">
+            <Link
+              href="/generate-dp?from=conference"
+              className="text-[var(--color-green-550)] font-semibold"
+            >
+              Click to generate DP
+            </Link>
+          </div>
+
           <p className="font-medium text-[var(--color-dark)">
             Join the ETH Enugu Telegram & Whatsapp community to stay in the loop
             and connect with others before the event:
           </p>
           <div className="flex flex-col gap-1">
             <div className="flex gap-1">
+              <Link
+                href="https://t.me/ETH_Enugu"
+                className="text-[var(--color-green-550)] "
+                target="_blank"
+              >
+                Join{" "}
+                <span className="text-[#009FCC] underline ">
+                  {" "}
+                  Telegram group
+                </span>
+              </Link>
+            </div>
+
+            <div className="flex gap-1">
               Follow
               <Link
                 href="https://x.com/eth_enugu"
                 target="_blank"
-                className="text-black underline"
+                className="text-blue-800 underline"
               >
                 ETHEnugu on X
               </Link>
@@ -33,17 +57,7 @@ export default function ConferenceSuccess() {
             <div className="flex gap-1 mb-2">
               Join
               <Link
-                href="https://t.me/ETH_Enugu/1"
-                target="_blank"
-                className="text-blue-800 underline"
-              >
-                Telegram Group
-              </Link>
-            </div>
-            <div className="flex gap-1 mb-2">
-              Join
-              <Link
-                href="#telegram"
+                href="https://chat.whatsapp.com/FipXVEahmnOGiuzQQnKyoo"
                 target="_blank"
                 className="text-green-550 underline"
               >

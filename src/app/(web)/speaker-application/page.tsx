@@ -1,16 +1,17 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import StepOtherInfo from "@/components/ui/SpeakerForm/StepOtherInfo";
 import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
-import { SpeakerProps } from "@/types";
+import type { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Resolver, useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
 import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { speakerValidation } from "@/validations/speakerValidations";
+import Spinner from "@/components/common/spinner";
 
 const steps = [
   "Personal Information",
@@ -22,11 +23,9 @@ const SpeakerForm = () => {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading form...</p>
-          </div>
+        <div className="w-full h-[50vh] ">
+          {" "}
+          <Spinner />{" "}
         </div>
       }
     >
@@ -39,6 +38,7 @@ const SpeakerApplicationForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step")) || 0;
+  const FORM_KEY = "speakerForm";
   const { mutate, isPending } = usePostMutation(
     SPEAKER.CREATE,
     "create_speaker"
@@ -57,6 +57,7 @@ const SpeakerApplicationForm = () => {
     setValue,
     watch,
     trigger,
+    control,
     formState: { errors },
   } = useForm<SpeakerProps>({
     resolver: yupResolver(speakerValidation) as Resolver<SpeakerProps>,
@@ -65,38 +66,71 @@ const SpeakerApplicationForm = () => {
       fullName: "",
       email: "",
       whatsappNumber: "",
-      location: "",
+      country: "",
+      state: "",
       twitterProfile: "",
       linkedinProfile: "",
-      website: "",
-      sessionType: "TALK",
-      sessionLength: "MINUTES_30",
+      sessionType: "",
+      otherSessionType: "",
+      sessionLength: "",
       presentationAvailable: false,
       presentationLink: "",
-      setupRequirements: "",
       talkTitle: "",
       talkDescription: "",
-      expectedArrivalDate: "",
-      willingToSpeakWithoutSupport: false,
-      referralSource: "",
-      joinOnlineCommunity: "",
+      expectedArrivalDates: [],
+      participationType: "",
+      gender: "",
+      roles: [],
+      bio: "",
+      otherRole: "",
+      comfortableWithTopicChange: false,
+      canMakeItToEnugu: false,
+      participateInERV: false,
+      ervInvolvement: "",
     },
   });
 
   const formData = watch();
+  console.log(formData);
+
+  // storing form data to local storage
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem(FORM_KEY) || "{}");
+    if (savedData) {
+      Object.keys(savedData).forEach((key) => {
+        setValue(key as keyof SpeakerProps, savedData[key]);
+      });
+    }
+  }, [setValue]);
+
+  useEffect(() => {
+    localStorage.setItem(FORM_KEY, JSON.stringify(formData));
+  }, [formData]);
 
   // Enhanced navigation with validation
   const handleNext = async () => {
     let fieldsToValidate: (keyof SpeakerProps)[] = [];
 
     if (currentStep === 0) {
-      fieldsToValidate = ["fullName", "email", "whatsappNumber", "location"];
+      fieldsToValidate = [
+        "fullName",
+        "email",
+        "whatsappNumber",
+        "country",
+        "state",
+        "participationType",
+        "gender",
+        "bio",
+        "twitterProfile",
+        "roles",
+      ];
     } else if (currentStep === 1) {
       fieldsToValidate = [
         "sessionType",
         "sessionLength",
         "talkTitle",
         "talkDescription",
+        "comfortableWithTopicChange",
       ];
     }
 
@@ -118,8 +152,9 @@ const SpeakerApplicationForm = () => {
     try {
       // Validate final step before submission
       const finalStepValid = await trigger([
-        "expectedArrivalDate",
-        "willingToSpeakWithoutSupport",
+        "expectedArrivalDates",
+        "canMakeItToEnugu",
+        "participateInERV",
       ]);
 
       if (!finalStepValid) {
@@ -132,23 +167,37 @@ const SpeakerApplicationForm = () => {
         ...data,
         // Ensure boolean fields are properly formatted
         presentationAvailable: Boolean(data.presentationAvailable),
-        willingToSpeakWithoutSupport: Boolean(
-          data.willingToSpeakWithoutSupport
-        ),
-        // Remove empty optional fields
+        canMakeItToEnugu: Boolean(data.canMakeItToEnugu),
+        participateInERV: Boolean(data.participateInERV),
+        comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
+
+        // Handle optional string fields - convert empty strings to null
         twitterProfile: data.twitterProfile?.trim() || null,
         linkedinProfile: data.linkedinProfile?.trim() || null,
-        website: data.website?.trim() || null,
-        presentationLink: data.presentationLink?.trim() || null,
-        setupRequirements: data.setupRequirements?.trim() || null,
-        referralSource: data.referralSource?.trim() || null,
+        otherRole: data.otherRole?.trim() || null,
+        otherSessionType: data.otherSessionType?.trim() || null,
+
+        // Handle conditional fields
+        presentationLink:
+          data.presentationAvailable && data.presentationLink?.trim()
+            ? data.presentationLink.trim()
+            : null,
+
+        ervInvolvement:
+          data.participateInERV && data.ervInvolvement?.trim()
+            ? data.ervInvolvement.trim()
+            : null,
       };
 
-      mutate(cleanedData, {
+      // Remove any undefined or extra fields that might cause issues
+      const { ...finalData } = cleanedData;
+
+      mutate(finalData, {
         onSuccess: () => {
           toast.success("Speaker application submitted successfully!");
+          localStorage.removeItem(FORM_KEY);
           // Clear form data
-          router.push("/success");
+          router.push("/success?form=Speaker");
         },
         onError: (error: unknown) => {
           console.error("Submission error:", error);
@@ -174,20 +223,30 @@ const SpeakerApplicationForm = () => {
           formData.fullName &&
           formData.email &&
           formData.whatsappNumber &&
-          formData.location
+          formData.country &&
+          formData.state &&
+          formData.participationType &&
+          formData.gender &&
+          formData.roles &&
+          formData.roles.length > 0 &&
+          formData.bio &&
+          formData.twitterProfile
         );
       case 1:
         return !!(
           formData.sessionType &&
           formData.sessionLength &&
+          formData.comfortableWithTopicChange &&
           formData.talkTitle &&
           formData.talkDescription &&
           formData.presentationAvailable !== undefined
         );
       case 2:
         return !!(
-          formData.expectedArrivalDate &&
-          formData.willingToSpeakWithoutSupport !== undefined
+          formData.expectedArrivalDates &&
+          formData.expectedArrivalDates.length > 0 &&
+          formData.canMakeItToEnugu !== undefined &&
+          formData.participateInERV !== undefined
         );
       default:
         return false;
@@ -222,9 +281,10 @@ const SpeakerApplicationForm = () => {
               register={register}
               errors={errors}
               setValue={setValue}
-              formData={formData}
               onNext={handleNext}
               isValid={isCurrentStepValid()}
+              control={control}
+              watch={watch}
             />
           )}
 
@@ -237,6 +297,8 @@ const SpeakerApplicationForm = () => {
               onBack={handleBack}
               onNext={handleNext}
               isValid={isCurrentStepValid()}
+              watch={watch}
+              control={control}
             />
           )}
 
@@ -250,6 +312,8 @@ const SpeakerApplicationForm = () => {
               onSubmit={handleSubmit(onSubmit)}
               isSubmitting={isPending}
               isValid={isCurrentStepValid()}
+              watch={watch}
+              control={control}
             />
           )}
         </form>
