@@ -85,25 +85,31 @@ export interface SpeakerProps {
   fullName: string;
   email: string;
   whatsappNumber: string;
-  location: string;
+  country: string;
+  state: string;
   twitterProfile?: string | null;
   linkedinProfile?: string | null;
-  website?: string | null;
+  gender: string | number | boolean;
+  roles: string[];
+  bio: string;
+  otherRole: string;
+  participationType: string;
 
   // Session Details
   sessionType: string;
+  otherSessionType: string;
   sessionLength: string;
   presentationAvailable: boolean;
   presentationLink?: string | null;
-  setupRequirements?: string | null;
   talkTitle: string;
   talkDescription: string;
+  comfortableWithTopicChange: boolean;
 
   // Other Information
-  expectedArrivalDate: string;
-  willingToSpeakWithoutSupport: boolean;
-  referralSource?: string | null;
-  joinOnlineCommunity?: string;
+  canMakeItToEnugu: boolean;
+  expectedArrivalDates: string[] | null;
+  participateInERV: boolean;
+  ervInvolvement: string;
 }
 
 export interface ConferenceProps {
@@ -120,6 +126,7 @@ export interface ConferenceProps {
   dietaryAccessibilityNeeds: string;
   referralSource: string;
   joinOnlineCommunity: string | number | boolean;
+  otherRole: string;
 }
 
 export interface PopupCityProps {
@@ -129,6 +136,7 @@ export interface PopupCityProps {
   whatsappNumber: string;
   location: string | number | boolean;
   currentRole: string | number | boolean;
+  otherCurrentRole: string;
   web3Familiarity: string | number | boolean;
   preferredDates: string[] | null;
   freeLunchConsideration: string | number | boolean;
@@ -136,6 +144,8 @@ export interface PopupCityProps {
   dietaryAccessibilityNeeds: string | number | boolean;
   referralSource: string | number | boolean;
   joinOnlineCommunity: string | number | boolean;
+  setupRequirements: string;
+  spApplicationType: string;
 }
 
 export interface BuildersResidencyProps {
@@ -143,20 +153,19 @@ export interface BuildersResidencyProps {
   email: string;
   gender: string | number | boolean;
   whatsappNumber: string;
-  location: string | number | boolean;
-  githubProfile: string;
+  country: string;
+  state: string;
+  role: string[];
+  otherRole?: string;
   twitterProfile: string;
-  linkedinProfile: string;
+  linkedinProfile?: string;
   portfolioUrl: string;
-  primaryRole: string | number | boolean;
+  canAttendIRL: string;
   backgroundAndSkills: string;
   currentlyBuilding: string;
   previousBuilderPrograms: string | number | boolean;
   joinReason: string;
-  projectInterest: string | number | boolean;
   openToCollaboration: string | number | boolean;
-  needsAccommodation: string | number | boolean;
   dietaryAccessibilityNeeds: string | number | boolean;
   referralSource: string | number | boolean;
-  joinOnlineCommunity: string | number | boolean;
 }

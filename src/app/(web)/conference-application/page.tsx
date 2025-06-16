@@ -53,6 +53,7 @@ function Page() {
       age: "",
       gender: "",
       roleDescription: "",
+      otherRole: "",
       expectedGains: "",
       attendanceType: "",
       certificateNeeded: false,
@@ -111,6 +112,7 @@ function Page() {
   );
 
   const onSubmit = async (data: ConferenceProps) => {
+    console.log("the form data to be submitted:", data);
     mutate(data, {
       onSuccess: () => {
         toast.success("Conference/Summit form submitted successfully");
@@ -162,6 +164,7 @@ function Page() {
                 errors={errors}
                 setValue={setValue}
                 setError={setError}
+                watch={watch}
               />
             )}
 
