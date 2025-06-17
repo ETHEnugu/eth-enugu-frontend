@@ -9,6 +9,8 @@ import ScrollingText from "@/components/ui/Scrolling-text";
 import { CONFERENCE } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { ConferenceProps } from "@/types";
+// import { conferenceValidation } from "@/validations/conferenceValidations";
+// import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -34,7 +36,7 @@ function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("steps")) || 0;
-  const FORM_KEY = "applicationForm";
+  const FORM_KEY = "conferenceForm";
 
   const {
     register,
@@ -43,28 +45,30 @@ function Page() {
     watch,
     setError,
     trigger,
+    control,
     formState: { errors },
   } = useForm<ConferenceProps>({
     defaultValues: {
       fullName: "",
       email: "",
       whatsappNumber: "",
-      location: "",
-      age: "",
+      country: "",
+      state: "",
+      city: "",
       gender: "",
-      roleDescription: "",
+      role: [],
       otherRole: "",
-      expectedGains: "",
-      attendanceType: "",
+      volunteering: "",
       certificateNeeded: false,
-      dietaryAccessibilityNeeds: "",
       referralSource: "",
-      joinOnlineCommunity: "",
+      socials: "",
+      web3Familiarity: "",
     },
     mode: "onChange",
   });
 
   const formData = watch();
+  console.log(formData);
 
   const handleNext = async () => {
     if (currentStep === 0) {
@@ -76,9 +80,10 @@ function Page() {
         "fullName",
         "email",
         "whatsappNumber",
-        "location",
-        "age",
+        "country",
+        "state",
         "gender",
+        "socials",
       ]);
 
       setError("gender", { type: "required", message: "Gender is required" });
@@ -155,6 +160,8 @@ function Page() {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
+                control={control}
               />
             )}
 
@@ -165,6 +172,7 @@ function Page() {
                 setValue={setValue}
                 setError={setError}
                 watch={watch}
+                control={control}
               />
             )}
 

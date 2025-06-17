@@ -20,7 +20,7 @@ const BuildersResidency = () => {
   return (
     <Suspense
       fallback={
-        <div className="w-full h-[50vh] ">
+        <div className="w-full h-[50vh] flex items-center justify-center ">
           {" "}
           <Spinner />{" "}
         </div>
@@ -52,25 +52,29 @@ const BuildersResidencyPage = () => {
         fullName: "",
         email: "",
         gender: "",
+        age: "",
         whatsappNumber: "",
         country: "",
+        city: "",
         state: "",
-        role: "",
-        otherRole: "",
-        githubProfile: "",
-        twitterProfile: "",
-        linkedinProfile: "",
+        primaryRole: [],
+        otherPrimaryRole: "",
+        social: "",
         portfolioUrl: "",
-        canAttendIRL: "",
+        willBeLive: undefined,
         backgroundAndSkills: "",
         currentlyBuilding: "",
-        previousBuilderPrograms: "",
+        previousBuilderPrograms: [],
         joinReason: "",
-        shareRoom: false,
-        dietaryAccessibilityNeeds: "",
+        comfortableSharingAccomodation: undefined,
         referralSource: "",
         ervInvolvement: "",
-        participateInERV: false,
+        participateInERV: undefined,
+        walletAddress: "",
+        needCertificate: undefined,
+        hasRegisteredForTheHackathon: undefined,
+        githubProfile: "",
+        dietaryAccessibilityNeeds: "",
       };
 
   const methods = useForm<BuildersResidencyProps>({
@@ -106,11 +110,12 @@ const BuildersResidencyPage = () => {
         "fullName",
         "email",
         "gender",
+        "age",
         "whatsappNumber",
         "country",
         "state",
-        "role",
-        "twitterProfile",
+        "primaryRole",
+        "social",
         "portfolioUrl",
       ];
 
@@ -121,6 +126,7 @@ const BuildersResidencyPage = () => {
       }
     } else if (currentStep == 2) {
       const stepTwoFields: (keyof BuildersResidencyProps)[] = [
+        "willBeLive",
         "backgroundAndSkills",
         "currentlyBuilding",
         "previousBuilderPrograms",
@@ -138,10 +144,13 @@ const BuildersResidencyPage = () => {
 
   const onSubmit = async (data: BuildersResidencyProps) => {
     const stepThreeFields: (keyof BuildersResidencyProps)[] = [
+      "hasRegisteredForTheHackathon",
       "joinReason",
-      "shareRoom",
-      "dietaryAccessibilityNeeds",
+      "comfortableSharingAccomodation",
       "referralSource",
+      "needCertificate",
+      "participateInERV",
+      "dietaryAccessibilityNeeds",
     ];
 
     const isValid = await trigger(stepThreeFields, { shouldFocus: true });

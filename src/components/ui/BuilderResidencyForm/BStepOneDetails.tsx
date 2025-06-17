@@ -25,9 +25,18 @@ interface StepPersonalInfoProps {
   control: Control<BuildersResidencyProps>;
 }
 
+const ages = [
+  { label: "16 - 19", value: "AGE_16_19" },
+  { label: "20 - 24", value: "AGE_20_24" },
+  { label: "25 - 34", value: "AGE_25_34" },
+  { label: "35 - 44", value: "AGE_35_44" },
+  { label: "45 and above", value: "AGE_45_PLUS" },
+];
+
 const genderOption = [
   { label: "Male", value: "MALE" },
   { label: "Female", value: "FEMALE" },
+  { label: "Rather not say", value: "PREFER_NOT_TO_SAY" },
 ];
 
 const BStepOneDetails = ({
@@ -64,7 +73,7 @@ const BStepOneDetails = ({
     }
   }, [watchedCountry, setValue]);
 
-  const watchedRole = watch("role");
+  const watchedRole = watch("primaryRole");
 
   useEffect(() => {
     const hasOther = watchedRole?.includes("OTHER");
@@ -73,9 +82,12 @@ const BStepOneDetails = ({
 
     if (hasOther && hasNonOther) {
       if (watchedRole?.[watchedRole.length - 1] === "OTHER") {
-        setValue("role", ["OTHER"]);
+        setValue("primaryRole", ["OTHER"]);
       } else {
-        setValue("role", watchedRole?.filter((r) => r !== "OTHER") || []);
+        setValue(
+          "primaryRole",
+          watchedRole?.filter((r) => r !== "OTHER") || []
+        );
       }
     }
   }, [watchedRole, setValue]);
@@ -93,15 +105,26 @@ const BStepOneDetails = ({
       />
 
       <div className="flex justify-between md:flex-row flex-col gap-2">
-        <div className="md:w-lg">
-          <FormInput
-            label="Email Address"
-            type="email"
-            placeholder="johndoe@mail.com"
-            isRequired={true}
-            {...register("email")}
-            error={errors.email?.message}
+        <div className="w-full">
+          <label className="block font-bold text-dark text-base mb-1">
+            Age <span className="text-red-500">*</span>
+          </label>
+          <Dropdown
+            placeholder="Select Age Range"
+            className="text-dark"
+            isTypeable={false}
+            options={ages}
+            onValueChange={(selected) =>
+              setValue("age", selected.value, {
+                shouldValidate: true,
+                shouldDirty: true,
+              })
+            }
+            {...register("age", { required: "Please select an age range " })}
           />
+          {errors.age && (
+            <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
+          )}
         </div>
 
         <div className="md:w-2xs w-full">
@@ -126,6 +149,17 @@ const BStepOneDetails = ({
         </div>
       </div>
 
+      <div className="w-full">
+        <FormInput
+          label="Email Address"
+          type="email"
+          placeholder="johndoe@mail.com"
+          isRequired={true}
+          {...register("email")}
+          error={errors.email?.message}
+        />
+      </div>
+
       <FormInput
         label="Phone Number"
         placeholder="+234 XXXX XXX XXX"
@@ -136,7 +170,7 @@ const BStepOneDetails = ({
       />
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country<span className="text-red-500">*</span>
+          Country <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Select Country"
@@ -158,7 +192,7 @@ const BStepOneDetails = ({
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           State
-          <span className="text-red-500">*</span>
+          <span className="text-red-500"> *</span>
         </label>
         {!watchedCountry ? (
           <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
@@ -192,6 +226,15 @@ const BStepOneDetails = ({
         )}
       </div>
 
+      <FormInput
+        label="City of residence"
+        type="text"
+        placeholder="eg. Ikorodu, Nsukka etc "
+        {...register("city")}
+        error={errors.city?.message}
+        required={false}
+      />
+
       <div className="flex flex-col gap-3 ">
         <label
           htmlFor="roleDescriptions"
@@ -199,14 +242,14 @@ const BStepOneDetails = ({
         >
           <span>
             Which of these best defines you?{" "}
-            <span className="text-red-500">*</span>
+            <span className="text-red-500"> *</span>
           </span>
           <span>Select all that apply (Not just one)</span>
         </label>
 
         <Controller
           control={control}
-          name="role"
+          name="primaryRole"
           defaultValue={[]}
           render={({ field }) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
@@ -243,41 +286,37 @@ const BStepOneDetails = ({
           )}
         ></Controller>
 
-        {errors.role && (
-          <p className="text-red-500 text-sm mt-1"> {errors.role.message} </p>
+        {errors.primaryRole && (
+          <p className="text-red-500 text-sm mt-1">
+            {" "}
+            {errors.primaryRole.message}{" "}
+          </p>
         )}
       </div>
       {watchedRole?.includes("OTHER") && (
         <FormInput
           type="text"
           label="Please specify your role"
-          {...register("otherRole")}
-          error={errors.otherRole?.message}
-          isRequired={true}
+          {...register("otherPrimaryRole")}
+          error={errors.otherPrimaryRole?.message}
         />
       )}
 
       <FormInput
-        label="Twitter(X)"
+        label="Twitter (X) or LinkedIn Url"
         type="url"
         placeholder="Enter the URL to your X Profile"
         isRequired={true}
-        {...register("twitterProfile")}
-        error={errors.twitterProfile?.message}
-      />
-
-      <FormInput
-        label="Linkedin"
-        type="url"
-        placeholder="Enter the URl to your Linkedin Profile"
-        {...register("linkedinProfile")}
-        error={errors.linkedinProfile?.message}
+        {...register("social")}
+        error={errors.social?.message}
       />
 
       <div>
         <label htmlFor="" className="block font-bold text-dark text-base mb-1">
           Link to your portfolio{" "}
-          <span className=" text-[#131313]/70 ">(Github, Beehance etc)</span>
+          <span className=" text-[#131313]/70 ">
+            (Github, Behance etc) <span className="text-red-500"> *</span>
+          </span>
         </label>
         <FormInput
           label=" "

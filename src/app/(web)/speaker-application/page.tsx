@@ -5,12 +5,12 @@ import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import type { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type Resolver, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
 import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { speakerValidation } from "@/validations/speakerValidations";
+// import { yupResolver } from "@hookform/resolvers/yup";
+// import { speakerValidation } from "@/validations/speakerValidations";
 import Spinner from "@/components/common/spinner";
 
 const steps = [
@@ -60,7 +60,7 @@ const SpeakerApplicationForm = () => {
     control,
     formState: { errors },
   } = useForm<SpeakerProps>({
-    resolver: yupResolver(speakerValidation) as Resolver<SpeakerProps>,
+    // resolver: yupResolver(speakerValidation) as Resolver<SpeakerProps>,
     mode: "onChange", // Enable real-time validation
     defaultValues: {
       fullName: "",
@@ -68,10 +68,9 @@ const SpeakerApplicationForm = () => {
       whatsappNumber: "",
       country: "",
       state: "",
-      twitterProfile: "",
-      linkedinProfile: "",
+      socials: "",
       sessionType: "",
-      otherSessionType: "",
+      otherSessionType: " ",
       sessionLength: "",
       presentationAvailable: false,
       presentationLink: "",
@@ -82,11 +81,11 @@ const SpeakerApplicationForm = () => {
       gender: "",
       roles: [],
       bio: "",
-      otherRole: "",
+      otherRole: " ",
       comfortableWithTopicChange: false,
       canMakeItToEnugu: false,
       participateInERV: false,
-      ervInvolvement: "",
+      ervInvolvement: "  ",
     },
   });
 
@@ -121,7 +120,6 @@ const SpeakerApplicationForm = () => {
         "participationType",
         "gender",
         "bio",
-        "twitterProfile",
         "roles",
       ];
     } else if (currentStep === 1) {
@@ -172,8 +170,8 @@ const SpeakerApplicationForm = () => {
         comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
 
         // Handle optional string fields - convert empty strings to null
-        twitterProfile: data.twitterProfile?.trim() || null,
-        linkedinProfile: data.linkedinProfile?.trim() || null,
+        // twitterProfile: data.twitterProfile?.trim() || null,
+        // linkedinProfile: data.linkedinProfile?.trim() || null,
         otherRole: data.otherRole?.trim() || null,
         otherSessionType: data.otherSessionType?.trim() || null,
 
@@ -220,17 +218,19 @@ const SpeakerApplicationForm = () => {
     switch (currentStep) {
       case 0:
         return !!(
-          formData.fullName &&
-          formData.email &&
-          formData.whatsappNumber &&
-          formData.country &&
-          formData.state &&
-          formData.participationType &&
-          formData.gender &&
-          formData.roles &&
-          formData.roles.length > 0 &&
-          formData.bio &&
-          formData.twitterProfile
+          (
+            formData.fullName &&
+            formData.email &&
+            formData.whatsappNumber &&
+            formData.country &&
+            formData.state &&
+            formData.participationType &&
+            formData.gender &&
+            formData.roles &&
+            formData.roles.length > 0 &&
+            formData.bio
+          )
+          // formData.twitterProfile
         );
       case 1:
         return !!(

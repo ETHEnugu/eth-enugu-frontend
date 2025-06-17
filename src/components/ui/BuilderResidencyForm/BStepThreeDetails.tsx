@@ -11,6 +11,7 @@ import {
 } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import Link from "next/link";
+import FormInput from "@/components/common/form/FormInput";
 
 interface StepOtherInfoProps {
   register: UseFormRegister<BuildersResidencyProps>;
@@ -20,12 +21,26 @@ interface StepOtherInfoProps {
   watch: UseFormWatch<BuildersResidencyProps>;
 }
 
-const openOptions = [
+const registeredForTheHackathonOptions = [
+  {
+    label: "Yes",
+    value: true,
+  },
+  {
+    label: "No",
+    value: false,
+  },
+];
+
+const comfortableSharingAccomodationOptions = [
   {
     label: "Yes, I am open to it. It will help me bond with others",
     value: true,
   },
-  { label: "No, I am not open to it", value: false },
+  {
+    label: "No, I am not open to it",
+    value: false,
+  },
 ];
 
 const participateInERVOptions = [
@@ -54,6 +69,17 @@ const ervInvolvementTypeOptions = [
   },
 ];
 
+const certificateNeeded = [
+  {
+    label: "Yes",
+    value: true,
+  },
+  {
+    label: "No",
+    value: false,
+  },
+];
+
 const BStepThreeDetails = ({
   register,
   errors,
@@ -62,9 +88,38 @@ const BStepThreeDetails = ({
   watch,
 }: StepOtherInfoProps) => {
   const selectedparticipateInERV = watch("participateInERV");
+  const isCertificateNeeded = watch("needCertificate");
 
   return (
     <div className="space-y-7">
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          We would have a 5-day hackathon during the Pop-Up city where both
+          residents, locals and other particpiants of the Pop-Up city come
+          together to build.
+          <br />
+          <br />
+          Would you like to be involved in this?{" "}
+          <span className="text-red-500">*</span>
+        </label>
+        <Dropdown
+          placeholder="Select Option"
+          onValueChange={(selected) =>
+            setValue("hasRegisteredForTheHackathon", Boolean(selected.value), {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          className="text-dark"
+          options={registeredForTheHackathonOptions}
+        />
+        {errors.hasRegisteredForTheHackathon && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.hasRegisteredForTheHackathon.message}
+          </p>
+        )}
+      </div>
+
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           Why do you want to join the ETH Enugu Residency?{" "}
@@ -96,24 +151,28 @@ const BStepThreeDetails = ({
         <Dropdown
           placeholder="Select Option"
           onValueChange={(selected) =>
-            setValue("shareRoom", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
+            setValue(
+              "comfortableSharingAccomodation",
+              Boolean(selected.value),
+              {
+                shouldValidate: true,
+                shouldDirty: true,
+              }
+            )
           }
           className="text-dark"
-          options={openOptions}
+          options={comfortableSharingAccomodationOptions}
         />
-        {errors.shareRoom && (
+        {errors.comfortableSharingAccomodation && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.shareRoom.message}
+            {errors.comfortableSharingAccomodation.message}
           </p>
         )}
       </div>
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Any dietary or accessibility needs?{" "}
+          Any Medical, Dietary, Physical or Accessibility needs?{" "}
           <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -128,6 +187,7 @@ const BStepThreeDetails = ({
           </p>
         )}
       </div>
+
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           How did you hear about ETH Enugu ‘25?{" "}
@@ -147,13 +207,57 @@ const BStepThreeDetails = ({
       </div>
 
       <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          We&apos;ll be minting NFTs for everyone who registers and attends the
+          Conference/Summit. Would you like to have the NFT?
+          <span className="text-red-500">*</span>
+        </label>
+        <Dropdown
+          placeholder="Select Option"
+          onValueChange={(selected) =>
+            setValue("needCertificate", Boolean(selected.value), {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          className="text-dark"
+          options={certificateNeeded}
+        />
+        {errors.needCertificate && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.needCertificate?.message}
+          </p>
+        )}
+      </div>
+
+      {isCertificateNeeded && (
+        <div>
+          <label
+            htmlFor=""
+            className="block font-bold text-dark text-base mb-1"
+          >
+            Please provide the an Ethereum wallet address where you&apos;d like
+            your NFT to be sent. <span className="text-red-500"> *</span>
+          </label>
+          <FormInput
+            label=" "
+            type="text"
+            placeholder="eg. 0x1234abcd..."
+            {...register("walletAddress")}
+            error={errors.walletAddress?.message}
+          />
+        </div>
+      )}
+
+      <div>
         <label className=" font-bold text-dark text-base mb-1 flex flex-col gap-1">
           <p>
             {" "}
             Would you like to be involved in the Ethereum Research Village?{" "}
-            <span className=" text-sm text-[#131313]/70">
+            <span className="  text-[#131313]/70">
               ( A 4 week initiative - 2 weeks during the Pop-up city + 2 weeks
-              virtually post EthEnugu &apos;25)
+              virtually post EthEnugu &apos;25){" "}
+              <span className="text-red-500"> *</span>
             </span>
             <Link
               href={
@@ -166,7 +270,7 @@ const BStepThreeDetails = ({
               </span>{" "}
             </Link>
           </p>
-          <p className="!text-sm my-2 ">
+          <p className=" my-2 ">
             For: Devs, Technical Writers, Node Runners, Protocol Engineers,
             Researchers & Academic papers
           </p>
@@ -180,7 +284,7 @@ const BStepThreeDetails = ({
               onValueChange={(value) => {
                 const boolValue = value === "true";
                 field.onChange(boolValue);
-                setValue("participateInERV", boolValue, {
+                setValue("participateInERV", Boolean(boolValue), {
                   shouldValidate: true,
                 });
               }}

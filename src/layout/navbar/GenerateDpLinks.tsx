@@ -4,6 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
 interface GenerateDpLinksProps {
@@ -25,7 +26,7 @@ export default function GenerateDpLinks({
               : "text-gray-700"
           }`}
         >
-          Generate DP
+          Generate DP <ChevronDown size={20} />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-white p-3 z-50 border-[1px] rounded-sm mt-[-10px] md:mt-2 ">
           <Link onClick={() => onClick?.(false)} href={"/generate-dp"}>

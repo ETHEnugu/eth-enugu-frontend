@@ -87,13 +87,13 @@ export interface SpeakerProps {
   whatsappNumber: string;
   country: string;
   state: string;
-  twitterProfile?: string | null;
-  linkedinProfile?: string | null;
+  socials?: string | null;
   gender: string | number | boolean;
   roles: string[];
   bio: string;
   otherRole: string;
   participationType: string;
+  portfolioUrl: string;
 
   // Session Details
   sessionType: string;
@@ -116,17 +116,19 @@ export interface ConferenceProps {
   fullName: string;
   email: string;
   whatsappNumber: string;
-  location: string | number | boolean;
-  age: string | number | boolean;
+  country?: string;
+  state: string;
+  city?: string | null;
   gender: string | number | boolean;
-  roleDescription: string | number | boolean;
-  expectedGains: string;
-  attendanceType: string | number | boolean;
+  volunteering: string | number | boolean;
   certificateNeeded: string | number | boolean;
-  dietaryAccessibilityNeeds: string;
   referralSource: string;
-  joinOnlineCommunity: string | number | boolean;
-  otherRole: string;
+  otherRole?: string | null;
+  socials?: string | null;
+  web3Familiarity: string | number | boolean;
+  role?: string[];
+  walletAddress?: string;
+  willBeLive: string | null | boolean;
 }
 
 export interface PopupCityProps {
@@ -136,19 +138,17 @@ export interface PopupCityProps {
   whatsappNumber: string;
   country: string;
   state: string;
-  currentRole: string | number | boolean;
-  otherCurrentRole: string;
+  city?: string | null;
+  role?: string[];
+  otherRole?: string;
   web3Familiarity: string | number | boolean;
+  canAttendIRL: string;
   preferredDates: string[] | null;
-  freeLunchConsideration: string | number | boolean;
   volunteeringInterest: string | number | boolean;
   dietaryAccessibilityNeeds: string | number | boolean;
   referralSource: string | number | boolean;
-  joinOnlineCommunity: string | number | boolean;
-  setupRequirements: string;
-  spApplicationType: string;
-  twitterProfile?: string | null;
-  linkedinProfile?: string | null;
+  socials?: string | null;
+  portfolioUrl: string;
   participateInERV: boolean;
   ervInvolvement?: string | null;
 }
@@ -159,20 +159,24 @@ export interface BuildersResidencyProps {
   gender: string | number | boolean;
   whatsappNumber: string;
   country: string;
+  city?: string;
+  age: string | number | boolean;
   state: string;
-  role: string[];
-  otherRole?: string;
-  twitterProfile: string;
-  linkedinProfile?: string;
+  primaryRole: string[];
+  otherPrimaryRole?: string | null;
+  social?: string | null;
   portfolioUrl: string;
-  canAttendIRL: string;
+  willBeLive?: boolean | null;
   backgroundAndSkills: string;
   currentlyBuilding: string;
-  previousBuilderPrograms: string | number | boolean;
+  previousBuilderPrograms: string[];
   joinReason: string;
-  shareRoom: string | number | boolean;
-  dietaryAccessibilityNeeds: string | number | boolean;
+  comfortableSharingAccomodation: string | number | boolean;
   referralSource: string | number | boolean;
   participateInERV: boolean;
   ervInvolvement?: string;
+  needCertificate: string | number | boolean;
+  walletAddress?: string;
+  hasRegisteredForTheHackathon: string | number | boolean;
+  dietaryAccessibilityNeeds: string | number | boolean;
 }

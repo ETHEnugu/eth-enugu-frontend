@@ -182,7 +182,7 @@ const StepPersonalInfo = ({
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           Country
-          <span className="text-red-500">*</span>
+          <span className="text-red-500"> *</span>
         </label>
         <Controller
           name="country"
@@ -210,7 +210,7 @@ const StepPersonalInfo = ({
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           State
-          <span className="text-red-500">*</span>
+          <span className="text-red-500"> *</span>
         </label>
         {!watchedCountry ? (
           <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
@@ -331,23 +331,15 @@ const StepPersonalInfo = ({
       </div>
 
       <FormInput
-        label="Twitter(X)"
+        label="Twitter (X) or LinkedIn Url"
         placeholder="Enter the URL to your X Profile"
         type="url"
-        {...register("twitterProfile")}
-        error={errors.twitterProfile?.message}
+        {...register("socials")}
+        error={errors.socials?.message}
         isRequired={true}
       />
 
-      <FormInput
-        label="LinkedIn"
-        placeholder="Enter the URL to your LinkedIn Profile"
-        type="url"
-        {...register("linkedinProfile")}
-        error={errors.linkedinProfile?.message}
-      />
-
-      <div>
+      <div className=" flex flex-col items-start gap-2 ">
         <p className="block font-bold text-dark text-base mb-1">
           Are you applying to mentor during the Pop-up city OR speak on the
           Conf/Summit day? <span className="text-red-500">*</span>

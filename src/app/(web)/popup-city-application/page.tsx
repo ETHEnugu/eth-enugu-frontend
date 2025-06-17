@@ -7,8 +7,8 @@ import StepTwoDetails from "@/components/ui/popup-city-form/StepTwoDetails";
 import { POPUP_CITY } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { PopupCityProps } from "@/types";
-import { popupCityValidation } from "@/validations/popupCityValidation";
-import { yupResolver } from "@hookform/resolvers/yup";
+// import { popupCityValidation } from "@/validations/popupCityValidation";
+// import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -54,23 +54,22 @@ const PopupCityPage = () => {
         whatsappNumber: "",
         country: "",
         state: "",
-        currentRole: "",
+        city: "",
+        role: "",
         web3Familiarity: "",
-        preferredDates: "",
-        freeLunchConsideration: "",
+        preferredDates: [],
         volunteeringInterest: "",
         dietaryAccessibilityNeeds: "",
         referralSource: "",
-        joinOnlineCommunity: "",
-        otherCurrentRole: "",
-        twitterProfile: "",
-        linkedinProfile: "",
+        otherRole: "",
+        socials: "",
         participateInERV: false,
         ervInvolvement: "",
+        portfolioUrl: "",
       };
 
   const methods = useForm<PopupCityProps>({
-    resolver: yupResolver(popupCityValidation),
+    // resolver: yupResolver(popupCityValidation),
     defaultValues,
     mode: "onChange",
   });
@@ -104,10 +103,10 @@ const PopupCityPage = () => {
         "gender",
         "whatsappNumber",
         "country",
-        "currentRole",
+        "role",
+        "otherRole",
         "web3Familiarity",
-        "twitterProfile",
-        "linkedinProfile",
+        "socials",
       ];
 
       const isValid = await trigger(stepOneFields, { shouldFocus: true });
@@ -123,11 +122,9 @@ const PopupCityPage = () => {
   const onSubmit = async (data: PopupCityProps) => {
     const stepTwoFields: (keyof PopupCityProps)[] = [
       "preferredDates",
-      "freeLunchConsideration",
       "volunteeringInterest",
       "dietaryAccessibilityNeeds",
       "referralSource",
-      "joinOnlineCommunity",
     ];
 
     const isValid = await trigger(stepTwoFields, { shouldFocus: true });
