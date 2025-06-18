@@ -12,6 +12,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import Link from "next/link";
 import FormInput from "@/components/common/form/FormInput";
+import { useEffect } from "react";
 
 interface StepOtherInfoProps {
   register: UseFormRegister<BuildersResidencyProps>;
@@ -89,6 +90,12 @@ const BStepThreeDetails = ({
 }: StepOtherInfoProps) => {
   const selectedparticipateInERV = watch("participateInERV");
   const isCertificateNeeded = watch("needCertificate");
+
+  useEffect(() => {
+    if (selectedparticipateInERV === false) {
+      setValue("ervInvolvement", "");
+    }
+  }, [selectedparticipateInERV, setValue]);
 
   return (
     <div className="space-y-7">
