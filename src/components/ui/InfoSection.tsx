@@ -37,7 +37,7 @@ const InfoSection = () => {
                 Pop-Up City
               </li>
               <li className="bg-amber-50 text-black max-md:text-center py-2 px-4 rounded-full">
-                Conf/Summit &lsquo;25
+                Conference/Summit &lsquo;25
               </li>
               <li className="bg-green-550/10 text-black max-md:text-center py-2 px-4 rounded-full">
                 Ethereum Research Village <strong>(Special initative)</strong>
