@@ -26,6 +26,11 @@ export const speakerValidation = yup.object().shape({
 
   state: yup.string().trim().required("State of residence is required"),
 
+  city: yup
+    .string()
+    .min(3, "Your response must be at least 3 characters")
+    .optional(),
+
   roles: yup
     .array()
     .of(yup.string().required("Please select a role"))
@@ -39,6 +44,22 @@ export const speakerValidation = yup.object().shape({
     .trim()
     .required("Please enter your bio")
     .min(10, "Your bio must be at least 10 characters"),
+
+  social: yup
+    .string()
+    .required("Your Twitter (x) or LinkedIn profile URL is required")
+    .matches(
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+      "Enter a valid Url"
+    ),
+
+  portfolioUrl: yup
+    .string()
+    .required("Your Portfolio Url is required")
+    .matches(
+      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+      "Enter a valid Url"
+    ),
 
   participationType: yup.string().trim().required("Please select a category"),
 
@@ -107,16 +128,9 @@ export const speakerValidation = yup.object().shape({
   expectedArrivalDates: yup
     .array()
     .of(
-      yup
-        .string()
-        .required("Each date is required")
-        .matches(
-          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
-          "Date must be in ISO format"
-        )
+      yup.string().matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "")
     )
-    .min(1, "Select at least one date")
-    .required("Preferred dates are required"),
+    .min(1, "Select at least one date"),
 
   participateInERV: yup.boolean().required("Please select an option"),
   ervInvolvement: yup.string().optional(),

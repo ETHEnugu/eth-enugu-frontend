@@ -23,9 +23,19 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
       .min(3, "Your response must be at least 3 characters")
       .optional(),
 
-    social: Yup.string().required("Your Social link is required"),
+    social: Yup.string()
+      .required("Your Social link is required")
+      .matches(
+        /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+        "Enter a valid URL"
+      ),
 
-    portfolioUrl: Yup.string().required("Portfolio Url is required"),
+    portfolioUrl: Yup.string()
+      .required("Portfolio Url is required")
+      .matches(
+        /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+        "Enter a valid URL"
+      ),
 
     willBeLive: Yup.boolean().required("Please select an option").nullable(),
 

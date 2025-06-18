@@ -222,8 +222,7 @@ export default function PersonalDetailsOne({
         {...register("social", {
           required: "Please enter your social Url",
           pattern: {
-            value:
-              /^(https?:\/\/)?(www\.)?(twitter\.com|x\.com|linkedin\.com)\/[A-Za-z0-9_/-]+$/,
+            value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
             message: "Only Twitter (X) or LinkedIn URLs are allowed",
           },
         })}

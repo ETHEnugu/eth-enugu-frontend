@@ -111,7 +111,7 @@ export default function PersonalDetailsTwo({
         <label className="block font-bold text-dark text-base mb-2">
           <span className=" ">
             {" "}
-            Can you make it to Enugu IRL for the Conference/Summit ?{" "}
+            Can you make it to Enugu IRL for the Conference/Summit?{" "}
             <span className="text-red-500">*</span>{" "}
           </span>
         </label>
@@ -126,9 +126,11 @@ export default function PersonalDetailsTwo({
                 value={
                   field.value === undefined
                     ? ""
-                    : field.value
-                      ? "true"
-                      : "false"
+                    : field.value === null
+                      ? ""
+                      : field.value
+                        ? "true"
+                        : "false"
                 }
                 className="flex flex-col gap-2"
               >
@@ -140,7 +142,7 @@ export default function PersonalDetailsTwo({
                     <RadioGroupItem
                       value={option.value}
                       id={option.id}
-                      className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
+                      className="min-h-3 min-w-3 h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
                     />
                     <label htmlFor={option.id} className="cursor-pointer">
                       {option.label}

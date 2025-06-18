@@ -53,25 +53,31 @@ const StepOtherInfo = ({
 
   const minDate = new Date("2025-08-01");
   const maxDate = new Date("2025-08-31");
+  const formatted = selectedDates.map((d) => d.toISOString());
 
   const handleDateChange = (date: Date | null) => {
     if (!date) return;
 
-    setSelectedDates((prevDates) => {
-      const dateExists = prevDates.some(
-        (d) => d.toDateString() === date.toDateString()
-      );
-      return dateExists
-        ? prevDates.filter((d) => d.toDateString() !== date.toDateString())
-        : [...prevDates, date];
+    const newDates = selectedDates.some(
+      (d) => d.toDateString() === date.toDateString()
+    )
+      ? selectedDates.filter((d) => d.toDateString() !== date.toDateString())
+      : [...selectedDates, date];
+
+    setSelectedDates(newDates);
+
+    // Update form value and trigger validation
+    const formatted = newDates.map((d) => d.toISOString());
+    setValue("expectedArrivalDates", formatted, {
+      shouldValidate: true,
+      shouldDirty: true,
     });
   };
 
   useEffect(() => {
-    const formatted = selectedDates.map((d) => d.toISOString());
     setValue("expectedArrivalDates", formatted, {
-      shouldDirty: true,
-      shouldValidate: true,
+      shouldDirty: false,
+      shouldValidate: false,
     });
   }, [selectedDates, setValue]);
 
@@ -103,13 +109,13 @@ const StepOtherInfo = ({
         </>
       ),
       value: true,
-      id: "option1IRL",
+      id: "option1-IRL",
     },
     {
       label:
         " No, I may not be able to attend IRL but I can speak virtually if there are provisions for it.",
       value: false,
-      id: "option2IRl",
+      id: "option2-IRl",
     },
   ];
 
@@ -117,12 +123,12 @@ const StepOtherInfo = ({
     {
       label: "   Yes, I'd love to get involved",
       value: true,
-      id: "option1ERV",
+      id: "option1-ERV",
     },
     {
       label: "  Not interested",
       value: false,
-      id: "option2ERV",
+      id: "option2-ERV",
     },
   ];
 
@@ -167,14 +173,16 @@ const StepOtherInfo = ({
           control={control}
           render={({ field }) => (
             <RadioGroup
-              onValueChange={(value) => {
-                const boolValue = value === "true";
-                field.onChange(boolValue);
-                setValue("canMakeItToEnugu", boolValue, {
-                  shouldValidate: true,
-                });
-              }}
-              value={field.value?.toString()}
+              onValueChange={(value) => field.onChange(value === "true")}
+              value={
+                field.value === undefined
+                  ? ""
+                  : field.value === null
+                    ? ""
+                    : field.value
+                      ? "true"
+                      : "false"
+              }
               className="flex flex-col gap-2"
             >
               {canMakeItToEnuguOptions.map((option, index) => (
@@ -185,7 +193,7 @@ const StepOtherInfo = ({
                   <RadioGroupItem
                     value={option.value.toString()}
                     id={option.id}
-                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                    className="min-h-3 min-w-3 w-3 h-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
                   />
                   <label htmlFor={option.id} className="cursor-pointer">
                     {option.label}
@@ -195,6 +203,11 @@ const StepOtherInfo = ({
             </RadioGroup>
           )}
         />
+        {errors.canMakeItToEnugu && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.canMakeItToEnugu.message}
+          </p>
+        )}
       </div>
 
       {/* Expected Arrival Date */}
@@ -284,14 +297,16 @@ const StepOtherInfo = ({
           name="participateInERV"
           render={({ field }) => (
             <RadioGroup
-              onValueChange={(value) => {
-                const boolValue = value === "true";
-                field.onChange(boolValue);
-                setValue("participateInERV", boolValue, {
-                  shouldValidate: true,
-                });
-              }}
-              value={field.value?.toString()}
+              onValueChange={(value) => field.onChange(value === "true")}
+              value={
+                field.value === undefined
+                  ? ""
+                  : field.value === null
+                    ? ""
+                    : field.value
+                      ? "true"
+                      : "false"
+              }
               className="flex flex-col gap-2"
             >
               {participateInERVOptions.map((option, index) => (
@@ -302,7 +317,7 @@ const StepOtherInfo = ({
                   <RadioGroupItem
                     value={option.value.toString()}
                     id={option.id}
-                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                    className="min-h-3 min-w-3 w-3 h-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
                   />
                   <label htmlFor={option.id} className="cursor-pointer">
                     {option.label}
@@ -320,7 +335,7 @@ const StepOtherInfo = ({
         )}
       </div>
 
-      {selectedparticipateInERV === true && (
+      {selectedparticipateInERV === true ? (
         <div>
           <label className="block font-bold text-dark text-base mb-1">
             How would you like to get involved?
@@ -346,7 +361,7 @@ const StepOtherInfo = ({
                     <RadioGroupItem
                       value={option.value}
                       id={option.id}
-                      className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                      className="min-h-3 min-w-3 w-3 h-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
                     />
                     <label htmlFor={option.id} className="cursor-pointer">
                       {option.label}
@@ -363,7 +378,7 @@ const StepOtherInfo = ({
             </p>
           )}
         </div>
-      )}
+      ) : null}
 
       {/* Action Buttons */}
       <div className="flex md:flex-row flex-col-reverse gap-4 pt-4">
