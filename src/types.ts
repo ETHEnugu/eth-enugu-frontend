@@ -120,13 +120,13 @@ export interface ConferenceProps {
   state: string;
   city?: string | null;
   gender: string | number | boolean;
-  volunteering: string | number | boolean;
+  openToVolunteer: string | number | boolean;
   certificateNeeded: string | number | boolean;
   referralSource: string;
   otherRole?: string | null;
-  socials?: string | null;
+  social?: string | null;
   web3Familiarity: string | number | boolean;
-  role?: string[];
+  roleDescription?: string[];
   walletAddress?: string;
   willBeLive: string | null | boolean;
 }

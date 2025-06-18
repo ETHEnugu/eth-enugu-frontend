@@ -62,24 +62,19 @@ export default function PersonalDetailsTwo({
 
   const willBeLiveOptions = [
     {
-      label: (
-        <>
-          {" "}
-          Yes, I will be attending the ETH-Enugu Conference/Summit on the 16th
-          of August 2025.
-        </>
-      ),
-      value: true,
-      id: "option1IRL",
+      value: "true",
+      id: "willBeLiveYes",
+      label:
+        "Yes, I will be attending the ETH-Enugu Conference/Summit on the 16th of August 2025.",
     },
     {
+      value: "false",
+      id: "willBeLiveNo",
       label: " No, I am uncertain yet of my physical presence.",
-      value: false,
-      id: "option2IRl",
     },
   ];
 
-  const watchedRole = watch("role");
+  const watchedRole = watch("roleDescription");
   const isCertificateNeeded = watch("certificateNeeded");
 
   useEffect(() => {
@@ -89,9 +84,12 @@ export default function PersonalDetailsTwo({
 
     if (hasOther && hasNonOther) {
       if (watchedRole?.[watchedRole.length - 1] === "OTHER") {
-        setValue("role", ["OTHER"]);
+        setValue("roleDescription", ["OTHER"]);
       } else {
-        setValue("role", watchedRole?.filter((r) => r !== "OTHER") || []);
+        setValue(
+          "roleDescription",
+          watchedRole?.filter((r) => r !== "OTHER") || []
+        );
       }
       if (!hasOther) {
         setValue("otherRole", "");
@@ -124,8 +122,14 @@ export default function PersonalDetailsTwo({
           render={({ field }) => {
             return (
               <RadioGroup
-                onValueChange={field.onChange}
-                value={field.value}
+                onValueChange={(value) => field.onChange(value === "true")}
+                value={
+                  field.value === undefined
+                    ? ""
+                    : field.value
+                      ? "true"
+                      : "false"
+                }
                 className="flex flex-col gap-2"
               >
                 {willBeLiveOptions.map((option, index) => (
@@ -193,7 +197,7 @@ export default function PersonalDetailsTwo({
 
         <Controller
           control={control}
-          name="role"
+          name="roleDescription"
           defaultValue={[]}
           render={({ field }) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
@@ -230,8 +234,11 @@ export default function PersonalDetailsTwo({
           )}
         ></Controller>
 
-        {errors.role && (
-          <p className="text-red-500 text-sm mt-1"> {errors.role.message} </p>
+        {errors.roleDescription && (
+          <p className="text-red-500 text-sm mt-1">
+            {" "}
+            {errors.roleDescription.message}{" "}
+          </p>
         )}
       </div>
       {watchedRole?.includes("OTHER") && (
@@ -297,18 +304,18 @@ export default function PersonalDetailsTwo({
           isTypeable={false}
           options={volunteeringOptions}
           onValueChange={(selected) =>
-            setValue("volunteering", selected.value, {
+            setValue("openToVolunteer", selected.value, {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
-          {...register("volunteering", {
+          {...register("openToVolunteer", {
             required: "Please selected an option",
           })}
         />
-        {errors.volunteering && (
+        {errors.openToVolunteer && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.volunteering.message}{" "}
+            {errors.openToVolunteer.message}{" "}
           </p>
         )}
       </div>

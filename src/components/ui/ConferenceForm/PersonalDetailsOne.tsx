@@ -40,9 +40,7 @@ export default function PersonalDetailsOne({
   ];
 
   const watchedCountry = watch("country");
-  const watchedState = watch("state");
   const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
-  // const selectedState = watch("state")
 
   useEffect(() => {
     if (watchedCountry) {
@@ -59,18 +57,9 @@ export default function PersonalDetailsOne({
         }));
 
         setStatesOptions(stateOptions);
-        if (
-          watchedState &&
-          !stateOptions.find((s) => s.value === watchedState)
-        ) {
-          setValue("state", "", { shouldValidate: true });
-        }
-      } else {
-        setStatesOptions([]);
-        setValue("state", "", { shouldValidate: true });
       }
     }
-  }, [watchedCountry, setValue, watchedState]);
+  }, [watchedCountry, setValue]);
 
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8">
@@ -110,7 +99,7 @@ export default function PersonalDetailsOne({
         isRequired={true}
         placeholder="+234 XXXX XXX XXX"
         {...register("whatsappNumber", {
-          required: "Your WhatsApp number is required",
+          required: "Your Phone number is required",
           pattern: {
             value:
               /^\+?\d{1,4}?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
@@ -194,7 +183,12 @@ export default function PersonalDetailsOne({
         label="City of residence"
         type="text"
         placeholder="eg. Ikorodu, Nsukka etc "
-        {...register("city")}
+        {...register("city", {
+          minLength: {
+            value: 3,
+            message: "Your response must be at least three character",
+          },
+        })}
         error={errors.city?.message}
         required={false}
       />
@@ -225,8 +219,15 @@ export default function PersonalDetailsOne({
         label="Twitter (X) or LinkedIn Url"
         placeholder="Enter the URL to your X Profile"
         type="url"
-        {...register("socials")}
-        error={errors.socials?.message}
+        {...register("social", {
+          required: "Please enter your social Url",
+          pattern: {
+            value:
+              /^(https?:\/\/)?(www\.)?(twitter\.com|x\.com|linkedin\.com)\/[A-Za-z0-9_/-]+$/,
+            message: "Only Twitter (X) or LinkedIn URLs are allowed",
+          },
+        })}
+        error={errors.social?.message}
         isRequired={true}
       />
     </div>

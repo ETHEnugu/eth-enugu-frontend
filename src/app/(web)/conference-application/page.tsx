@@ -9,8 +9,6 @@ import ScrollingText from "@/components/ui/Scrolling-text";
 import { CONFERENCE } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { ConferenceProps } from "@/types";
-// import { conferenceValidation } from "@/validations/conferenceValidations";
-// import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -56,13 +54,14 @@ function Page() {
       state: "",
       city: "",
       gender: "",
-      role: [],
+      roleDescription: [],
       otherRole: "",
-      volunteering: "",
+      openToVolunteer: "",
       certificateNeeded: false,
       referralSource: "",
-      socials: "",
+      social: "",
       web3Familiarity: "",
+      willBeLive: null,
     },
     mode: "onChange",
   });
@@ -83,10 +82,8 @@ function Page() {
         "country",
         "state",
         "gender",
-        "socials",
+        "social",
       ]);
-
-      setError("gender", { type: "required", message: "Gender is required" });
 
       if (isStepValid) {
         updateStepInURL(2);
