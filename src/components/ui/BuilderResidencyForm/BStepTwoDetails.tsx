@@ -1,15 +1,16 @@
 "use client";
-import Dropdown from "@/components/common/dropdown";
-import { BuildersResidencyProps } from "@/types";
+import type { BuildersResidencyProps } from "@/types";
 import {
-  UseFormRegister,
-  UseFormSetValue,
-  FieldErrors,
-  UseFormWatch,
+  type UseFormRegister,
+  type UseFormSetValue,
+  type FieldErrors,
+  type UseFormWatch,
   Controller,
-  Control,
+  type Control,
 } from "react-hook-form";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useEffect, useRef } from "react";
 
 interface StepTwoInfoProps {
   register: UseFormRegister<BuildersResidencyProps>;
@@ -21,92 +22,184 @@ interface StepTwoInfoProps {
 
 const buildOptions = [
   {
-    label: "Yes, I have been part of a builder resisdency/program",
-    value: true,
+    label: "Yes, I have been part of a BUILDER RESIDENCY program",
+    value: "YES_BUILDER_RESIDENCY",
   },
-  { label: "Yes, I have been part of a Pop-up city in the past", value: true },
+  {
+    label: "Yes, I have been part of a POP-UP CITY in the past",
+    value: "YES_POP_CITY",
+  },
   {
     label: "Yes, I have been part of hackathons before in the past",
-    value: true,
+    value: "YES_HACKATHON",
   },
-  { label: "No, I have not been involved in any", value: false },
+  {
+    label: "No, I have not been involved in any",
+    value: "NO",
+  },
 ];
 
-const canAttendIRLOptions = [
+const willBeLiveOptions = [
   {
-    label: (
-      <>
-        {" "}
-        Yes, I will be attending the ETH-Enugu Builder Residency IRL on select
-        days.
-      </>
-    ),
-    value: "YES",
-    id: "option1IRL",
+    label:
+      "Yes, I will be attending the ETH-Enugu Builder Residency IRL on select days.",
+    value: "true",
+    id: "will-be-live-yes",
   },
   {
     label:
-      " No, I may not be able to attend IRL but I can participate if there are provisions for it.",
-    value: "NO",
-    id: "option2IRl",
+      "No, I may not be able to attend IRL but I can participate virtually if there are provisions for it.",
+    value: "false",
+    id: "will-be-live-no",
   },
 ];
 
 const BStepTwoDetails = ({
   register,
   errors,
-  setValue,
   control,
+  watch,
+  setValue,
 }: StepTwoInfoProps) => {
+  const selectedBuildOption = watch("previousBuilderPrograms");
+  const lastProcessedValue = useRef<string[]>([]);
+
+  useEffect(() => {
+    if (
+      selectedBuildOption &&
+      selectedBuildOption.includes("NO") &&
+      JSON.stringify(selectedBuildOption) !==
+        JSON.stringify(lastProcessedValue.current) &&
+      selectedBuildOption.length > 1
+    ) {
+      lastProcessedValue.current = ["NO"];
+      setValue("previousBuilderPrograms", ["NO"]);
+    } else if (selectedBuildOption) {
+      lastProcessedValue.current = selectedBuildOption;
+    }
+  }, [selectedBuildOption, setValue]);
+
   return (
     <div className="space-y-7">
-      <div>
-        <label className="block font-bold text-dark text-base mb-2">
-          <span className=" ">
-            {" "}
-            Can you make it to Enugu IRL for the Builder Residency ?{" "}
-            <span className="text-red-500">*</span>{" "}
-          </span>
-        </label>
-
-        <Controller
-          name="canAttendIRL"
-          control={control}
-          render={({ field }) => {
-            return (
-              <RadioGroup
-                onValueChange={field.onChange}
-                value={field.value}
-                className="flex flex-col gap-2"
-              >
-                {canAttendIRLOptions.map((option, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center space-x-2 cursor-pointer"
-                  >
-                    <RadioGroupItem
-                      value={option.value}
-                      id={option.id}
-                      className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
-                    />
-                    <label htmlFor={option.id} className="cursor-pointer">
-                      {option.label}
-                    </label>
-                  </div>
-                ))}
-              </RadioGroup>
-            );
-          }}
-        ></Controller>
-      </div>
-
       <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
         <p className="block text-base font-medium mb-1">
           <span className="text-green-550 font-extrabold">Note:</span> We&apos;d
-          fully cover accomodation and breakfast for two weeks for all 50
-          residents who&apos;s applications are approved. However we may not be
-          able to cover travel cost.
+          fully cover accommodation and breakfast for two weeks for all 50
+          residents whose applications are approved. However we may not be able
+          to cover travel cost.
         </p>
+      </div>
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-2">
+          Can you make it to Enugu IRL for the Builder Residency?{" "}
+          <span className="text-red-500">*</span>
+        </label>
+
+        <Controller
+          name="willBeLive"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup
+              onValueChange={(value) => field.onChange(value === "true")}
+              value={
+                field.value === undefined ? "" : field.value ? "true" : "false"
+              }
+              className="flex flex-col gap-2"
+            >
+              {willBeLiveOptions.map((option, index) => (
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 cursor-pointer"
+                >
+                  <RadioGroupItem
+                    value={option.value}
+                    id={option.id}
+                    className="h-4 w-4 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                  />
+                  <label htmlFor={option.id} className="cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </RadioGroup>
+          )}
+        />
+
+        {errors.willBeLive && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.willBeLive.message}
+          </p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <label
+          htmlFor="previousBuilderPrograms"
+          className="font-bold text-dark text-base mb-1 items-start"
+        >
+          Have you been part of any builder program, Pop-up city or hackathons
+          before?
+          <span className="text-red-500">*</span>
+        </label>
+
+        <Controller
+          control={control}
+          name="previousBuilderPrograms"
+          defaultValue={[]}
+          render={({ field }) => (
+            <div className="flex flex-col items-start gap-3 w-full justify-between">
+              {buildOptions.map((option, index) => {
+                const isChecked = field.value?.includes(option.value);
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <Checkbox
+                      className="border-1 border-[#F3A035] data-[state=checked]:bg-[#F3A035] data-[state=checked]:border-[#F3A035] text-white cursor-pointer"
+                      id={option.value}
+                      checked={isChecked}
+                      onCheckedChange={(checked) => {
+                        if (option.value === "NO") {
+                          if (checked) {
+                            field.onChange(["NO"]);
+                          } else {
+                            field.onChange([]);
+                          }
+                        } else {
+                          const currentValue = field.value || [];
+                          if (checked && !currentValue.includes(option.value)) {
+                            const newValue = currentValue.filter(
+                              (v) => v !== "NO"
+                            );
+                            field.onChange([...newValue, option.value]);
+                          } else if (!checked) {
+                            field.onChange(
+                              currentValue.filter((v) => v !== option.value)
+                            );
+                          }
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={option.value}
+                      className="cursor-pointer text-sm"
+                    >
+                      {option.label}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        />
+
+        {errors.previousBuilderPrograms && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.previousBuilderPrograms.message}
+          </p>
+        )}
       </div>
 
       <div>
@@ -116,10 +209,10 @@ const BStepTwoDetails = ({
         </label>
         <textarea
           {...register("backgroundAndSkills", {
-            required: "Please fill in this form ",
+            required: "Please fill in this form",
             minLength: {
               value: 10,
-              message: "Your repsonse must be at least 10 characters",
+              message: "Your response must be at least 10 characters",
             },
           })}
           placeholder="Write here..."
@@ -148,29 +241,6 @@ const BStepTwoDetails = ({
         {errors.currentlyBuilding && (
           <p className="text-red-500 text-sm mt-1">
             {errors.currentlyBuilding.message}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Have you been part of any builder programs, Pop-up city or hackathons
-          before? <span className="text-red-500">*</span>
-        </label>
-        <Dropdown
-          placeholder="Choose option"
-          onValueChange={(selected) =>
-            setValue("previousBuilderPrograms", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          className="text-dark"
-          options={buildOptions}
-        />
-        {errors.previousBuilderPrograms && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.previousBuilderPrograms.message}
           </p>
         )}
       </div>

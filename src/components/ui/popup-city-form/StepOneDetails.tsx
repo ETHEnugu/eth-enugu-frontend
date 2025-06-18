@@ -1,41 +1,34 @@
 "use client";
 import FormInput from "@/components/common/form/FormInput";
-import Dropdown from "@/components/common/dropdown";
+import Dropdown, { DropdownOption } from "@/components/common/dropdown";
 import { countryOptions } from "@/data/countries";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PopupCityProps } from "@/types";
 import {
   UseFormRegister,
   UseFormSetValue,
   FieldErrors,
   UseFormWatch,
+  Controller,
+  Control,
 } from "react-hook-form";
+import Spinner from "@/components/common/spinner";
+import { State } from "country-state-city";
+import { rolesOptions } from "@/data/roles";
+import { Checkbox } from "../checkbox";
 
 interface StepPersonalInfoProps {
   register: UseFormRegister<PopupCityProps>;
   errors: FieldErrors<PopupCityProps>;
   setValue: UseFormSetValue<PopupCityProps>;
   watch: UseFormWatch<PopupCityProps>;
+  control: Control<PopupCityProps>;
 }
-
-const roleOptions = [
-  { label: "Student", value: "STUDENT" },
-  { label: "Developer", value: "DEVELOPER" },
-  { label: "Designer", value: "DESIGNER" },
-  { label: "Entrepreneur", value: "ENTREPRENEUR" },
-  { label: "Web3 Enthusiast", value: "WEB3_ENTHUSIAST" },
-  { label: "Other", value: "OTHER" },
-];
-
-const web3Options = [
-  { label: "I’m new", value: "NEW" },
-  { label: "I’ve dabbled", value: "DABBLED" },
-  { label: "I’m actively building", value: "ACTIVELY_BUILDING" },
-];
 
 const genderOption = [
   { label: "Male", value: "MALE" },
   { label: "Female", value: "FEMALE" },
+  { label: "Rather not say", value: "PREFER_NOT_TO_SAY" },
 ];
 
 const StepOneDetails = ({
@@ -43,19 +36,54 @@ const StepOneDetails = ({
   errors,
   setValue,
   watch,
+  control,
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
 
-  const currentRole = watch("currentRole");
+  // const currentRole = watch("role");
+
+  const watchedCountry = watch("country");
+  const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
 
   useEffect(() => {
-    if (currentRole && currentRole !== "OTHER") {
-      setValue("otherCurrentRole", "", {
-        shouldDirty: false,
-        shouldValidate: false,
-      });
+    if (watchedCountry) {
+      const selectedCountry = countryOptions.find(
+        (country) => country.value === watchedCountry
+      );
+
+      if (selectedCountry && selectedCountry.iso) {
+        const fetchedStates = State.getStatesOfCountry(selectedCountry.iso);
+
+        const stateOptions = fetchedStates.map((state) => ({
+          label: state.name,
+          value: state.name,
+        }));
+        setStatesOptions(stateOptions);
+        setValue("state", "");
+      } else {
+        setStatesOptions([]);
+        setValue("state", "");
+      }
     }
-  }, [currentRole, setValue]);
+  }, [watchedCountry, setValue]);
+
+  const watchedRole = watch("role");
+  useEffect(() => {
+    const hasOther = watchedRole?.includes("OTHER");
+    const hasNonOther =
+      Array.isArray(watchedRole) && watchedRole.some((r) => r !== "OTHER");
+
+    if (hasOther && hasNonOther) {
+      if (watchedRole?.[watchedRole.length - 1] === "OTHER") {
+        setValue("role", ["OTHER"]);
+      } else {
+        setValue("role", watchedRole?.filter((r) => r !== "OTHER") || []);
+      }
+      if (!hasOther) {
+        setValue("otherRole", "");
+      }
+    }
+  }, [watchedRole, setValue]);
 
   return (
     <div className="space-y-7">
@@ -63,6 +91,7 @@ const StepOneDetails = ({
         label="Full Name"
         type="text"
         placeholder="Full Name"
+        isRequired={true}
         {...register("fullName")}
         error={errors.fullName?.message}
       />
@@ -73,6 +102,7 @@ const StepOneDetails = ({
             label="Email Address"
             type="email"
             placeholder="johndoe@mail.com"
+            isRequired={true}
             {...register("email")}
             error={errors.email?.message}
           />
@@ -80,7 +110,7 @@ const StepOneDetails = ({
 
         <div className="md:w-2xs w-full">
           <label className="block font-bold text-dark text-base mb-1">
-            Gender
+            Gender <span className="text-red-500">*</span>
           </label>
           <Dropdown
             placeholder="Select gender"
@@ -92,7 +122,7 @@ const StepOneDetails = ({
             }
             className="text-dark"
             options={genderOption}
-            isTypeable={true}
+            isTypeable={false}
           />
           {errors.gender && (
             <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
@@ -101,20 +131,21 @@ const StepOneDetails = ({
       </div>
 
       <FormInput
-        label="WhatsApp Phone Number"
+        label="Phone Number"
         placeholder="+234 XXXX XXX XXX"
         type="tel"
+        isRequired={true}
         {...register("whatsappNumber")}
         error={errors.whatsappNumber?.message}
       />
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country, State & City of Residence
+          Country <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Select Location"
           onValueChange={(selected) =>
-            setValue("location", selected.value, {
+            setValue("country", selected.value.toString(), {
               shouldValidate: true,
               shouldDirty: true,
             })
@@ -123,71 +154,145 @@ const StepOneDetails = ({
           options={options}
           isTypeable={true}
         />
-        {errors.location && (
-          <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
+        {errors.country && (
+          <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
         )}
       </div>
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What do you currently do?
+          State
+          <span className="text-red-500"> *</span>
         </label>
-        <Dropdown
-          placeholder="Select Role"
-          onValueChange={(selected) =>
-            setValue("currentRole", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          className="text-dark"
-          options={roleOptions}
-          isTypeable={true}
-        />
-        {errors.currentRole && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.currentRole.message}
-          </p>
+        {!watchedCountry ? (
+          <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
+            Please select a country first
+          </div>
+        ) : statesOptions.length === 0 ? (
+          <Spinner />
+        ) : (
+          <Controller
+            name="state"
+            control={control}
+            render={({ field }) => (
+              <Dropdown
+                key={watchedCountry}
+                placeholder="State of residence"
+                onValueChange={(selected) => {
+                  field.onChange(selected.value);
+                  setValue("state", selected.value.toString(), {
+                    shouldValidate: true,
+                  });
+                }}
+                className="text-dark"
+                options={statesOptions}
+                isTypeable={true}
+              />
+            )}
+          />
+        )}
+        {errors.state && (
+          <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
         )}
       </div>
 
-      {currentRole === "OTHER" && (
+      <FormInput
+        label="City of residence"
+        type="text"
+        placeholder="eg. Ikorodu, Nsukka etc "
+        {...register("city")}
+        error={errors.city?.message}
+        required={false}
+      />
+
+      <div className="flex flex-col gap-3 ">
+        <label
+          htmlFor="roleDescriptions"
+          className=" font-bold text-dark text-base mb-1 flex flex-col gap-[2px] items-start "
+        >
+          <span>
+            Which of these best defines you?{" "}
+            <span className="text-red-500">*</span>
+          </span>
+          <span>Select all that apply (Not just one)</span>
+        </label>
+
+        <Controller
+          control={control}
+          name="role"
+          defaultValue={[]}
+          render={({ field }) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
+              {rolesOptions.map((role, index) => {
+                const isChecked = field.value?.includes(role.value);
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 cursor-pointer "
+                  >
+                    <Checkbox
+                      className="border-1 border-[#F3A035] data-[state=checked]:bg-[#F3A035] data-[state=checked]:border-[#F3A035] text-white cursor-pointer"
+                      id={role.value}
+                      checked={isChecked}
+                      onCheckedChange={(checked) => {
+                        const value = [...(field.value || [])];
+                        if (checked && !value.includes(role.value)) {
+                          field.onChange([...value, role.value]);
+                        } else {
+                          field.onChange(value.filter((v) => v !== role.value));
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={role.value}
+                      className="cursor-pointer text-sm"
+                    >
+                      {role.label}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        ></Controller>
+
+        {errors.role && (
+          <p className="text-red-500 text-sm mt-1"> {errors.role.message} </p>
+        )}
+      </div>
+      {watchedRole?.includes("OTHER") && (
         <FormInput
           type="text"
-          label="Please enter your current role"
-          placeholder="e.g. Blockchain Researcher"
-          {...register("otherCurrentRole", {
-            required: "Please enter your role",
-            minLength: {
-              value: 3,
-              message: "Your response must be at least 10 characters long",
-            },
-          })}
-          error={errors.otherCurrentRole?.message}
+          label="Please specify your role"
+          {...register("otherRole")}
+          error={errors.otherRole?.message}
+          isRequired={true}
         />
       )}
 
+      <FormInput
+        label="Twitter (X) or LinkedIn Url"
+        type="url"
+        placeholder="Enter the URL to your X Profile"
+        isRequired={true}
+        {...register("socials")}
+        error={errors.socials?.message}
+      />
+
       <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          How familiar are you with Web3/Ethereum?
+        <label htmlFor="" className="block font-bold text-dark text-base mb-1">
+          Link to your portfolio{" "}
+          <span className=" text-[#131313]/70 ">
+            (Github, Behance etc) <span className="text-red-500"> *</span>
+          </span>
         </label>
-        <Dropdown
-          placeholder="Choose Option"
-          onValueChange={(selected) =>
-            setValue("web3Familiarity", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          className="text-dark"
-          options={web3Options}
-          isTypeable={true}
+        <FormInput
+          label=" "
+          type="url"
+          placeholder="Enter the URL of your Portfolio"
+          {...register("portfolioUrl")}
+          error={errors.portfolioUrl?.message}
         />
-        {errors.web3Familiarity && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.web3Familiarity.message}
-          </p>
-        )}
       </div>
     </div>
   );

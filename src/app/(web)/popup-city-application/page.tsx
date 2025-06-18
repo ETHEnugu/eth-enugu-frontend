@@ -7,8 +7,8 @@ import StepTwoDetails from "@/components/ui/popup-city-form/StepTwoDetails";
 import { POPUP_CITY } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { PopupCityProps } from "@/types";
-import { popupCityValidation } from "@/validations/popupCityValidation";
-import { yupResolver } from "@hookform/resolvers/yup";
+// import { popupCityValidation } from "@/validations/popupCityValidation";
+// import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -52,20 +52,24 @@ const PopupCityPage = () => {
         email: "",
         gender: "",
         whatsappNumber: "",
-        location: "",
-        currentRole: "",
+        country: "",
+        state: "",
+        city: "",
+        role: "",
         web3Familiarity: "",
-        preferredDates: "",
-        freeLunchConsideration: "",
+        preferredDates: [],
         volunteeringInterest: "",
         dietaryAccessibilityNeeds: "",
         referralSource: "",
-        joinOnlineCommunity: "",
-        otherCurrentRole: "",
+        otherRole: "",
+        socials: "",
+        participateInERV: false,
+        ervInvolvement: "",
+        portfolioUrl: "",
       };
 
   const methods = useForm<PopupCityProps>({
-    resolver: yupResolver(popupCityValidation),
+    // resolver: yupResolver(popupCityValidation),
     defaultValues,
     mode: "onChange",
   });
@@ -76,6 +80,7 @@ const PopupCityPage = () => {
     setValue,
     trigger,
     watch,
+    control,
     formState: { errors },
   } = methods;
 
@@ -97,9 +102,11 @@ const PopupCityPage = () => {
         "email",
         "gender",
         "whatsappNumber",
-        "location",
-        "currentRole",
+        "country",
+        "role",
+        "otherRole",
         "web3Familiarity",
+        "socials",
       ];
 
       const isValid = await trigger(stepOneFields, { shouldFocus: true });
@@ -115,11 +122,9 @@ const PopupCityPage = () => {
   const onSubmit = async (data: PopupCityProps) => {
     const stepTwoFields: (keyof PopupCityProps)[] = [
       "preferredDates",
-      "freeLunchConsideration",
       "volunteeringInterest",
       "dietaryAccessibilityNeeds",
       "referralSource",
-      "joinOnlineCommunity",
     ];
 
     const isValid = await trigger(stepTwoFields, { shouldFocus: true });
@@ -177,6 +182,7 @@ const PopupCityPage = () => {
                 errors={errors}
                 setValue={setValue}
                 watch={watch}
+                control={control}
               />
             )}
             {currentStep === 2 && (
@@ -184,6 +190,8 @@ const PopupCityPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                control={control}
+                watch={watch}
               />
             )}
             <div className="flex md:flex-row flex-col-reverse gap-4 mt-5">

@@ -40,20 +40,6 @@ export const speakerValidation = yup.object().shape({
     .required("Please enter your bio")
     .min(10, "Your bio must be at least 10 characters"),
 
-  twitterProfile: yup
-    .string()
-    .url("Please enter a valid URL")
-    .required("Please enter your Twitter(X) handle")
-    .nullable()
-    .transform((value) => value || undefined),
-
-  linkedinProfile: yup
-    .string()
-    .url("Please enter a valid URL")
-    .optional()
-    .nullable()
-    .transform((value) => value || undefined),
-
   participationType: yup.string().trim().required("Please select a category"),
 
   // Session Details

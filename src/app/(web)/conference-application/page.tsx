@@ -34,7 +34,7 @@ function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("steps")) || 0;
-  const FORM_KEY = "applicationForm";
+  const FORM_KEY = "conferenceForm";
 
   const {
     register,
@@ -43,28 +43,31 @@ function Page() {
     watch,
     setError,
     trigger,
+    control,
     formState: { errors },
   } = useForm<ConferenceProps>({
     defaultValues: {
       fullName: "",
       email: "",
       whatsappNumber: "",
-      location: "",
-      age: "",
+      country: "",
+      state: "",
+      city: "",
       gender: "",
-      roleDescription: "",
+      roleDescription: [],
       otherRole: "",
-      expectedGains: "",
-      attendanceType: "",
+      openToVolunteer: "",
       certificateNeeded: false,
-      dietaryAccessibilityNeeds: "",
       referralSource: "",
-      joinOnlineCommunity: "",
+      social: "",
+      web3Familiarity: "",
+      willBeLive: null,
     },
     mode: "onChange",
   });
 
   const formData = watch();
+  console.log(formData);
 
   const handleNext = async () => {
     if (currentStep === 0) {
@@ -76,12 +79,11 @@ function Page() {
         "fullName",
         "email",
         "whatsappNumber",
-        "location",
-        "age",
+        "country",
+        "state",
         "gender",
+        "social",
       ]);
-
-      setError("gender", { type: "required", message: "Gender is required" });
 
       if (isStepValid) {
         updateStepInURL(2);
@@ -155,6 +157,8 @@ function Page() {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
+                control={control}
               />
             )}
 
@@ -165,6 +169,7 @@ function Page() {
                 setValue={setValue}
                 setError={setError}
                 watch={watch}
+                control={control}
               />
             )}
 

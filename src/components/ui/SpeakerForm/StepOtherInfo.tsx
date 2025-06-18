@@ -11,7 +11,7 @@ import {
 } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import Spinner from "@/components/common/spinner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
@@ -61,21 +61,19 @@ const StepOtherInfo = ({
       const dateExists = prevDates.some(
         (d) => d.toDateString() === date.toDateString()
       );
-      const updatedDates = dateExists
+      return dateExists
         ? prevDates.filter((d) => d.toDateString() !== date.toDateString())
         : [...prevDates, date];
-
-      // Format as ISO string
-      const formatted = updatedDates.map((d) => d.toISOString());
-
-      setValue("expectedArrivalDates", formatted, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-
-      return updatedDates;
     });
   };
+
+  useEffect(() => {
+    const formatted = selectedDates.map((d) => d.toISOString());
+    setValue("expectedArrivalDates", formatted, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  }, [selectedDates, setValue]);
 
   const clearAllDates = () => {
     setSelectedDates([]);
@@ -223,7 +221,7 @@ const StepOtherInfo = ({
               <button
                 type="button"
                 onClick={clearAllDates}
-                className="text-red-500 text-sm hover:text-red-700"
+                className="text-red-500 text-sm hover:text-red-700 cursor-pointer"
               >
                 Clear All
               </button>
