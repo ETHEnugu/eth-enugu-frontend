@@ -135,23 +135,26 @@ export interface ConferenceProps {
 export interface PopupCityProps {
   fullName: string;
   email: string;
-  gender: string | number | boolean;
+  gender: string;
   whatsappNumber: string;
   country: string;
   state: string;
   city?: string | null;
   role?: string[];
   otherRole?: string;
-  web3Familiarity: string | number | boolean;
-  canAttendIRL: string;
-  preferredDates: string[] | null;
-  volunteeringInterest: string | number | boolean;
-  dietaryAccessibilityNeeds: string | number | boolean;
-  referralSource: string | number | boolean;
-  socials?: string | null;
+  web3Familiarity: string;
+  canAttendIRL: boolean;
+  preferredDates?: string[] | null;
+  volunteeringInterest: string;
+  dietaryAccessibilityNeeds: string;
+  referralSource: string;
+  socials: string;
   portfolioUrl: string;
-  participateInERV: boolean;
+  participateInERV?: boolean | null;
   ervInvolvement?: string | null;
+  isCertificateNeeded: boolean;
+  walletAddress?: string;
+  joinOnlineCommunity: string;
 }
 
 export interface BuildersResidencyProps {
