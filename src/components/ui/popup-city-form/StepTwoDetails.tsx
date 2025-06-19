@@ -243,7 +243,7 @@ const StepTwoDetails = ({
             return (
               <RadioGroup
                 onValueChange={field.onChange}
-                value={field.value}
+                value={String(field.value)}
                 className="flex flex-col gap-2"
               >
                 {canAttendIRLOptions.map((option, index) => (
