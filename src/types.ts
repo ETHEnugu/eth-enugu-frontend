@@ -87,7 +87,8 @@ export interface SpeakerProps {
   whatsappNumber: string;
   country: string;
   state: string;
-  socials?: string | null;
+  city?: string | null;
+  social?: string | null;
   gender: string | number | boolean;
   roles: string[];
   bio: string;
@@ -103,12 +104,12 @@ export interface SpeakerProps {
   presentationLink?: string | null;
   talkTitle: string;
   talkDescription: string;
-  comfortableWithTopicChange: boolean;
+  comfortableWithTopicChange?: boolean | null;
 
   // Other Information
-  canMakeItToEnugu: boolean;
+  canMakeItToEnugu?: boolean | null;
   expectedArrivalDates: string[] | null;
-  participateInERV: boolean;
+  participateInERV?: boolean | null;
   ervInvolvement: string;
 }
 
@@ -120,7 +121,7 @@ export interface ConferenceProps {
   state: string;
   city?: string | null;
   gender: string | number | boolean;
-  openToVolunteer: string | number | boolean;
+  openToVolunteer?: string | number | boolean | null;
   certificateNeeded: string | number | boolean;
   referralSource: string;
   otherRole?: string | null;
@@ -128,7 +129,7 @@ export interface ConferenceProps {
   web3Familiarity: string | number | boolean;
   roleDescription?: string[];
   walletAddress?: string;
-  willBeLive: string | null | boolean;
+  willBeLive?: string | null | boolean;
 }
 
 export interface PopupCityProps {

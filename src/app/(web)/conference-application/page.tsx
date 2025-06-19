@@ -43,6 +43,7 @@ function Page() {
     watch,
     setError,
     trigger,
+    reset,
     control,
     formState: { errors },
   } = useForm<ConferenceProps>({
@@ -56,8 +57,8 @@ function Page() {
       gender: "",
       roleDescription: [],
       otherRole: "",
-      openToVolunteer: "",
-      certificateNeeded: false,
+      openToVolunteer: null,
+      certificateNeeded: "",
       referralSource: "",
       social: "",
       web3Familiarity: "",
@@ -67,6 +68,7 @@ function Page() {
   });
 
   const formData = watch();
+  console.log(formData);
   console.log(formData);
 
   const handleNext = async () => {
@@ -87,6 +89,8 @@ function Page() {
 
       if (isStepValid) {
         updateStepInURL(2);
+      } else {
+        toast.error("Please fill in the required fields");
       }
     }
   };
@@ -118,8 +122,9 @@ function Page() {
     mutate(data, {
       onSuccess: () => {
         toast.success("Conference/Summit form submitted successfully");
-        router.push("/application-success");
+        router.push("/success?form=Conference");
         localStorage.removeItem(FORM_KEY);
+        reset();
       },
     });
   };

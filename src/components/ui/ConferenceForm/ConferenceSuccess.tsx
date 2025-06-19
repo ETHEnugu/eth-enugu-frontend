@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/button";
 import Link from "next/link";
 
 export default function ConferenceSuccess() {
@@ -21,7 +22,7 @@ export default function ConferenceSuccess() {
               href="/generate-dp?from=conference"
               className="text-[var(--color-green-550)] font-semibold"
             >
-              Click to generate DP
+              Click to generate your DP
             </Link>
           </div>
 
@@ -57,20 +58,31 @@ export default function ConferenceSuccess() {
             <div className="flex gap-1 mb-2">
               Join
               <Link
-                href="https://chat.whatsapp.com/FipXVEahmnOGiuzQQnKyoo"
+                href="https://chat.whatsapp.com/H2WEqw70d00E4uPBqt0lmm"
                 target="_blank"
                 className="text-green-550 underline"
               >
                 WhatsApp Group
               </Link>
             </div>
-            <div className="flex gap-1 mb-2">
-              <Link
-                href="/generate-dp?from=conference"
-                className="text-[var(--color-green-550)] font-semibold"
-              >
-                Create Your Conference DP
-              </Link>
+
+            <div className="w-full flex flex-col gap-3 mt-6">
+              <h4 className="!font-semibold text-[var(--color-dark)]">
+                Don&apos;t stop here - explore other exciting experiences during
+                the ETH-Enugu &apos;25 program:
+              </h4>
+
+              <div className="flex flex-wrap gap-4">
+                <Link href="/builder-residency-application">
+                  <Button variant="default">
+                    Apply for the Buildere Residency
+                  </Button>
+                </Link>
+
+                <Link href="/popup-city-application">
+                  <Button variant="default">Apply for the Pop-up City</Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

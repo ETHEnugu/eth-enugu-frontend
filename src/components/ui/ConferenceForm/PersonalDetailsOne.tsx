@@ -9,7 +9,6 @@ import { State } from "country-state-city";
 import { useEffect, useMemo, useState } from "react";
 import {
   Control,
-  Controller,
   FieldErrors,
   UseFormRegister,
   UseFormSetValue,
@@ -29,7 +28,6 @@ export default function PersonalDetailsOne({
   errors,
   setValue,
   watch,
-  control,
 }: PersonalDetailsOneProps) {
   const options = useMemo(() => countryOptions, []);
 
@@ -152,26 +150,18 @@ export default function PersonalDetailsOne({
         ) : statesOptions.length === 0 ? (
           <Spinner />
         ) : (
-          <Controller
-            name="state"
-            control={control}
-            rules={{ required: "Please select a state" }}
-            render={({ field }) => (
-              <Dropdown
-                key={watchedCountry}
-                placeholder="State of residence"
-                onValueChange={(selected) => {
-                  field.onChange(selected.value);
-                  setValue("state", selected.value.toString(), {
-                    shouldValidate: true,
-                    shouldDirty: true,
-                  });
-                }}
-                className="text-dark"
-                options={statesOptions}
-                isTypeable={true}
-              />
-            )}
+          <Dropdown
+            placeholder="Select State"
+            className="text-dark"
+            isTypeable={true}
+            options={statesOptions}
+            onValueChange={(selected) =>
+              setValue("state", selected.value.toLocaleString(), {
+                shouldValidate: true,
+                shouldDirty: true,
+              })
+            }
+            {...register("state", { required: "Please select a state" })}
           />
         )}
         {errors.state && (
@@ -220,10 +210,9 @@ export default function PersonalDetailsOne({
         placeholder="Enter the URL to your X Profile"
         type="url"
         {...register("social", {
-          required: "Please enter your social Url",
+          required: "Please enter your Twitter (X) or LinkedIn URL",
           pattern: {
-            value:
-              /^(https?:\/\/)?(www\.)?(twitter\.com|x\.com|linkedin\.com)\/[A-Za-z0-9_/-]+$/,
+            value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
             message: "Only Twitter (X) or LinkedIn URLs are allowed",
           },
         })}
