@@ -334,7 +334,8 @@ export default function PersonalDetailsTwo({
             })
           }
           {...register("openToVolunteer", {
-            required: "Please selected an option",
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
           })}
         />
         {errors.openToVolunteer && (
