@@ -121,7 +121,7 @@ export interface ConferenceProps {
   state: string;
   city?: string | null;
   gender: string | number | boolean;
-  openToVolunteer: string | number | boolean;
+  openToVolunteer?: string | number | boolean | null;
   certificateNeeded: string | number | boolean;
   referralSource: string;
   otherRole?: string | null;

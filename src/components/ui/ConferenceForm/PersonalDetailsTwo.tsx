@@ -34,18 +34,18 @@ export default function PersonalDetailsTwo({
   control,
 }: PersonalDetailsTwoProps) {
   const volunteeringOptions = [
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "No" },
+    { label: "Yes", value: true },
+    { label: "No", value: false },
   ];
 
   const certificateNeeded = [
     {
       label: "Yes",
-      value: true,
+      value: "YES",
     },
     {
       label: "No",
-      value: false,
+      value: "NO",
     },
   ];
   const web3Options = [
@@ -96,6 +96,18 @@ export default function PersonalDetailsTwo({
       }
     }
   }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (!watchedRole?.includes("OTHER")) {
+      setValue("otherRole", "");
+    }
+  }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (isCertificateNeeded !== true) {
+      setValue("walletAddress", "");
+    }
+  }, [isCertificateNeeded, setValue]);
 
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8 ">
@@ -168,15 +180,18 @@ export default function PersonalDetailsTwo({
         </label>
         <Dropdown
           placeholder="Choose Option"
+          options={web3Options}
+          isTypeable={false}
           onValueChange={(selected) =>
             setValue("web3Familiarity", selected.value, {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
+          {...register("web3Familiarity", {
+            required: "Please select an option",
+          })}
           className="text-dark"
-          options={web3Options}
-          isTypeable={false}
         />
         {errors.web3Familiarity && (
           <p className="text-red-500 text-sm mt-1">
@@ -201,6 +216,7 @@ export default function PersonalDetailsTwo({
           control={control}
           name="roleDescription"
           defaultValue={[]}
+          rules={{ required: "Please select at least one role" }}
           render={({ field }) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
               {confRolesOptions.map((role, index) => {
@@ -260,14 +276,17 @@ export default function PersonalDetailsTwo({
         </label>
         <Dropdown
           placeholder="Select Option"
+          className="text-dark"
+          options={certificateNeeded}
           onValueChange={(selected) =>
             setValue("certificateNeeded", selected.value, {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
-          className="text-dark"
-          options={certificateNeeded}
+          {...register("certificateNeeded", {
+            required: "Please select an option",
+          })}
         />
         {errors.certificateNeeded && (
           <p className="text-red-500 text-sm mt-1">
@@ -276,7 +295,7 @@ export default function PersonalDetailsTwo({
         )}
       </div>
 
-      {isCertificateNeeded && (
+      {isCertificateNeeded === "YES" && (
         <div>
           <label
             htmlFor=""

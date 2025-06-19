@@ -79,7 +79,7 @@ const StepOtherInfo = ({
       shouldDirty: false,
       shouldValidate: false,
     });
-  }, [selectedDates, setValue]);
+  }, [selectedDates, setValue, formatted]);
 
   const clearAllDates = () => {
     setSelectedDates([]);
