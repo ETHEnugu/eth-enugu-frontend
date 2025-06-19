@@ -130,7 +130,10 @@ export default function PersonalDetailsTwo({
 
         <Controller
           name="willBeLive"
-          rules={{ required: "Please select an option" }}
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
           control={control}
           render={({ field }) => {
             return (
@@ -264,7 +267,11 @@ export default function PersonalDetailsTwo({
         <FormInput
           type="text"
           label="Please specify your role"
-          {...register("otherRole")}
+          {...register("otherRole", {
+            required: watchedRole.includes("OTHER")
+              ? "Please specify your role"
+              : false,
+          })}
           error={errors.otherRole?.message}
         />
       )}
