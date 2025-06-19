@@ -40,8 +40,6 @@ const StepOneDetails = ({
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
 
-  // const currentRole = watch("role");
-
   const watchedCountry = watch("country");
   const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
 
@@ -79,9 +77,10 @@ const StepOneDetails = ({
       } else {
         setValue("role", watchedRole?.filter((r) => r !== "OTHER") || []);
       }
-      if (!hasOther) {
-        setValue("otherRole", "");
-      }
+    }
+
+    if (!hasOther) {
+      setValue("otherRole", "");
     }
   }, [watchedRole, setValue]);
 
@@ -115,7 +114,7 @@ const StepOneDetails = ({
           <Dropdown
             placeholder="Select gender"
             onValueChange={(selected) =>
-              setValue("gender", selected.value, {
+              setValue("gender", selected.value.toString(), {
                 shouldValidate: true,
                 shouldDirty: true,
               })

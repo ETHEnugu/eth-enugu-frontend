@@ -100,7 +100,7 @@ const StepSessionDetails = ({
           }
           className="text-dark"
           options={sessionOptions}
-          isTypeable={true}
+          isTypeable={false}
         />
         {errors.sessionType && (
           <p className="text-red-500 text-sm mt-1">

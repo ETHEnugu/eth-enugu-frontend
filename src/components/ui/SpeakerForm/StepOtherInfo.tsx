@@ -68,7 +68,6 @@ const StepOtherInfo = ({
 
     setSelectedDates(newDates);
 
-    // Update form value and trigger validation
     const formatted = newDates.map((d) => d.toISOString());
     setValue("expectedArrivalDates", formatted, {
       shouldValidate: true,

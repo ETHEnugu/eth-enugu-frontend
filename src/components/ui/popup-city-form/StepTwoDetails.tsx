@@ -11,9 +11,10 @@ import {
 } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import Link from "next/link";
+import FormInput from "@/components/common/form/FormInput";
 
 interface StepOtherInfoProps {
   register: UseFormRegister<PopupCityProps>;
@@ -41,26 +42,34 @@ const StepTwoDetails = ({
   const minDate = new Date("2025-08-04");
   const maxDate = new Date("2025-08-16");
 
+  const formatted = useMemo(() => {
+    return selectedDates.map((d) => d.toISOString());
+  }, [selectedDates]);
+
   const handleDateChange = (date: Date | null) => {
     if (!date) return;
 
-    setSelectedDates((prevDates) => {
-      const dateExists = prevDates.some(
-        (d) => d.toDateString() === date.toDateString()
-      );
-      const updatedDates = dateExists
-        ? prevDates.filter((d) => d.toDateString() !== date.toDateString())
-        : [...prevDates, date];
+    const newDates = selectedDates.some(
+      (d) => d.toDateString() === date.toDateString()
+    )
+      ? selectedDates.filter((d) => d.toDateString() !== date.toDateString())
+      : [...selectedDates, date];
 
-      const formatted = updatedDates.map((d) => d.toISOString().split("T")[0]);
-      setValue("preferredDates", formatted, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
+    setSelectedDates(newDates);
 
-      return updatedDates;
+    const formatted = newDates.map((d) => d.toISOString());
+    setValue("preferredDates", formatted, {
+      shouldValidate: true,
+      shouldDirty: true,
     });
   };
+
+  useEffect(() => {
+    setValue("preferredDates", formatted, {
+      shouldDirty: false,
+      shouldValidate: false,
+    });
+  }, [selectedDates, setValue, formatted]);
 
   const clearAllDates = () => {
     setSelectedDates([]);
@@ -105,13 +114,13 @@ const StepTwoDetails = ({
           Yes, I will be attending the ETH-Enugu Pop-up city IRL on select days.
         </>
       ),
-      value: "YES",
+      value: true,
       id: "option1IRL",
     },
     {
       label:
         " No, I may not be able to attend IRL but I can participate virtually if there are provisions for it.",
-      value: "NO",
+      value: false,
       id: "option2IRl",
     },
   ];
@@ -130,6 +139,31 @@ const StepTwoDetails = ({
     },
   ];
 
+  const certificateNeeded = [
+    {
+      label: "Yes",
+      value: true,
+    },
+    {
+      label: "No",
+      value: false,
+    },
+  ];
+
+  const isCertificateNeeded = watch("isCertificateNeeded");
+
+  useEffect(() => {
+    if (isCertificateNeeded !== true) {
+      setValue("walletAddress", "");
+    }
+  }, [isCertificateNeeded, setValue]);
+
+  useEffect(() => {
+    if (selectedparticipateInERV !== true) {
+      setValue("ervInvolvement", null);
+    }
+  }, [selectedparticipateInERV, setValue]);
+
   return (
     <div className="space-y-7">
       <div>
@@ -140,7 +174,7 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Option"
           onValueChange={(selected) =>
-            setValue("web3Familiarity", selected.value, {
+            setValue("web3Familiarity", selected.value.toString(), {
               shouldValidate: true,
               shouldDirty: true,
             })
@@ -211,7 +245,7 @@ const StepTwoDetails = ({
         )}
       </div>
 
-      {selectedCanAttendIrlOption === "YES" && (
+      {selectedCanAttendIrlOption === true && (
         <div>
           {/* this input is dependent on if they will be attending IRL, implement the condiotn */}
           <label className="block font-bold text-dark text-base mb-1">
@@ -273,7 +307,7 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Answer"
           onValueChange={(selected) =>
-            setValue("volunteeringInterest", selected.value, {
+            setValue("volunteeringInterest", selected.value.toString(), {
               shouldValidate: true,
               shouldDirty: true,
             })
@@ -305,6 +339,49 @@ const StepTwoDetails = ({
           </p>
         )}
       </div>
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          We&apos;ll be minting NFTs for everyone who registers and attends the
+          Conference/Summit. Would you like to have the NFT?
+          <span className="text-red-500">*</span>
+        </label>
+        <Dropdown
+          placeholder="Select Option"
+          onValueChange={(selected) =>
+            setValue("isCertificateNeeded", Boolean(selected.value), {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          className="text-dark"
+          options={certificateNeeded}
+        />
+        {errors.isCertificateNeeded && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.isCertificateNeeded?.message}
+          </p>
+        )}
+      </div>
+
+      {isCertificateNeeded && (
+        <div>
+          <label
+            htmlFor=""
+            className="block font-bold text-dark text-base mb-1"
+          >
+            Please provide the an Ethereum wallet address where you&apos;d like
+            your NFT to be sent. <span className="text-red-500"> *</span>
+          </label>
+          <FormInput
+            label=" "
+            type="text"
+            placeholder="eg. 0x1234abcd..."
+            {...register("walletAddress")}
+            error={errors.walletAddress?.message}
+          />
+        </div>
+      )}
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">

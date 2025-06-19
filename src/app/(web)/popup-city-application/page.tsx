@@ -7,8 +7,8 @@ import StepTwoDetails from "@/components/ui/popup-city-form/StepTwoDetails";
 import { POPUP_CITY } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { PopupCityProps } from "@/types";
-// import { popupCityValidation } from "@/validations/popupCityValidation";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { popupCityValidation } from "@/validations/popupCityValidation";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -55,7 +55,7 @@ const PopupCityPage = () => {
         country: "",
         state: "",
         city: "",
-        role: "",
+        role: [],
         web3Familiarity: "",
         preferredDates: [],
         volunteeringInterest: "",
@@ -63,13 +63,17 @@ const PopupCityPage = () => {
         referralSource: "",
         otherRole: "",
         socials: "",
-        participateInERV: false,
+        participateInERV: null,
         ervInvolvement: "",
         portfolioUrl: "",
+        isCertificateNeeded: null,
+        walletAddress: "",
+        joinOnlineCommunity: "YES",
+        canAttendIRL: "",
       };
 
   const methods = useForm<PopupCityProps>({
-    // resolver: yupResolver(popupCityValidation),
+    resolver: yupResolver(popupCityValidation),
     defaultValues,
     mode: "onChange",
   });
@@ -103,16 +107,19 @@ const PopupCityPage = () => {
         "gender",
         "whatsappNumber",
         "country",
+        "state",
+        "socials",
+        "portfolioUrl",
         "role",
         "otherRole",
-        "web3Familiarity",
-        "socials",
       ];
 
       const isValid = await trigger(stepOneFields, { shouldFocus: true });
 
       if (isValid) {
         updateStepInURL(currentStep + 1);
+      } else {
+        toast.error("Please fill in required fields");
       }
     }
   };
@@ -121,10 +128,12 @@ const PopupCityPage = () => {
 
   const onSubmit = async (data: PopupCityProps) => {
     const stepTwoFields: (keyof PopupCityProps)[] = [
-      "preferredDates",
+      "web3Familiarity",
+      "canAttendIRL",
       "volunteeringInterest",
       "dietaryAccessibilityNeeds",
       "referralSource",
+      "isCertificateNeeded",
     ];
 
     const isValid = await trigger(stepTwoFields, { shouldFocus: true });
@@ -133,7 +142,7 @@ const PopupCityPage = () => {
       mutate(data, {
         onSuccess: () => {
           toast.success("Popup City form submitted succefully");
-          router.replace("/success?form=popup");
+          router.replace("/success?form=Popup-city");
           methods.reset();
           localStorage.removeItem("popupCityFormData");
         },
