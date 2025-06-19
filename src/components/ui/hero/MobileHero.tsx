@@ -20,7 +20,7 @@ export default function MobileHero() {
 
   return (
     <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-8">
-      <section className="flex flex-col items-center justify-center gap-2 mt-20">
+      <section className="flex flex-col items-center justify-center gap-2 mt-24">
         <WordSlideUp text="Welcome to" className="text-center" />
         <span>
           <LetterSlideUp
@@ -34,13 +34,21 @@ export default function MobileHero() {
         </span>
         <span className="w-full px-8 text-center flex flex-col items-center justify-center">
           <WordSlideUp
-            text="Nigeria's first Builder Residency & Pop-up City +"
+            text="Nigeria's first Builder Residency & Pop-up City + South-East Nigeria's First Ethereum Conference"
+            className="text-center"
+          />
+          {/* <WordSlideUp
+            text=""
             className="text-center"
           />
           <WordSlideUp
-            text="South-East Nigeria's First Ethereum Conference"
+            text=""
             className="text-center"
           />
+          <WordSlideUp
+            text=""
+            className="text-center"
+          /> */}
           <WordSlideUp
             text="From Enugu to the Ethereum network — a"
             className="text-center"
