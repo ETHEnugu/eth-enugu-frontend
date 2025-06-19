@@ -8,6 +8,8 @@ import {
   Controller,
   Control,
   UseFormWatch,
+  UseFormClearErrors,
+  UseFormSetError,
 } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,6 +24,8 @@ interface StepOtherInfoProps {
   setValue: UseFormSetValue<PopupCityProps>;
   control: Control<PopupCityProps>;
   watch: UseFormWatch<PopupCityProps>;
+  clearErrors: UseFormClearErrors<PopupCityProps>;
+  setError: UseFormSetError<PopupCityProps>;
 }
 
 const volunteerOptions = [
@@ -36,6 +40,8 @@ const StepTwoDetails = ({
   setValue,
   control,
   watch,
+  setError,
+  clearErrors,
 }: StepOtherInfoProps) => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
@@ -78,6 +84,23 @@ const StepTwoDetails = ({
       shouldDirty: true,
     });
   };
+  const selectedCanAttendIrlOption = watch("canAttendIRL");
+  console.log(selectedCanAttendIrlOption);
+
+  useEffect(() => {
+    if (selectedCanAttendIrlOption === true) {
+      if (selectedDates.length === 0) {
+        setError("preferredDates", {
+          type: "manual",
+          message: "Please select at least one date",
+        });
+      } else {
+        clearErrors("preferredDates");
+      }
+    } else {
+      clearErrors("preferredDates");
+    }
+  }, [selectedCanAttendIrlOption, selectedDates, setError, clearErrors]);
 
   const participateInERVOptions = [
     {
@@ -124,8 +147,6 @@ const StepTwoDetails = ({
       id: "option2IRl",
     },
   ];
-
-  const selectedCanAttendIrlOption = watch("canAttendIRL");
 
   const web3Options = [
     { label: "newbie (has zero knowledge)", value: "NEW" },
@@ -179,6 +200,9 @@ const StepTwoDetails = ({
               shouldDirty: true,
             })
           }
+          {...register("web3Familiarity", {
+            required: "Please select an option",
+          })}
           className="text-dark"
           options={web3Options}
           isTypeable={false}
@@ -210,6 +234,10 @@ const StepTwoDetails = ({
 
         <Controller
           name="canAttendIRL"
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
           control={control}
           render={({ field }) => {
             return (
@@ -295,6 +323,12 @@ const StepTwoDetails = ({
                 </div>
               </div>
             )}
+
+            {errors.preferredDates && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.preferredDates.message}
+              </p>
+            )}
           </div>
         </div>
       )}
@@ -314,6 +348,9 @@ const StepTwoDetails = ({
           }
           className="text-dark"
           options={volunteerOptions}
+          {...register("volunteeringInterest", {
+            required: "Please select an option",
+          })}
         />
         {errors.volunteeringInterest && (
           <p className="text-red-500 text-sm mt-1">
@@ -332,6 +369,13 @@ const StepTwoDetails = ({
           placeholder="Write here..."
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
+          {...register("dietaryAccessibilityNeeds", {
+            required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
+          })}
         />
         {errors.dietaryAccessibilityNeeds && (
           <p className="text-red-500 text-sm mt-1">
@@ -356,6 +400,10 @@ const StepTwoDetails = ({
           }
           className="text-dark"
           options={certificateNeeded}
+          {...register("isCertificateNeeded", {
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          })}
         />
         {errors.isCertificateNeeded && (
           <p className="text-red-500 text-sm mt-1">
@@ -377,7 +425,15 @@ const StepTwoDetails = ({
             label=" "
             type="text"
             placeholder="eg. 0x1234abcd..."
-            {...register("walletAddress")}
+            {...register("walletAddress", {
+              required: isCertificateNeeded
+                ? "Please provide your wallet address"
+                : false,
+              minLength: {
+                value: 25,
+                message: "Wallet address must be at least 25 characters",
+              },
+            })}
             error={errors.walletAddress?.message}
           />
         </div>
@@ -389,7 +445,13 @@ const StepTwoDetails = ({
           <span className="text-red-500">*</span>
         </label>
         <textarea
-          {...register("referralSource")}
+          {...register("referralSource", {
+            required: "Your response is required",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters",
+            },
+          })}
           placeholder="Write here..."
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
@@ -429,6 +491,10 @@ const StepTwoDetails = ({
 
         <Controller
           control={control}
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
           name="participateInERV"
           render={({ field }) => (
             <RadioGroup
@@ -475,6 +541,11 @@ const StepTwoDetails = ({
           </label>
 
           <Controller
+            rules={{
+              required: selectedparticipateInERV
+                ? "This field is required"
+                : false,
+            }}
             control={control}
             name="ervInvolvement"
             render={({ field }) => (

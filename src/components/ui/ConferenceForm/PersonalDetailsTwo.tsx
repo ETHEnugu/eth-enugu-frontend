@@ -178,8 +178,6 @@ export default function PersonalDetailsTwo({
         <label className="block font-bold text-dark text-base mb-1">
           How familiar are you with Web3/Blockchain{" "}
           <span className="text-red-500">*</span>
-          How familiar are you with Web3/Blockchain{" "}
-          <span className="text-red-500">*</span>
         </label>
         <Dropdown
           placeholder="Choose Option"

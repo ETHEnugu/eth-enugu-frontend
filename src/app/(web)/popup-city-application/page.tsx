@@ -7,8 +7,6 @@ import StepTwoDetails from "@/components/ui/popup-city-form/StepTwoDetails";
 import { POPUP_CITY } from "@/config/ENDPOINTS";
 import { usePostMutation } from "@/hooks/useApi";
 import { PopupCityProps } from "@/types";
-import { popupCityValidation } from "@/validations/popupCityValidation";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -69,11 +67,10 @@ const PopupCityPage = () => {
         isCertificateNeeded: null,
         walletAddress: "",
         joinOnlineCommunity: "YES",
-        canAttendIRL: "",
+        canAttendIRL: null,
       };
 
   const methods = useForm<PopupCityProps>({
-    resolver: yupResolver(popupCityValidation),
     defaultValues,
     mode: "onChange",
   });
@@ -84,6 +81,8 @@ const PopupCityPage = () => {
     setValue,
     trigger,
     watch,
+    setError,
+    clearErrors,
     control,
     formState: { errors },
   } = methods;
@@ -201,6 +200,8 @@ const PopupCityPage = () => {
                 setValue={setValue}
                 control={control}
                 watch={watch}
+                setError={setError}
+                clearErrors={clearErrors}
               />
             )}
             <div className="flex md:flex-row flex-col-reverse gap-4 mt-5">
