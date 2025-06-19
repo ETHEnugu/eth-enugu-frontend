@@ -5,7 +5,7 @@ import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import type { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Resolver, useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
 import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
@@ -153,18 +153,6 @@ const SpeakerApplicationForm = () => {
   // Optimized form submission
   const onSubmit = async (data: SpeakerProps) => {
     try {
-      // Validate final step before submission
-      const finalStepValid = await trigger([
-        "expectedArrivalDates",
-        "canMakeItToEnugu",
-        "participateInERV",
-      ]);
-
-      if (!finalStepValid) {
-        toast.error("Please complete all required fields in the final step.");
-        return;
-      }
-
       // Clean up the data before submission
       const cleanedData = {
         ...data,
@@ -192,7 +180,6 @@ const SpeakerApplicationForm = () => {
 
       // Remove any undefined or extra fields that might cause issues
       const { ...finalData } = cleanedData;
-      console.log("Final data being sent:", finalData);
 
       mutate(finalData, {
         onSuccess: () => {
@@ -215,6 +202,21 @@ const SpeakerApplicationForm = () => {
       console.error("Form submission error:", error);
       toast.error("An unexpected error occurred. Please try again.");
     }
+  };
+
+  const handleFormSubmit = async () => {
+    const finalStepValid = await trigger([
+      "expectedArrivalDates",
+      "canMakeItToEnugu",
+      "participateInERV",
+    ]);
+
+    if (!finalStepValid) {
+      toast.error("Please fill up the required fields");
+      return;
+    }
+
+    handleSubmit(onSubmit)();
   };
 
   // Check if current step has required fields filled
@@ -313,7 +315,7 @@ const SpeakerApplicationForm = () => {
               setValue={setValue}
               formData={formData}
               onBack={handleBack}
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleFormSubmit}
               isSubmitting={isPending}
               isValid={isCurrentStepValid()}
               watch={watch}

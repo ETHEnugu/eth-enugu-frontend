@@ -313,7 +313,7 @@ const StepOneDetails = ({
       <FormInput
         label="Twitter (X) or LinkedIn Url"
         type="url"
-        placeholder="Enter the URL to your X Profile"
+        placeholder="Enter the URL to your X .  Ensure you start the link with https://"
         isRequired={true}
         {...register("socials", {
           required: "Please enter your Twitter (X) or LinkedIn URL",
@@ -335,7 +335,7 @@ const StepOneDetails = ({
         <FormInput
           label=" "
           type="url"
-          placeholder="Enter the URL of your Portfolio"
+          placeholder="Enter the URL to your portfolio.  Ensure you start the link with https://"
           {...register("portfolioUrl", {
             required: "Please enter your Portfolio Url",
             pattern: {

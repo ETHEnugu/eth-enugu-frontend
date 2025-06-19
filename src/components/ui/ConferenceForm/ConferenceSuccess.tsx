@@ -75,7 +75,7 @@ export default function ConferenceSuccess() {
               <div className="flex flex-wrap gap-4">
                 <Link href="/builder-residency-application">
                   <Button variant="default">
-                    Apply for the Buildere Residency
+                    Apply for the Builder&apos;s Residency
                   </Button>
                 </Link>
 
