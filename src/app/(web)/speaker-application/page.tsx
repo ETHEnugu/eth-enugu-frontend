@@ -133,6 +133,7 @@ const SpeakerApplicationForm = () => {
         "talkTitle",
         "talkDescription",
         "comfortableWithTopicChange",
+        "presentationAvailable",
       ];
     }
 
@@ -174,8 +175,6 @@ const SpeakerApplicationForm = () => {
         comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
 
         // Handle optional string fields - convert empty strings to null
-        // twitterProfile: data.twitterProfile?.trim() || null,
-        // linkedinProfile: data.linkedinProfile?.trim() || null,
         otherRole: data.otherRole?.trim() || null,
         otherSessionType: data.otherSessionType?.trim() || null,
 

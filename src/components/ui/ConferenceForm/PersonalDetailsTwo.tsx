@@ -130,6 +130,7 @@ export default function PersonalDetailsTwo({
 
         <Controller
           name="willBeLive"
+          rules={{ required: "Please select an option" }}
           control={control}
           render={({ field }) => {
             return (
@@ -175,6 +176,8 @@ export default function PersonalDetailsTwo({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
+          How familiar are you with Web3/Blockchain{" "}
+          <span className="text-red-500">*</span>
           How familiar are you with Web3/Blockchain{" "}
           <span className="text-red-500">*</span>
         </label>
@@ -285,7 +288,7 @@ export default function PersonalDetailsTwo({
             })
           }
           {...register("certificateNeeded", {
-            required: "Please select an option",
+            required: "Please selected an option",
           })}
         />
         {errors.certificateNeeded && (

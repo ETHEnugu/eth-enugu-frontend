@@ -11,7 +11,7 @@ import {
 } from "react-hook-form";
 import { Icon } from "@iconify/react";
 import Spinner from "@/components/common/spinner";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
@@ -53,7 +53,9 @@ const StepOtherInfo = ({
 
   const minDate = new Date("2025-08-01");
   const maxDate = new Date("2025-08-31");
-  const formatted = selectedDates.map((d) => d.toISOString());
+  const formatted = useMemo(() => {
+    return selectedDates.map((d) => d.toISOString());
+  }, [selectedDates]);
 
   const handleDateChange = (date: Date | null) => {
     if (!date) return;
