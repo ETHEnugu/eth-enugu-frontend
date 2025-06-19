@@ -252,7 +252,7 @@ const StepTwoDetails = ({
                     className="flex items-center space-x-2 cursor-pointer"
                   >
                     <RadioGroupItem
-                      value={option.value}
+                      value={String(option.value)}
                       id={option.id}
                       className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
                     />
