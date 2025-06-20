@@ -17,7 +17,7 @@ export const events = [
     venue: "Golden Top Hotel",
     type: "residency",
     link: "/builder-residency-application",
-    image: "/banner/hotel-img.svg",
+    image: "/banner/hotel-img.png",
     rotate: 0,
   },
   {
@@ -32,15 +32,32 @@ export const events = [
       "Access to dedicated coworking space",
       "Access to top-tier mentors",
     ],
-    participants: 50,
+    participants: "200+ daily",
     duration: "04 - 15 AUG",
     type: "popup",
     link: "/popup-city-application",
-    image: "/banner/otigba.svg",
+    image: "/banner/popup.jpg",
     rotate: -12,
   },
   {
     id: 3,
+    title: "Conference/Summit '25",
+    description:
+      "This is the final event – a grand conference that brings everyone together: the residents, the local community, global guests, and industry leaders. Celebrating everything built and learned during the residency and pop-up experience",
+    features: [
+      "Demo-day to showcase your project",
+      "Open to both local residents and international participants.",
+      "Talks, showcases, panel sessions, and more",
+    ],
+    participants: 0,
+    duration: "",
+    type: "conference",
+    link: "/conference-application",
+    image: "/banner/conference.svg",
+    rotate: 6,
+  },
+  {
+    id: 4,
     title: "Ethereum Research Village",
     description:
       "Explore Ethereum core research, academic papers, Node operations, protocol engineering, P2P Networking, security, infra, and deep tech & other areas beyond just smart contracts development & building.",
@@ -60,7 +77,7 @@ export const events = [
     rotate: 5,
   },
   {
-    id: 4,
+    id: 5,
     title: "Ecosystem Day: A celebration of blockchain beyond Ethereum",
     description:
       "On Ecosystem Day, we shine a light on all thriving non-EVM ecosystems. This day is about learning, unlearning, and collaboration.",
@@ -70,23 +87,6 @@ export const events = [
     type: "ecosystem",
     link: "",
     image: "/banner/ecosystem.png",
-    rotate: 6,
-  },
-  {
-    id: 5,
-    title: "Conference/Summit '25",
-    description:
-      "This is the final event – a grand conference that brings everyone together: the residents, the local community, global guests, and industry leaders. Celebrating everything built and learned during the residency and pop-up experience",
-    features: [
-      "Demo-day to showcase your project",
-      "Open to both local residents and international participants.",
-      "Talks, showcases, panel sessions, and more",
-    ],
-    participants: 0,
-    duration: "",
-    type: "conference",
-    link: "/conference-application",
-    image: "/banner/conference.svg",
     rotate: 6,
   },
 ];

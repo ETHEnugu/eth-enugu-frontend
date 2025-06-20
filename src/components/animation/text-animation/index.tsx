@@ -100,6 +100,7 @@ export const LetterSlideUp = ({
 export const WordSlideUp = ({
   text,
   className,
+  containerClassName,
   delay = 0,
   duration = 0.3,
   staggerChildren = 0.1,
@@ -107,6 +108,7 @@ export const WordSlideUp = ({
 }: {
   text: string;
   className?: string;
+  containerClassName?: string;
   delay?: number;
   duration?: number;
   staggerChildren?: number;
@@ -150,7 +152,7 @@ export const WordSlideUp = ({
   return (
     <motion.p
       ref={ref}
-      className={cn("inline-flex flex-wrap gap-1", className)}
+      className={cn("inline-flex flex-wrap gap-1", containerClassName)}
       aria-label={text}
       initial="hidden"
       animate={controls}
@@ -160,7 +162,7 @@ export const WordSlideUp = ({
       {words.map((word: string, index: number) => (
         <span
           key={`${word}-${index}`}
-          className="inline-block overflow-hidden"
+          className={cn("inline-block overflow-hidden", className)}
           style={{ position: "relative" }}
         >
           <motion.span
