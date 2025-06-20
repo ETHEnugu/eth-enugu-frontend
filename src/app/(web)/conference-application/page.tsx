@@ -68,8 +68,6 @@ function Page() {
   });
 
   const formData = watch();
-  console.log(formData);
-  console.log(formData);
 
   const handleNext = async () => {
     if (currentStep === 0) {
@@ -127,6 +125,23 @@ function Page() {
         reset();
       },
     });
+  };
+
+  const handleFinalSubmit = async () => {
+    const finalStepIsValid = await trigger([
+      "willBeLive",
+      "web3Familiarity",
+      "roleDescription",
+      "certificateNeeded",
+      "openToVolunteer",
+      "referralSource",
+    ]);
+    if (!finalStepIsValid) {
+      toast.error("Please fill up the required fields");
+      return;
+    }
+
+    handleSubmit(onSubmit)();
   };
 
   const updateStepInURL = (step: number) => {
@@ -191,7 +206,7 @@ function Page() {
               </Button>
 
               <Button
-                onClick={currentStep < 2 ? handleNext : handleSubmit(onSubmit)}
+                onClick={currentStep < 2 ? handleNext : handleFinalSubmit}
                 type="button"
                 variant="default"
                 design="rounded"

@@ -64,10 +64,13 @@ const StepPersonalInfo = ({
     },
   ];
 
+  const watchedRolesValue = watch("roles") || [];
+
   const watchedRole = useMemo(
-    () => watch("roles") || [],
-    [watch("roles")?.join(",")]
+    () => watchedRolesValue,
+    [watchedRolesValue.join(",")]
   );
+
   const watchedCountry = watch("country");
   const watchedState = watch("state");
 
@@ -347,7 +350,7 @@ const StepPersonalInfo = ({
 
       <FormInput
         label="Twitter (X) or LinkedIn Url"
-        placeholder="Enter the URL to your X Profile"
+        placeholder="Enter the URL to your X Profile.  Ensure you start the link with https://"
         type="url"
         {...register("social")}
         error={errors.social?.message}
@@ -356,7 +359,7 @@ const StepPersonalInfo = ({
 
       <FormInput
         label="Portfolio Url"
-        placeholder="Enter the URL to your Portfolio"
+        placeholder="Enter the URL to your Portfolio. Ensure you start the link with https://"
         type="url"
         {...register("portfolioUrl")}
         error={errors.portfolioUrl?.message}
@@ -389,7 +392,7 @@ const StepPersonalInfo = ({
                   <RadioGroupItem
                     value={option.value}
                     id={option.id}
-                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                    className=" min-h-3 min-w-3 h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
                   />
                   <label htmlFor={option.id} className="cursor-pointer">
                     {option.label}
