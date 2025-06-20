@@ -137,13 +137,13 @@ const StepTwoDetails = ({
           Yes, I will be attending the ETH-Enugu Pop-up city IRL on select days.
         </>
       ),
-      value: true,
+      value: "true",
       id: "option1IRL",
     },
     {
       label:
         " No, I may not be able to attend IRL but I can participate virtually if there are provisions for it.",
-      value: false,
+      value: "false",
       id: "option2IRl",
     },
   ];
@@ -236,14 +236,18 @@ const StepTwoDetails = ({
           name="canAttendIRL"
           rules={{
             validate: (value) =>
-              value === true || value === false || "Please select an option",
+              typeof value === "boolean" || "Please select an option",
           }}
           control={control}
           render={({ field }) => {
             return (
               <RadioGroup
-                onValueChange={field.onChange}
-                value={field.value}
+                onValueChange={(value) => {
+                  const boolValue = value === "true";
+                  field.onChange(boolValue);
+                  setValue("canAttendIRL", boolValue, { shouldValidate: true });
+                }}
+                value={String(field.value)}
                 className="flex flex-col gap-2"
               >
                 {canAttendIRLOptions.map((option, index) => (
@@ -252,7 +256,7 @@ const StepTwoDetails = ({
                     className="flex items-center space-x-2 cursor-pointer"
                   >
                     <RadioGroupItem
-                      value={option.value}
+                      value={String(option.value)}
                       id={option.id}
                       className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
                     />
