@@ -161,6 +161,11 @@ const SpeakerApplicationForm = () => {
         canMakeItToEnugu: Boolean(data.canMakeItToEnugu),
         participateInERV: Boolean(data.participateInERV),
         comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
+
+        ervInvolvement:
+          data.participateInERV && data.ervInvolvement.trim()
+            ? data.ervInvolvement.trim()
+            : undefined,
       };
 
       // Remove any undefined or extra fields that might cause issues
