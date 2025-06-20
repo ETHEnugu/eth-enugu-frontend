@@ -90,6 +90,9 @@ const BStepOneDetails = ({
           watchedRole?.filter((r) => r !== "OTHER") || []
         );
       }
+      if (!hasOther) {
+        setValue("otherPrimaryRole", "");
+      }
     }
     if (!hasOther) {
       setValue("otherPrimaryRole", "");
