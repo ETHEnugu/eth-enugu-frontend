@@ -392,7 +392,7 @@ const StepPersonalInfo = ({
                   <RadioGroupItem
                     value={option.value}
                     id={option.id}
-                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                    className=" min-h-3 min-w-3 h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
                   />
                   <label htmlFor={option.id} className="cursor-pointer">
                     {option.label}

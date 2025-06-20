@@ -85,7 +85,6 @@ const StepTwoDetails = ({
     });
   };
   const selectedCanAttendIrlOption = watch("canAttendIRL");
-  console.log(selectedCanAttendIrlOption);
 
   useEffect(() => {
     if (selectedCanAttendIrlOption === true) {

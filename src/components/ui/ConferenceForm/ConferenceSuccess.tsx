@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ConferenceSuccess() {
   return (
-    <div className=" w-full max-w-[680px] bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10 p-10 ">
+    <div className=" w-full max-w-[680px] bg-[var(--background)] border-[1px] border-[#000000] rounded-2xl flex flex-col items-start justify-center gap-10  p-5 md:p-10 ">
       <div className="flex flex-col items-start gap-7 w-full ">
         <div className="w-full  md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
           <h3 className="text-[var(--color-green-550)] leading-[100%] ">
