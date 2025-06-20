@@ -11,18 +11,18 @@ export default function DesktopHero() {
   return (
     <>
       <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-8">
-        <div className="flex flex-col items-center justify-center gap-1 mt-32 xl:mt-20 2xl:mt-0">
-          <WordSlideUp text="Welcome To" className="text-center" />
+        <div className="flex flex-col items-center justify-center gap-1 mt-38 xl:mt-26 2xl:mt-0">
+          <WordSlideUp text="Welcome To" className="text-center mt-8" />
 
-          <span>
-            <LetterSlideUp text="Eth Enugu" className="text-8xl font-bold" />
+          <span className="-mt-16">
+            <LetterSlideUp text="Eth Enugu" className="text-[10em] font-bold" />
             <LetterSlideUp
               text="'25"
-              className="text-8xl font-bold text-amber-850"
+              className="text-[10em] font-bold text-amber-850"
             />
           </span>
 
-          <span className="flex flex-col items-center justify-center text-center">
+          <span className="flex flex-col items-center justify-center text-center -mt-24">
             <WordSlideUp text="Nigeria's first Builder Residency & Pop-up City + South-East Nigeria's First Ethereum Conference" />
             <WordSlideUp text="From Enugu to the Ethereum network — a gathering of minds, culture, and innovation." />
           </span>

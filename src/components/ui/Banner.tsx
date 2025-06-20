@@ -116,12 +116,12 @@ const Banner = () => {
                         </>
                       )}
 
-                      {(item?.participants > 0 || item?.duration) && (
+                      {(item?.participants || item?.duration) && (
                         <aside
                           className={`w-full md:w-84 space-y-4 bg-white/20 p-6 rounded-2xl`}
                         >
                           <h4>Event Details</h4>
-                          {item?.participants > 0 && (
+                          {item?.participants && (
                             <div
                               className={`bg-black/30 p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
                             >
