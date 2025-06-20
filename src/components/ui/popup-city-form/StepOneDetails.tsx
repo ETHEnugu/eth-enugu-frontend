@@ -40,8 +40,6 @@ const StepOneDetails = ({
 }: StepPersonalInfoProps) => {
   const options = useMemo(() => countryOptions, []);
 
-  // const currentRole = watch("role");
-
   const watchedCountry = watch("country");
   const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
 
@@ -79,9 +77,10 @@ const StepOneDetails = ({
       } else {
         setValue("role", watchedRole?.filter((r) => r !== "OTHER") || []);
       }
-      if (!hasOther) {
-        setValue("otherRole", "");
-      }
+    }
+
+    if (!hasOther) {
+      setValue("otherRole", "");
     }
   }, [watchedRole, setValue]);
 
@@ -92,7 +91,13 @@ const StepOneDetails = ({
         type="text"
         placeholder="Full Name"
         isRequired={true}
-        {...register("fullName")}
+        {...register("fullName", {
+          required: "Your Full Name is required",
+          minLength: {
+            value: 3,
+            message: "Your response must be at least 3 characters long",
+          },
+        })}
         error={errors.fullName?.message}
       />
 
@@ -103,7 +108,13 @@ const StepOneDetails = ({
             type="email"
             placeholder="johndoe@mail.com"
             isRequired={true}
-            {...register("email")}
+            {...register("email", {
+              required: "Your Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Invalid email format",
+              },
+            })}
             error={errors.email?.message}
           />
         </div>
@@ -115,7 +126,7 @@ const StepOneDetails = ({
           <Dropdown
             placeholder="Select gender"
             onValueChange={(selected) =>
-              setValue("gender", selected.value, {
+              setValue("gender", selected.value.toString(), {
                 shouldValidate: true,
                 shouldDirty: true,
               })
@@ -123,6 +134,7 @@ const StepOneDetails = ({
             className="text-dark"
             options={genderOption}
             isTypeable={false}
+            {...register("gender", { required: "Please select an option" })}
           />
           {errors.gender && (
             <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
@@ -135,7 +147,23 @@ const StepOneDetails = ({
         placeholder="+234 XXXX XXX XXX"
         type="tel"
         isRequired={true}
-        {...register("whatsappNumber")}
+        {...register("whatsappNumber", {
+          required: " Your phone number is required",
+          pattern: {
+            value:
+              /^\+?\d{1,4}?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+            message: "Enter a valid phone number",
+          },
+          minLength: {
+            value: 10,
+            message: "Please a minimum of 10 digits is required",
+          },
+        })}
+        onInput={(e) => {
+          const input = e.target as HTMLInputElement;
+          input.value = input.value.replace(/[^0-9+\s()-]/g, "");
+        }}
+        inputMode="tel"
         error={errors.whatsappNumber?.message}
       />
       <div>
@@ -150,6 +178,7 @@ const StepOneDetails = ({
               shouldDirty: true,
             })
           }
+          {...register("country", { required: "Please select a country" })}
           className="text-dark"
           options={options}
           isTypeable={true}
@@ -176,17 +205,18 @@ const StepOneDetails = ({
             control={control}
             render={({ field }) => (
               <Dropdown
-                key={watchedCountry}
+                className="text-dark"
+                options={statesOptions}
+                isTypeable={true}
                 placeholder="State of residence"
                 onValueChange={(selected) => {
                   field.onChange(selected.value);
                   setValue("state", selected.value.toString(), {
                     shouldValidate: true,
+                    shouldDirty: true,
                   });
                 }}
-                className="text-dark"
-                options={statesOptions}
-                isTypeable={true}
+                {...register("state", { required: "Please select a state" })}
               />
             )}
           />
@@ -200,7 +230,12 @@ const StepOneDetails = ({
         label="City of residence"
         type="text"
         placeholder="eg. Ikorodu, Nsukka etc "
-        {...register("city")}
+        {...register("city", {
+          minLength: {
+            value: 3,
+            message: "Your response must be at least three characters",
+          },
+        })}
         error={errors.city?.message}
         required={false}
       />
@@ -221,6 +256,7 @@ const StepOneDetails = ({
           control={control}
           name="role"
           defaultValue={[]}
+          rules={{ required: "Please select at least one role" }}
           render={({ field }) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
               {rolesOptions.map((role, index) => {
@@ -264,7 +300,11 @@ const StepOneDetails = ({
         <FormInput
           type="text"
           label="Please specify your role"
-          {...register("otherRole")}
+          {...register("otherRole", {
+            required: watchedRole.includes("OTHER")
+              ? "Please specify your role"
+              : false,
+          })}
           error={errors.otherRole?.message}
           isRequired={true}
         />
@@ -275,7 +315,13 @@ const StepOneDetails = ({
         type="url"
         placeholder="Enter the URL to your X Profile"
         isRequired={true}
-        {...register("socials")}
+        {...register("socials", {
+          required: "Please enter your Twitter (X) or LinkedIn URL",
+          pattern: {
+            value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+            message: "Invalid Url",
+          },
+        })}
         error={errors.socials?.message}
       />
 
@@ -290,7 +336,13 @@ const StepOneDetails = ({
           label=" "
           type="url"
           placeholder="Enter the URL of your Portfolio"
-          {...register("portfolioUrl")}
+          {...register("portfolioUrl", {
+            required: "Please enter your Portfolio Url",
+            pattern: {
+              value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+              message: "Invalid Url",
+            },
+          })}
           error={errors.portfolioUrl?.message}
         />
       </div>

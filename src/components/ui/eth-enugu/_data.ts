@@ -15,11 +15,19 @@ export const times = [
 export const partners = [
   {
     name: "Blockchain Nigeria",
-    logo: "/partners/blockchainunn.png",
+    logo: "/partners/BUNN-logo.svg",
   },
   {
-    name: "Web3Bridge",
-    logo: "/partners/web3bridge.png",
+    name: "GIDA",
+    logo: "/partners/GIDA-logo.png",
+  },
+  {
+    name: "AFRICAN COLLECTIVE",
+    logo: "/partners/AFRICAN-COLLECTIVE-LOGO.png",
+  },
+  {
+    name: "AYA HQ",
+    logo: "/partners/AYA-LOGO.png",
   },
 ];
 

@@ -7,14 +7,14 @@ export default function BuilderResidencySuccess() {
       <div className="flex flex-col items-start gap-7 w-full ">
         <div className="w-full  md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
           <h3 className="text-[var(--color-green-550)] leading-[100%] ">
-            <span className=" underline">Y</span>ou’re In! 🎉{" "}
+            Application Successful! 🎉{" "}
           </h3>
         </div>
 
         <div className="w-full flex flex-col items-start gap-4  ">
           <p className="font-medium text-[var(--color-dark)">
             Thanks for registering for the ETH Enugu ‘25 Builder residency.
-            You’ll receive updates via email or WhatsApp.
+            You’ll receive updates via email or our socials.
           </p>
 
           <div className="flex gap-1 mb-2">
@@ -22,7 +22,7 @@ export default function BuilderResidencySuccess() {
               href="/generate-dp"
               className="text-[var(--color-green-550)] font-semibold"
             >
-              Click to generate DP
+              Click to generate your DP
             </Link>
           </div>
 
@@ -58,7 +58,7 @@ export default function BuilderResidencySuccess() {
             <div className="flex gap-1 mb-2">
               Join
               <Link
-                href="https://chat.whatsapp.com/FipXVEahmnOGiuzQQnKyoo"
+                href="https://chat.whatsapp.com/H2WEqw70d00E4uPBqt0lmm"
                 target="_blank"
                 className="text-green-550 underline"
               >

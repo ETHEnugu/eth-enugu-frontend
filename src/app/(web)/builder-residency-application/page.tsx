@@ -123,6 +123,10 @@ const BuildersResidencyPage = () => {
 
       if (isValid) {
         updateStepInURL(currentStep + 1);
+      } else {
+        toast.error(
+          "Please fill in all required fields correctly before proceeding."
+        );
       }
     } else if (currentStep == 2) {
       const stepTwoFields: (keyof BuildersResidencyProps)[] = [

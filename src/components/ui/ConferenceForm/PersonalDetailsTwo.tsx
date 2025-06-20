@@ -34,18 +34,18 @@ export default function PersonalDetailsTwo({
   control,
 }: PersonalDetailsTwoProps) {
   const volunteeringOptions = [
-    { label: "Yes", value: "yes" },
-    { label: "No", value: "No" },
+    { label: "Yes", value: true },
+    { label: "No", value: false },
   ];
 
   const certificateNeeded = [
     {
       label: "Yes",
-      value: true,
+      value: "YES",
     },
     {
       label: "No",
-      value: false,
+      value: "NO",
     },
   ];
   const web3Options = [
@@ -97,6 +97,18 @@ export default function PersonalDetailsTwo({
     }
   }, [watchedRole, setValue]);
 
+  useEffect(() => {
+    if (!watchedRole?.includes("OTHER")) {
+      setValue("otherRole", "");
+    }
+  }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (isCertificateNeeded !== true) {
+      setValue("walletAddress", "");
+    }
+  }, [isCertificateNeeded, setValue]);
+
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8 ">
       <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
@@ -111,13 +123,17 @@ export default function PersonalDetailsTwo({
         <label className="block font-bold text-dark text-base mb-2">
           <span className=" ">
             {" "}
-            Can you make it to Enugu IRL for the Conference/Summit ?{" "}
+            Can you make it to Enugu IRL for the Conference/Summit?{" "}
             <span className="text-red-500">*</span>{" "}
           </span>
         </label>
 
         <Controller
           name="willBeLive"
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
           control={control}
           render={({ field }) => {
             return (
@@ -126,9 +142,11 @@ export default function PersonalDetailsTwo({
                 value={
                   field.value === undefined
                     ? ""
-                    : field.value
-                      ? "true"
-                      : "false"
+                    : field.value === null
+                      ? ""
+                      : field.value
+                        ? "true"
+                        : "false"
                 }
                 className="flex flex-col gap-2"
               >
@@ -140,7 +158,7 @@ export default function PersonalDetailsTwo({
                     <RadioGroupItem
                       value={option.value}
                       id={option.id}
-                      className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
+                      className="min-h-3 min-w-3 h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
                     />
                     <label htmlFor={option.id} className="cursor-pointer">
                       {option.label}
@@ -166,15 +184,18 @@ export default function PersonalDetailsTwo({
         </label>
         <Dropdown
           placeholder="Choose Option"
+          options={web3Options}
+          isTypeable={false}
           onValueChange={(selected) =>
             setValue("web3Familiarity", selected.value, {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
+          {...register("web3Familiarity", {
+            required: "Please select an option",
+          })}
           className="text-dark"
-          options={web3Options}
-          isTypeable={false}
         />
         {errors.web3Familiarity && (
           <p className="text-red-500 text-sm mt-1">
@@ -199,6 +220,7 @@ export default function PersonalDetailsTwo({
           control={control}
           name="roleDescription"
           defaultValue={[]}
+          rules={{ required: "Please select at least one role" }}
           render={({ field }) => (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
               {confRolesOptions.map((role, index) => {
@@ -245,7 +267,11 @@ export default function PersonalDetailsTwo({
         <FormInput
           type="text"
           label="Please specify your role"
-          {...register("otherRole")}
+          {...register("otherRole", {
+            required: watchedRole.includes("OTHER")
+              ? "Please specify your role"
+              : false,
+          })}
           error={errors.otherRole?.message}
         />
       )}
@@ -258,14 +284,17 @@ export default function PersonalDetailsTwo({
         </label>
         <Dropdown
           placeholder="Select Option"
+          className="text-dark"
+          options={certificateNeeded}
           onValueChange={(selected) =>
             setValue("certificateNeeded", selected.value, {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
-          className="text-dark"
-          options={certificateNeeded}
+          {...register("certificateNeeded", {
+            required: "Please selected an option",
+          })}
         />
         {errors.certificateNeeded && (
           <p className="text-red-500 text-sm mt-1">
@@ -274,7 +303,7 @@ export default function PersonalDetailsTwo({
         )}
       </div>
 
-      {isCertificateNeeded && (
+      {isCertificateNeeded === "YES" && (
         <div>
           <label
             htmlFor=""
@@ -310,7 +339,8 @@ export default function PersonalDetailsTwo({
             })
           }
           {...register("openToVolunteer", {
-            required: "Please selected an option",
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
           })}
         />
         {errors.openToVolunteer && (

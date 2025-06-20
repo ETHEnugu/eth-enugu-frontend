@@ -5,12 +5,12 @@ import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import type { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
 import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
-// import { yupResolver } from "@hookform/resolvers/yup";
-// import { speakerValidation } from "@/validations/speakerValidations";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { speakerValidation } from "@/validations/speakerValidations";
 import Spinner from "@/components/common/spinner";
 
 const steps = [
@@ -60,7 +60,7 @@ const SpeakerApplicationForm = () => {
     control,
     formState: { errors },
   } = useForm<SpeakerProps>({
-    // resolver: yupResolver(speakerValidation) as Resolver<SpeakerProps>,
+    resolver: yupResolver(speakerValidation) as Resolver<SpeakerProps>,
     mode: "onChange", // Enable real-time validation
     defaultValues: {
       fullName: "",
@@ -68,7 +68,9 @@ const SpeakerApplicationForm = () => {
       whatsappNumber: "",
       country: "",
       state: "",
-      socials: "",
+      city: "",
+      social: "",
+      portfolioUrl: "",
       sessionType: "",
       otherSessionType: " ",
       sessionLength: "",
@@ -82,10 +84,10 @@ const SpeakerApplicationForm = () => {
       roles: [],
       bio: "",
       otherRole: " ",
-      comfortableWithTopicChange: false,
-      canMakeItToEnugu: false,
-      participateInERV: false,
-      ervInvolvement: "  ",
+      comfortableWithTopicChange: null,
+      canMakeItToEnugu: null,
+      participateInERV: null,
+      ervInvolvement: "",
     },
   });
 
@@ -121,6 +123,8 @@ const SpeakerApplicationForm = () => {
         "gender",
         "bio",
         "roles",
+        "social",
+        "portfolioUrl",
       ];
     } else if (currentStep === 1) {
       fieldsToValidate = [
@@ -129,6 +133,7 @@ const SpeakerApplicationForm = () => {
         "talkTitle",
         "talkDescription",
         "comfortableWithTopicChange",
+        "presentationAvailable",
       ];
     }
 
@@ -170,8 +175,6 @@ const SpeakerApplicationForm = () => {
         comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
 
         // Handle optional string fields - convert empty strings to null
-        // twitterProfile: data.twitterProfile?.trim() || null,
-        // linkedinProfile: data.linkedinProfile?.trim() || null,
         otherRole: data.otherRole?.trim() || null,
         otherSessionType: data.otherSessionType?.trim() || null,
 
@@ -189,6 +192,7 @@ const SpeakerApplicationForm = () => {
 
       // Remove any undefined or extra fields that might cause issues
       const { ...finalData } = cleanedData;
+      console.log("Final data being sent:", finalData);
 
       mutate(finalData, {
         onSuccess: () => {

@@ -54,12 +54,12 @@ const StepPersonalInfo = ({
     },
     {
       label: "Speak on the Conf/Summit day (Aug 16th)",
-      id: "option2",
+      id: "speak-only",
       value: "SPEAK_ONLY",
     },
     {
       label: "Both",
-      id: "option3",
+      id: "mentor-only",
       value: "BOTH",
     },
   ];
@@ -113,6 +113,12 @@ const StepPersonalInfo = ({
           shouldValidate: true,
         });
       }
+    }
+  }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (!watchedRole.includes("OTHER")) {
+      setValue("otherRole", "");
     }
   }, [watchedRole, setValue]);
 
@@ -244,6 +250,15 @@ const StepPersonalInfo = ({
         )}
       </div>
 
+      <FormInput
+        label="City of residence"
+        type="text"
+        placeholder="eg. Ikorodu, Nsukka etc "
+        {...register("city")}
+        error={errors.city?.message}
+        required={false}
+      />
+
       <div className="flex flex-col gap-3">
         <label
           htmlFor="roleDescriptions"
@@ -334,8 +349,17 @@ const StepPersonalInfo = ({
         label="Twitter (X) or LinkedIn Url"
         placeholder="Enter the URL to your X Profile"
         type="url"
-        {...register("socials")}
-        error={errors.socials?.message}
+        {...register("social")}
+        error={errors.social?.message}
+        isRequired={true}
+      />
+
+      <FormInput
+        label="Portfolio Url"
+        placeholder="Enter the URL to your Portfolio"
+        type="url"
+        {...register("portfolioUrl")}
+        error={errors.portfolioUrl?.message}
         isRequired={true}
       />
 

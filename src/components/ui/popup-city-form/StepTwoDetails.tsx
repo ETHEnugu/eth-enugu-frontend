@@ -8,12 +8,15 @@ import {
   Controller,
   Control,
   UseFormWatch,
+  UseFormClearErrors,
+  UseFormSetError,
 } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import Link from "next/link";
+import FormInput from "@/components/common/form/FormInput";
 
 interface StepOtherInfoProps {
   register: UseFormRegister<PopupCityProps>;
@@ -21,6 +24,8 @@ interface StepOtherInfoProps {
   setValue: UseFormSetValue<PopupCityProps>;
   control: Control<PopupCityProps>;
   watch: UseFormWatch<PopupCityProps>;
+  clearErrors: UseFormClearErrors<PopupCityProps>;
+  setError: UseFormSetError<PopupCityProps>;
 }
 
 const volunteerOptions = [
@@ -35,32 +40,42 @@ const StepTwoDetails = ({
   setValue,
   control,
   watch,
+  setError,
+  clearErrors,
 }: StepOtherInfoProps) => {
   const [selectedDates, setSelectedDates] = useState<Date[]>([]);
 
   const minDate = new Date("2025-08-04");
   const maxDate = new Date("2025-08-16");
 
+  const formatted = useMemo(() => {
+    return selectedDates.map((d) => d.toISOString());
+  }, [selectedDates]);
+
   const handleDateChange = (date: Date | null) => {
     if (!date) return;
 
-    setSelectedDates((prevDates) => {
-      const dateExists = prevDates.some(
-        (d) => d.toDateString() === date.toDateString()
-      );
-      const updatedDates = dateExists
-        ? prevDates.filter((d) => d.toDateString() !== date.toDateString())
-        : [...prevDates, date];
+    const newDates = selectedDates.some(
+      (d) => d.toDateString() === date.toDateString()
+    )
+      ? selectedDates.filter((d) => d.toDateString() !== date.toDateString())
+      : [...selectedDates, date];
 
-      const formatted = updatedDates.map((d) => d.toISOString().split("T")[0]);
-      setValue("preferredDates", formatted, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
+    setSelectedDates(newDates);
 
-      return updatedDates;
+    const formatted = newDates.map((d) => d.toISOString());
+    setValue("preferredDates", formatted, {
+      shouldValidate: true,
+      shouldDirty: true,
     });
   };
+
+  useEffect(() => {
+    setValue("preferredDates", formatted, {
+      shouldDirty: false,
+      shouldValidate: false,
+    });
+  }, [selectedDates, setValue, formatted]);
 
   const clearAllDates = () => {
     setSelectedDates([]);
@@ -69,6 +84,23 @@ const StepTwoDetails = ({
       shouldDirty: true,
     });
   };
+  const selectedCanAttendIrlOption = watch("canAttendIRL");
+  console.log(selectedCanAttendIrlOption);
+
+  useEffect(() => {
+    if (selectedCanAttendIrlOption === true) {
+      if (selectedDates.length === 0) {
+        setError("preferredDates", {
+          type: "manual",
+          message: "Please select at least one date",
+        });
+      } else {
+        clearErrors("preferredDates");
+      }
+    } else {
+      clearErrors("preferredDates");
+    }
+  }, [selectedCanAttendIrlOption, selectedDates, setError, clearErrors]);
 
   const participateInERVOptions = [
     {
@@ -105,18 +137,16 @@ const StepTwoDetails = ({
           Yes, I will be attending the ETH-Enugu Pop-up city IRL on select days.
         </>
       ),
-      value: "YES",
+      value: true,
       id: "option1IRL",
     },
     {
       label:
         " No, I may not be able to attend IRL but I can participate virtually if there are provisions for it.",
-      value: "NO",
+      value: false,
       id: "option2IRl",
     },
   ];
-
-  const selectedCanAttendIrlOption = watch("canAttendIRL");
 
   const web3Options = [
     { label: "newbie (has zero knowledge)", value: "NEW" },
@@ -130,6 +160,31 @@ const StepTwoDetails = ({
     },
   ];
 
+  const certificateNeeded = [
+    {
+      label: "Yes",
+      value: true,
+    },
+    {
+      label: "No",
+      value: false,
+    },
+  ];
+
+  const isCertificateNeeded = watch("isCertificateNeeded");
+
+  useEffect(() => {
+    if (isCertificateNeeded !== true) {
+      setValue("walletAddress", "");
+    }
+  }, [isCertificateNeeded, setValue]);
+
+  useEffect(() => {
+    if (selectedparticipateInERV !== true) {
+      setValue("ervInvolvement", null);
+    }
+  }, [selectedparticipateInERV, setValue]);
+
   return (
     <div className="space-y-7">
       <div>
@@ -140,11 +195,14 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Option"
           onValueChange={(selected) =>
-            setValue("web3Familiarity", selected.value, {
+            setValue("web3Familiarity", selected.value.toString(), {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
+          {...register("web3Familiarity", {
+            required: "Please select an option",
+          })}
           className="text-dark"
           options={web3Options}
           isTypeable={false}
@@ -176,12 +234,16 @@ const StepTwoDetails = ({
 
         <Controller
           name="canAttendIRL"
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
           control={control}
           render={({ field }) => {
             return (
               <RadioGroup
                 onValueChange={field.onChange}
-                value={field.value}
+                value={String(field.value)}
                 className="flex flex-col gap-2"
               >
                 {canAttendIRLOptions.map((option, index) => (
@@ -190,7 +252,7 @@ const StepTwoDetails = ({
                     className="flex items-center space-x-2 cursor-pointer"
                   >
                     <RadioGroupItem
-                      value={option.value}
+                      value={String(option.value)}
                       id={option.id}
                       className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
                     />
@@ -211,7 +273,7 @@ const StepTwoDetails = ({
         )}
       </div>
 
-      {selectedCanAttendIrlOption === "YES" && (
+      {selectedCanAttendIrlOption === true && (
         <div>
           {/* this input is dependent on if they will be attending IRL, implement the condiotn */}
           <label className="block font-bold text-dark text-base mb-1">
@@ -261,6 +323,12 @@ const StepTwoDetails = ({
                 </div>
               </div>
             )}
+
+            {errors.preferredDates && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.preferredDates.message}
+              </p>
+            )}
           </div>
         </div>
       )}
@@ -273,13 +341,16 @@ const StepTwoDetails = ({
         <Dropdown
           placeholder="Choose Answer"
           onValueChange={(selected) =>
-            setValue("volunteeringInterest", selected.value, {
+            setValue("volunteeringInterest", selected.value.toString(), {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
           className="text-dark"
           options={volunteerOptions}
+          {...register("volunteeringInterest", {
+            required: "Please select an option",
+          })}
         />
         {errors.volunteeringInterest && (
           <p className="text-red-500 text-sm mt-1">
@@ -298,6 +369,13 @@ const StepTwoDetails = ({
           placeholder="Write here..."
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
+          {...register("dietaryAccessibilityNeeds", {
+            required: "Please fill in this field",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters long",
+            },
+          })}
         />
         {errors.dietaryAccessibilityNeeds && (
           <p className="text-red-500 text-sm mt-1">
@@ -308,11 +386,72 @@ const StepTwoDetails = ({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
+          We&apos;ll be minting NFTs for everyone who registers and attends the
+          Conference/Summit. Would you like to have the NFT?
+          <span className="text-red-500">*</span>
+        </label>
+        <Dropdown
+          placeholder="Select Option"
+          onValueChange={(selected) =>
+            setValue("isCertificateNeeded", Boolean(selected.value), {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          className="text-dark"
+          options={certificateNeeded}
+          {...register("isCertificateNeeded", {
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          })}
+        />
+        {errors.isCertificateNeeded && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.isCertificateNeeded?.message}
+          </p>
+        )}
+      </div>
+
+      {isCertificateNeeded && (
+        <div>
+          <label
+            htmlFor=""
+            className="block font-bold text-dark text-base mb-1"
+          >
+            Please provide the an Ethereum wallet address where you&apos;d like
+            your NFT to be sent. <span className="text-red-500"> *</span>
+          </label>
+          <FormInput
+            label=" "
+            type="text"
+            placeholder="eg. 0x1234abcd..."
+            {...register("walletAddress", {
+              required: isCertificateNeeded
+                ? "Please provide your wallet address"
+                : false,
+              minLength: {
+                value: 25,
+                message: "Wallet address must be at least 25 characters",
+              },
+            })}
+            error={errors.walletAddress?.message}
+          />
+        </div>
+      )}
+
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
           How did you hear about ETH Enugu &apos;25?{" "}
           <span className="text-red-500">*</span>
         </label>
         <textarea
-          {...register("referralSource")}
+          {...register("referralSource", {
+            required: "Your response is required",
+            minLength: {
+              value: 3,
+              message: "Your response must be at least 3 characters",
+            },
+          })}
           placeholder="Write here..."
           rows={3}
           className="w-full border rounded-lg px-4 py-3 text-lg"
@@ -352,6 +491,10 @@ const StepTwoDetails = ({
 
         <Controller
           control={control}
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
           name="participateInERV"
           render={({ field }) => (
             <RadioGroup
@@ -398,6 +541,11 @@ const StepTwoDetails = ({
           </label>
 
           <Controller
+            rules={{
+              required: selectedparticipateInERV
+                ? "This field is required"
+                : false,
+            }}
             control={control}
             name="ervInvolvement"
             render={({ field }) => (
