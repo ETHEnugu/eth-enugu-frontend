@@ -81,7 +81,8 @@ const BStepOneDetails = ({
       Array.isArray(watchedRole) && watchedRole.some((r) => r !== "OTHER");
 
     if (hasOther && hasNonOther) {
-      if (watchedRole?.[watchedRole.length - 1] === "OTHER") {
+      const lastSelected = watchedRole?.[watchedRole.length - 1];
+      if (lastSelected === "OTHER") {
         setValue("primaryRole", ["OTHER"]);
       } else {
         setValue(
@@ -89,9 +90,9 @@ const BStepOneDetails = ({
           watchedRole?.filter((r) => r !== "OTHER") || []
         );
       }
-      if (!hasOther) {
-        setValue("otherPrimaryRole", "");
-      }
+    }
+    if (!hasOther) {
+      setValue("otherPrimaryRole", "");
     }
   }, [watchedRole, setValue]);
 

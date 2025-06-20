@@ -246,8 +246,8 @@ export default function BuilderResidencyImageUploadForm() {
             className="absolute top-[50%] translate-y-[-50%] left-[50%] translate-x-[-50%] size-[110px] md:size-[220px] bg-transparent border-[#EE7E01] border-[1.7px] rounded-full flex items-center justify-center before:absolute before:w-full before:h-full before:top-[1px] before:bg-[#016401] before:left-[-7px] before:z-0 before:rounded-full"
           >
             <div className="relative  h-full w-full cursor-pointer ml-[-5%]  ">
-              <div className="h-[75%] border-1 border-dashed border-[#FFFFFF99] z-50 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
-              <div className="w-[75%] border-1 border-dashed border-[#FFFFFF99] z-50   absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
+              <div className="h-[75%] border-1 border-dashed border-[#FFFFFF99] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
+              <div className="w-[75%] border-1 border-dashed border-[#FFFFFF99] z-10   absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
             </div>
             <input
               type="file"
@@ -261,7 +261,7 @@ export default function BuilderResidencyImageUploadForm() {
 
             {/* Image preview */}
             {imagePreviewUrl && (
-              <div className="absolute inset-0 rounded-full overflow-hidden">
+              <div className="absolute inset-0 rounded-full overflow-hidden z-20">
                 <Image
                   src={imagePreviewUrl || "/placeholder.svg"}
                   alt="user image"

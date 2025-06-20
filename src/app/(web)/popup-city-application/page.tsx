@@ -125,30 +125,6 @@ const PopupCityPage = () => {
 
   const handleBack = () => updateStepInURL(currentStep - 1);
 
-  // const onSubmit = async (data: PopupCityProps) => {
-  //   const stepTwoFields: (keyof PopupCityProps)[] = [
-  //     "web3Familiarity",
-  //     "canAttendIRL",
-  //     "volunteeringInterest",
-  //     "dietaryAccessibilityNeeds",
-  //     "referralSource",
-  //     "isCertificateNeeded",
-  //   ];
-
-  //   const isValid = await trigger(stepTwoFields, { shouldFocus: true });
-
-  //   if (isValid) {
-  //     mutate(data, {
-  //       onSuccess: () => {
-  //         toast.success("Popup City form submitted succefully");
-  //         router.replace("/success?form=Popup-city");
-  //         methods.reset();
-  //         localStorage.removeItem("popupCityFormData");
-  //       },
-  //     });
-  //   }
-  // };
-
   const handleFinalSubmit = handleSubmit(
     (data) => {
       mutate(data, {

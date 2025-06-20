@@ -128,9 +128,21 @@ export const speakerValidation = yup.object().shape({
   expectedArrivalDates: yup
     .array()
     .of(
-      yup.string().matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/, "")
+      yup
+        .string()
+        .matches(
+          /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/,
+          "Invalid date format"
+        )
     )
-    .min(1, "Select at least one date"),
+    .when("canMakeItToEnugu", {
+      is: true,
+      then: (schema) =>
+        schema
+          .min(1, "Select at least one date")
+          .required("Select at least one date"),
+      otherwise: (schema) => schema.notRequired().nullable(),
+    }),
 
   participateInERV: yup.boolean().required("Please select an option"),
   ervInvolvement: yup.string().optional(),

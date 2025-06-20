@@ -244,9 +244,10 @@ const StepTwoDetails = ({
                 onValueChange={(value) => {
                   const boolValue = value === "true";
                   field.onChange(boolValue);
-                  setValue("canAttendIRL", boolValue, { shouldValidate: true });
                 }}
-                value={String(field.value)}
+                value={
+                  field.value !== undefined ? String(field.value) : undefined
+                }
                 className="flex flex-col gap-2"
               >
                 {canAttendIRLOptions.map((option, index) => (
