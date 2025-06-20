@@ -87,13 +87,14 @@ export interface SpeakerProps {
   whatsappNumber: string;
   country: string;
   state: string;
-  twitterProfile?: string | null;
-  linkedinProfile?: string | null;
+  city?: string | null;
+  social?: string | null;
   gender: string | number | boolean;
   roles: string[];
   bio: string;
   otherRole: string;
   participationType: string;
+  portfolioUrl: string;
 
   // Session Details
   sessionType: string;
@@ -103,12 +104,12 @@ export interface SpeakerProps {
   presentationLink?: string | null;
   talkTitle: string;
   talkDescription: string;
-  comfortableWithTopicChange: boolean;
+  comfortableWithTopicChange?: boolean | null;
 
   // Other Information
-  canMakeItToEnugu: boolean;
+  canMakeItToEnugu?: boolean | null;
   expectedArrivalDates: string[] | null;
-  participateInERV: boolean;
+  participateInERV?: boolean | null;
   ervInvolvement: string;
 }
 
@@ -116,36 +117,44 @@ export interface ConferenceProps {
   fullName: string;
   email: string;
   whatsappNumber: string;
-  location: string | number | boolean;
-  age: string | number | boolean;
+  country?: string;
+  state: string;
+  city?: string | null;
   gender: string | number | boolean;
-  roleDescription: string | number | boolean;
-  expectedGains: string;
-  attendanceType: string | number | boolean;
+  openToVolunteer?: string | number | boolean | null;
   certificateNeeded: string | number | boolean;
-  dietaryAccessibilityNeeds: string;
   referralSource: string;
-  joinOnlineCommunity: string | number | boolean;
-  otherRole: string;
+  otherRole?: string | null;
+  social?: string | null;
+  web3Familiarity: string | number | boolean;
+  roleDescription?: string[];
+  walletAddress?: string;
+  willBeLive?: string | null | boolean;
 }
 
 export interface PopupCityProps {
   fullName: string;
   email: string;
-  gender: string | number | boolean;
+  gender: string;
   whatsappNumber: string;
-  location: string | number | boolean;
-  currentRole: string | number | boolean;
-  otherCurrentRole: string;
-  web3Familiarity: string | number | boolean;
-  preferredDates: string[] | null;
-  freeLunchConsideration: string | number | boolean;
-  volunteeringInterest: string | number | boolean;
-  dietaryAccessibilityNeeds: string | number | boolean;
-  referralSource: string | number | boolean;
-  joinOnlineCommunity: string | number | boolean;
-  setupRequirements: string;
-  spApplicationType: string;
+  country: string;
+  state: string;
+  city?: string | null;
+  role?: string[];
+  otherRole?: string;
+  web3Familiarity: string;
+  canAttendIRL: boolean;
+  preferredDates?: string[] | null;
+  volunteeringInterest: string;
+  dietaryAccessibilityNeeds: string;
+  referralSource: string;
+  socials: string;
+  portfolioUrl: string;
+  participateInERV?: boolean | null;
+  ervInvolvement?: string | null;
+  isCertificateNeeded: boolean;
+  walletAddress?: string;
+  joinOnlineCommunity: string;
 }
 
 export interface BuildersResidencyProps {
@@ -154,18 +163,24 @@ export interface BuildersResidencyProps {
   gender: string | number | boolean;
   whatsappNumber: string;
   country: string;
+  city?: string;
+  age: string | number | boolean;
   state: string;
-  role: string[];
-  otherRole?: string;
-  twitterProfile: string;
-  linkedinProfile?: string;
+  primaryRole: string[];
+  otherPrimaryRole?: string | null;
+  social?: string | null;
   portfolioUrl: string;
-  canAttendIRL: string;
+  willBeLive?: boolean | null;
   backgroundAndSkills: string;
   currentlyBuilding: string;
-  previousBuilderPrograms: string | number | boolean;
+  previousBuilderPrograms: string[];
   joinReason: string;
-  openToCollaboration: string | number | boolean;
-  dietaryAccessibilityNeeds: string | number | boolean;
+  comfortableSharingAccomodation: string | number | boolean;
   referralSource: string | number | boolean;
+  participateInERV: boolean;
+  ervInvolvement?: string;
+  needCertificate: string | number | boolean;
+  walletAddress?: string;
+  hasRegisteredForTheHackathon: string | number | boolean;
+  dietaryAccessibilityNeeds: string | number | boolean;
 }

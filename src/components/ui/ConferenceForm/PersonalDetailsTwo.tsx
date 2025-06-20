@@ -5,12 +5,17 @@ import FormInput from "@/components/common/form/FormInput";
 import { ConferenceProps } from "@/types";
 import { useEffect } from "react";
 import {
+  Control,
+  Controller,
   FieldErrors,
   UseFormRegister,
   UseFormSetError,
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
+import { Checkbox } from "../checkbox";
+import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { confRolesOptions } from "@/data/confRoles";
 
 interface PersonalDetailsTwoProps {
   register: UseFormRegister<ConferenceProps>;
@@ -18,6 +23,7 @@ interface PersonalDetailsTwoProps {
   setValue: UseFormSetValue<ConferenceProps>;
   setError: UseFormSetError<ConferenceProps>;
   watch: UseFormWatch<ConferenceProps>;
+  control: Control<ConferenceProps>;
 }
 
 export default function PersonalDetailsTwo({
@@ -25,81 +31,246 @@ export default function PersonalDetailsTwo({
   register,
   setValue,
   watch,
+  control,
 }: PersonalDetailsTwoProps) {
-  const roles = [
-    { label: "Student", value: "STUDENT" },
-    { label: "Developer", value: "DEVELOPER" },
-    { label: "Designer", value: "DESIGNER" },
-    { label: "Entrepreneur", value: "ENTREPRENEUR" },
-    { label: "Web3 Enthusiast", value: "WEB3 ENTHUSIAST" },
-    { label: "Other", value: "OTHER" },
+  const volunteeringOptions = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
   ];
 
-  const attendanceType = [
-    { label: "Attendee", value: "ATTENDEE" },
-    { label: "Volunteer", value: "VOLUNTEER" },
-    { label: "Speaker [if open]", value: "SPEAKER" },
-    { label: "Exhibitor [if open]", value: "EXHIBITOR" },
-  ];
   const certificateNeeded = [
-    { label: "Yes", value: "YES" },
-    { label: "No", value: "NO" },
+    {
+      label: "Yes",
+      value: "YES",
+    },
+    {
+      label: "No",
+      value: "NO",
+    },
+  ];
+  const web3Options = [
+    { label: "newbie (has zero knowledge)", value: "NEW" },
+    {
+      label: " Intermediate (Heard about it and have learnt deeply about it )",
+      value: "DABBLED",
+    },
+    {
+      label: " Pro (I am actively building and use the technology daily)",
+      value: "ACTIVELY_BUILDING",
+    },
   ];
 
-  const joinOnlineCommunity = [
-    { label: "Yes", value: "YES" },
-    { label: "No", value: "NO" },
+  const willBeLiveOptions = [
+    {
+      value: "true",
+      id: "willBeLiveYes",
+      label:
+        "Yes, I will be attending the ETH-Enugu Conference/Summit on the 16th of August 2025.",
+    },
+    {
+      value: "false",
+      id: "willBeLiveNo",
+      label: " No, I am uncertain yet of my physical presence.",
+    },
   ];
 
-  const roleDescription = watch("roleDescription");
+  const watchedRole = watch("roleDescription");
+  const isCertificateNeeded = watch("certificateNeeded");
 
   useEffect(() => {
-    if (roleDescription && roleDescription !== "OTHER") {
-      setValue("otherRole", "", {
-        shouldValidate: false,
-        shouldDirty: false,
-      });
+    const hasOther = watchedRole?.includes("OTHER");
+    const hasNonOther =
+      Array.isArray(watchedRole) && watchedRole.some((r) => r !== "OTHER");
+
+    if (hasOther && hasNonOther) {
+      if (watchedRole?.[watchedRole.length - 1] === "OTHER") {
+        setValue("roleDescription", ["OTHER"]);
+      } else {
+        setValue(
+          "roleDescription",
+          watchedRole?.filter((r) => r !== "OTHER") || []
+        );
+      }
+      if (!hasOther) {
+        setValue("otherRole", "");
+      }
     }
-  }, [roleDescription, setValue]);
+  }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (!watchedRole?.includes("OTHER")) {
+      setValue("otherRole", "");
+    }
+  }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (isCertificateNeeded !== true) {
+      setValue("walletAddress", "");
+    }
+  }, [isCertificateNeeded, setValue]);
 
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8 ">
+      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+        <p className="block text-base font-medium mb-1">
+          <span className="text-green-550 font-extrabold">Note:</span> The
+          conference phase is a one-day in-person event happening on the 16th of
+          August in Enugu.
+        </p>
+      </div>
+
       <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          What best describes you?
+        <label className="block font-bold text-dark text-base mb-2">
+          <span className=" ">
+            {" "}
+            Can you make it to Enugu IRL for the Conference/Summit?{" "}
+            <span className="text-red-500">*</span>{" "}
+          </span>
         </label>
-        <Dropdown
-          placeholder="Student/Developer/Designer/Entrepreneur/Web3 Enthusiast/Other"
-          className="text-dark"
-          isTypeable={false}
-          options={roles}
-          onValueChange={(selected) =>
-            setValue("roleDescription", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          {...register("roleDescription", {
-            required: "Please select a description",
-          })}
-        />
-        {errors.roleDescription && (
+
+        <Controller
+          name="willBeLive"
+          rules={{
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
+          }}
+          control={control}
+          render={({ field }) => {
+            return (
+              <RadioGroup
+                onValueChange={(value) => field.onChange(value === "true")}
+                value={
+                  field.value === undefined
+                    ? ""
+                    : field.value === null
+                      ? ""
+                      : field.value
+                        ? "true"
+                        : "false"
+                }
+                className="flex flex-col gap-2"
+              >
+                {willBeLiveOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-2 cursor-pointer"
+                  >
+                    <RadioGroupItem
+                      value={option.value}
+                      id={option.id}
+                      className="min-h-3 min-w-3 h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer "
+                    />
+                    <label htmlFor={option.id} className="cursor-pointer">
+                      {option.label}
+                    </label>
+                  </div>
+                ))}
+              </RadioGroup>
+            );
+          }}
+        ></Controller>
+
+        {errors.willBeLive && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.roleDescription.message}{" "}
+            {errors.willBeLive.message}
           </p>
         )}
       </div>
 
-      {roleDescription === "OTHER" && (
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          How familiar are you with Web3/Blockchain{" "}
+          <span className="text-red-500">*</span>
+        </label>
+        <Dropdown
+          placeholder="Choose Option"
+          options={web3Options}
+          isTypeable={false}
+          onValueChange={(selected) =>
+            setValue("web3Familiarity", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          {...register("web3Familiarity", {
+            required: "Please select an option",
+          })}
+          className="text-dark"
+        />
+        {errors.web3Familiarity && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.web3Familiarity.message}
+          </p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-3 ">
+        <label
+          htmlFor="roleDescriptions"
+          className=" font-bold text-dark text-base mb-1 flex flex-col gap-[2px] items-start "
+        >
+          <span>
+            Which of these best defines you?{" "}
+            <span className="text-red-500"> *</span>
+          </span>
+          <span>Select all that apply (Not just one)</span>
+        </label>
+
+        <Controller
+          control={control}
+          name="roleDescription"
+          defaultValue={[]}
+          rules={{ required: "Please select at least one role" }}
+          render={({ field }) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full  justify-between">
+              {confRolesOptions.map((role, index) => {
+                const isChecked = field.value?.includes(role.value);
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 cursor-pointer "
+                  >
+                    <Checkbox
+                      className="border-1 border-[#F3A035] data-[state=checked]:bg-[#F3A035] data-[state=checked]:border-[#F3A035] text-white cursor-pointer"
+                      id={role.value}
+                      checked={isChecked}
+                      onCheckedChange={(checked) => {
+                        const value = [...(field.value || [])];
+                        if (checked && !value.includes(role.value)) {
+                          field.onChange([...value, role.value]);
+                        } else {
+                          field.onChange(value.filter((v) => v !== role.value));
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={role.value}
+                      className="cursor-pointer text-sm"
+                    >
+                      {role.label}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        ></Controller>
+
+        {errors.roleDescription && (
+          <p className="text-red-500 text-sm mt-1">
+            {" "}
+            {errors.roleDescription.message}{" "}
+          </p>
+        )}
+      </div>
+      {watchedRole?.includes("OTHER") && (
         <FormInput
           type="text"
-          label="Please enter a description"
+          label="Please specify your role"
           {...register("otherRole", {
-            required: "Please enter your role Description",
-            minLength: {
-              value: 3,
-              message: "Your response must be at least 3 characters long",
-            },
+            required: watchedRole.includes("OTHER")
+              ? "Please specify your role"
+              : false,
           })}
           error={errors.otherRole?.message}
         />
@@ -107,61 +278,13 @@ export default function PersonalDetailsTwo({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          What are you hoping to gain from the conference?
-        </label>
-        <textarea
-          {...register("expectedGains", {
-            required: "Please fill in this field",
-            minLength: {
-              value: 3,
-              message: "Your response must be at least 3 characters long",
-            },
-          })}
-          placeholder="Write here..."
-          rows={4}
-          className="w-full border rounded-lg px-4 py-3 text-lg"
-        />
-        {errors.expectedGains && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.expectedGains.message}{" "}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Do you want to attend as
+          We’ll be minting NFTs for everyone who registers and attends the
+          Conference/Summit. Would you like to have the NFT?
+          <span className="text-red-500"> *</span>
         </label>
         <Dropdown
-          placeholder="Attendee, Volunteer, Speaker [if open], Exhibitor [if open]"
+          placeholder="Select Option"
           className="text-dark"
-          isTypeable={false}
-          options={attendanceType}
-          onValueChange={(selected) =>
-            setValue("attendanceType", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          {...register("attendanceType", {
-            required: "Please selected an option",
-          })}
-        />
-        {errors.attendanceType && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.attendanceType.message}{" "}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Do you need a participation certificate?
-        </label>
-        <Dropdown
-          placeholder="Choose option"
-          className="text-dark"
-          isTypeable={false}
           options={certificateNeeded}
           onValueChange={(selected) =>
             setValue("certificateNeeded", selected.value, {
@@ -170,42 +293,67 @@ export default function PersonalDetailsTwo({
             })
           }
           {...register("certificateNeeded", {
-            required: "Please select an option",
+            required: "Please selected an option",
           })}
         />
         {errors.certificateNeeded && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.certificateNeeded.message}{" "}
+            {errors.certificateNeeded?.message}
           </p>
         )}
       </div>
 
+      {isCertificateNeeded === "YES" && (
+        <div>
+          <label
+            htmlFor=""
+            className="block font-bold text-dark text-base mb-1"
+          >
+            Please provide the an Ethereum wallet address where you&apos;d like
+            your NFT to be sent. <span className="text-red-500"> *</span>
+          </label>
+          <FormInput
+            label=" "
+            type="text"
+            placeholder="eg. 0x1234abcd..."
+            {...register("walletAddress")}
+            error={errors.walletAddress?.message}
+          />
+        </div>
+      )}
+
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Any dietary or accessibility needs?
+          Would you be interested in volunteering for the conference?{" "}
+          <span className="text-red-500"> *</span>
         </label>
-        <textarea
-          placeholder="Write here..."
-          rows={4}
-          className="w-full border rounded-lg px-4 py-3 text-lg"
-          {...register("dietaryAccessibilityNeeds", {
-            required: "Please fill in this field",
-            minLength: {
-              value: 3,
-              message: "Your response must be at least 3 characters long",
-            },
+        <Dropdown
+          placeholder="Select an option"
+          className="text-dark"
+          isTypeable={false}
+          options={volunteeringOptions}
+          onValueChange={(selected) =>
+            setValue("openToVolunteer", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          {...register("openToVolunteer", {
+            validate: (value) =>
+              value === true || value === false || "Please select an option",
           })}
         />
-        {errors.dietaryAccessibilityNeeds && (
+        {errors.openToVolunteer && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.dietaryAccessibilityNeeds.message}{" "}
+            {errors.openToVolunteer.message}{" "}
           </p>
         )}
       </div>
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          How did you hear about ETH Enugu ‘25?
+          How did you hear about ETH Enugu ‘25?{" "}
+          <span className="text-red-500"> *</span>
         </label>
         <textarea
           placeholder="Write here..."
@@ -222,32 +370,6 @@ export default function PersonalDetailsTwo({
         {errors.referralSource && (
           <p className="text-red-500 text-sm mt-1">
             {errors.referralSource.message}{" "}
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          Would you like to join the ETH Enugu online community
-          (Telegram/WhatsApp)?
-        </label>
-        <Dropdown
-          placeholder="Select Option"
-          className="text-dark"
-          options={joinOnlineCommunity}
-          onValueChange={(selected) =>
-            setValue("joinOnlineCommunity", selected.value, {
-              shouldValidate: true,
-              shouldDirty: true,
-            })
-          }
-          {...register("joinOnlineCommunity", {
-            required: "Please select an option",
-          })}
-        />
-        {errors.joinOnlineCommunity && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.joinOnlineCommunity.message}{" "}
           </p>
         )}
       </div>

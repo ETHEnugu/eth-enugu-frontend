@@ -1,32 +1,35 @@
 "use client";
 
-import Dropdown from "@/components/common/dropdown";
+import Dropdown, { DropdownOption } from "@/components/common/dropdown";
 import FormInput from "@/components/common/form/FormInput";
+import Spinner from "@/components/common/spinner";
 import { countryOptions } from "@/data/countries";
 import { ConferenceProps } from "@/types";
-import { useMemo } from "react";
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { State } from "country-state-city";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Control,
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 
 interface PersonalDetailsOneProps {
   register: UseFormRegister<ConferenceProps>;
   errors: FieldErrors<ConferenceProps>;
   setValue: UseFormSetValue<ConferenceProps>;
+  watch: UseFormWatch<ConferenceProps>;
+  control: Control<ConferenceProps>;
 }
 
 export default function PersonalDetailsOne({
   register,
   errors,
   setValue,
+  watch,
 }: PersonalDetailsOneProps) {
   const options = useMemo(() => countryOptions, []);
-
-  const ages = [
-    { label: "16 - 19", value: "AGE_16_19" },
-    { label: "20 - 24", value: "AGE_20_24" },
-    { label: "25 - 34", value: "AGE_25_34" },
-    { label: "35 - 44", value: "AGE_35_44" },
-    { label: "45 and above", value: "AGE_45_PLUS" },
-  ];
 
   const gender = [
     { label: "Male", value: "MALE" },
@@ -34,12 +37,35 @@ export default function PersonalDetailsOne({
     { label: "Other", value: "OTHER" },
   ];
 
+  const watchedCountry = watch("country");
+  const [statesOptions, setStatesOptions] = useState<DropdownOption[]>([]);
+
+  useEffect(() => {
+    if (watchedCountry) {
+      const selectedCountry = countryOptions.find(
+        (country) => country.value === watchedCountry
+      );
+
+      if (selectedCountry && selectedCountry.iso) {
+        const fetchedStates = State.getStatesOfCountry(selectedCountry.iso);
+
+        const stateOptions = fetchedStates.map((state) => ({
+          label: state.name,
+          value: state.name,
+        }));
+
+        setStatesOptions(stateOptions);
+      }
+    }
+  }, [watchedCountry, setValue]);
+
   return (
     <div className="w-full flex flex-col gap-6 md:gap-8">
       <FormInput
         label="Full Name"
         type="text"
         placeholder="Full name"
+        isRequired={true}
         {...register("fullName", {
           required: "Your Full Name is required",
           minLength: {
@@ -53,6 +79,7 @@ export default function PersonalDetailsOne({
       <FormInput
         label="Email Address"
         type="email"
+        isRequired={true}
         placeholder="johndoe@mail.com"
         {...register("email", {
           required: "Your Email is required",
@@ -65,11 +92,12 @@ export default function PersonalDetailsOne({
       />
 
       <FormInput
-        label="WhatsApp Phone Number"
+        label="Phone Number"
         type="text"
+        isRequired={true}
         placeholder="+234 XXXX XXX XXX"
         {...register("whatsappNumber", {
-          required: "Your WhatsApp number is required",
+          required: "Your Phone number is required",
           pattern: {
             value:
               /^\+?\d{1,4}?[-.\s]?(\(?\d{1,4}\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
@@ -90,8 +118,7 @@ export default function PersonalDetailsOne({
 
       <div>
         <label className="block font-bold text-dark text-base mb-1">
-          Country, State & City of Residence{" "}
-          <span className="text-red-500">*</span>
+          Country <span className="text-red-500"> *</span>
         </label>
         <Dropdown
           placeholder="Select Location"
@@ -99,63 +126,99 @@ export default function PersonalDetailsOne({
           isTypeable={true}
           options={options}
           onValueChange={(selected) =>
-            setValue("location", selected.value, {
+            setValue("country", selected.value.toLocaleString(), {
               shouldValidate: true,
               shouldDirty: true,
             })
           }
-          {...register("location", { required: "Please add a location" })}
+          {...register("country", { required: "Please select a country" })}
         />
-        {errors.location && (
-          <p className="text-red-500 text-sm mt-1">{errors.location.message}</p>
+        {errors.country && (
+          <p className="text-red-500 text-sm mt-1">{errors.country.message}</p>
         )}
       </div>
 
-      <div className="w-full flex items-center flex-col md:flex-row gap-3 justify-between">
-        <div className="w-full">
-          <label className="block font-bold text-dark text-base mb-1">
-            Age <span className="text-red-500">*</span>
-          </label>
+      <div>
+        <label className="block font-bold text-dark text-base mb-1">
+          State
+          <span className="text-red-500"> *</span>
+        </label>
+        {!watchedCountry ? (
+          <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
+            Please select a country first
+          </div>
+        ) : statesOptions.length === 0 ? (
+          <Spinner />
+        ) : (
           <Dropdown
-            placeholder="Select Age Range"
+            placeholder="Select State"
             className="text-dark"
-            isTypeable={false}
-            options={ages}
+            isTypeable={true}
+            options={statesOptions}
             onValueChange={(selected) =>
-              setValue("age", selected.value, {
+              setValue("state", selected.value.toLocaleString(), {
                 shouldValidate: true,
                 shouldDirty: true,
               })
             }
-            {...register("age", { required: "Please select an age range " })}
+            {...register("state", { required: "Please select a state" })}
           />
-          {errors.age && (
-            <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
-          )}
-        </div>
-
-        <div className="w-full">
-          <label className="block font-bold text-dark text-base mb-1">
-            Gender <span className="text-red-500">*</span>
-          </label>
-          <Dropdown
-            placeholder="Select Gender"
-            className="text-dark"
-            isTypeable={false}
-            options={gender}
-            onValueChange={(selected) =>
-              setValue("gender", selected.value, {
-                shouldValidate: true,
-                shouldDirty: true,
-              })
-            }
-            {...register("gender", { required: "Please select an option" })}
-          />
-          {errors.gender && (
-            <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
-          )}
-        </div>
+        )}
+        {errors.state && (
+          <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
+        )}
       </div>
+
+      <FormInput
+        label="City of residence"
+        type="text"
+        placeholder="eg. Ikorodu, Nsukka etc "
+        {...register("city", {
+          minLength: {
+            value: 3,
+            message: "Your response must be at least three character",
+          },
+        })}
+        error={errors.city?.message}
+        required={false}
+      />
+
+      <div className="w-full">
+        <label className="block font-bold text-dark text-base mb-1">
+          Gender <span className="text-red-500">*</span>
+        </label>
+        <Dropdown
+          placeholder="Select Gender"
+          className="text-dark"
+          isTypeable={false}
+          options={gender}
+          onValueChange={(selected) =>
+            setValue("gender", selected.value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
+          {...register("gender", { required: "Please select an option" })}
+        />
+        {errors.gender && (
+          <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
+        )}
+      </div>
+
+      <FormInput
+        label="Twitter (X) or LinkedIn Url"
+        placeholder="Enter the URL to your X Profile"
+        type="url"
+        {...register("social", {
+          required: "Please enter your Twitter (X) or LinkedIn URL",
+          pattern: {
+            value: /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}.*$/,
+            message: "Only Twitter (X) or LinkedIn URLs are allowed",
+          },
+        })}
+        error={errors.social?.message}
+        isRequired={true}
+      />
     </div>
   );
 }

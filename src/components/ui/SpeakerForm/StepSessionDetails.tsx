@@ -54,13 +54,13 @@ const comfortableWithTopicChangeOptions = [
     label:
       "  Yes, I am flexible and open to having the topic and time adjusted if need be",
     value: true,
-    id: "option1",
+    id: "yes-I-am",
   },
   {
     label:
       "    No, I can only speak/mentor on the topic and timeframe I entered",
     value: false,
-    id: "option2",
+    id: "no-I-am-not",
   },
 ];
 
@@ -100,7 +100,7 @@ const StepSessionDetails = ({
           }
           className="text-dark"
           options={sessionOptions}
-          isTypeable={true}
+          isTypeable={false}
         />
         {errors.sessionType && (
           <p className="text-red-500 text-sm mt-1">
@@ -231,14 +231,16 @@ const StepSessionDetails = ({
           control={control}
           render={({ field }) => (
             <RadioGroup
-              onValueChange={(value) => {
-                const boolValue = value === "true";
-                field.onChange(boolValue);
-                setValue("comfortableWithTopicChange", boolValue, {
-                  shouldValidate: true,
-                });
-              }}
-              value={field.value?.toString()}
+              onValueChange={(value) => field.onChange(value === "true")}
+              value={
+                field.value === undefined
+                  ? ""
+                  : field.value === null
+                    ? ""
+                    : field.value
+                      ? "true"
+                      : "false"
+              }
               className="flex flex-col gap-2"
             >
               {comfortableWithTopicChangeOptions.map((option, index) => (
@@ -249,7 +251,7 @@ const StepSessionDetails = ({
                   <RadioGroupItem
                     value={option.value.toString()}
                     id={option.id}
-                    className="h-3 w-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
+                    className="min-h-3 min-w-3 w-3 h-3 rounded-full border border-[#F3A035] data-[state=checked]:border-[#F3A035] data-[state=checked]:bg-[#F3A035] cursor-pointer"
                   />
                   <label htmlFor={option.id} className="cursor-pointer">
                     {option.label}

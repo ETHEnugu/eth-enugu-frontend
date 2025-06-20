@@ -6,11 +6,9 @@ import LinksDisplayModal from "@/layout/navbar/LinksDisplayModal";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { events } from "@/data/events";
-import useDeviceSize from "@/hooks/useDeviceSize";
 
 const Banner = () => {
   const [show, setShow] = useState<boolean>(false);
-  const { isMobile } = useDeviceSize();
 
   const getSlideBackground = (type: string) => {
     switch (type) {
@@ -69,10 +67,10 @@ const Banner = () => {
             return (
               <div
                 key={item?.id}
-                className={`w-full max-w-[90%] mx-auto flex flex-col gap-4 ${containerColor} ${textColor} rounded-xl md:px-32 py-8 px-5 md:py-[60px] border border-dark overflow-hidden`}
+                className={`w-full max-w-[90%] mx-auto flex flex-col gap-4 ${containerColor} ${textColor} rounded-2xl md:px-20 py-8 px-5 md:py-[60px] border border-dark overflow-hidden`}
               >
                 <div
-                  className={`w-full flex flex-col md:flex-row items-start justify-between gap-8 md:gap-20`}
+                  className={`w-full flex flex-col md:flex-row items-start justify-between gap-8 md:gap-12`}
                 >
                   <aside>
                     <span className="md:text-5xl text-3xl font-bold mb-4">
@@ -87,7 +85,7 @@ const Banner = () => {
                       {item?.features && item?.features.length > 0 && (
                         <>
                           {item?.type === "ecosystem" ? (
-                            <div className="flex flex-wrap gap-2 mb-6 md:mt-20">
+                            <div className="flex flex-wrap gap-2 mb-6">
                               {item?.features.map((feature, i) => (
                                 <span
                                   key={i}
@@ -96,18 +94,9 @@ const Banner = () => {
                                   {feature}
                                 </span>
                               ))}
-                              <h4 className="text-green-550 md:mt-12">
-                                It’s a reminder that innovation isn’t siloed —
-                                it’s shared.
-                              </h4>
                             </div>
                           ) : (
-                            <ul
-                              className={`
-                            flex flex-col gap-2 mb-6 w-fit bg-white/10 rounded-2xl px-6 text-base 
-                            ${item?.type === "popup" ? "py-[3.8em]" : item?.type === "conference" ? "md:mt-20 p-4 border rounded-2xl" : "py-10"}
-                            `}
-                            >
+                            <ul className="flex flex-col gap-2 mb-6 w-fit bg-white/10 rounded-2xl p-6 text-base">
                               {item?.features.map((feature, i) => (
                                 <li
                                   key={i}
@@ -129,12 +118,12 @@ const Banner = () => {
 
                       {(item?.participants || item?.duration) && (
                         <aside
-                          className={`w-full md:w-84 space-y-4 bg-white/10 p-6 rounded-2xl`}
+                          className={`w-full md:w-84 space-y-4 bg-white/20 p-6 rounded-2xl`}
                         >
-                          <h4>Audience Forcast</h4>
+                          <h4>Event Details</h4>
                           {item?.participants && (
                             <div
-                              className={`bg-black/30 p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-green-550 text-peach-250"}`}
+                              className={`bg-black/30 p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
                             >
                               Participants: <br />
                               <span
@@ -151,7 +140,7 @@ const Banner = () => {
                           )}
                           {item?.duration && (
                             <div
-                              className={`p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-green-550 text-peach-250"}`}
+                              className={`p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
                             >
                               Duration: <br />
                               <span
@@ -194,22 +183,19 @@ const Banner = () => {
                       )}
                     </section>
                   </aside>
-                  <div className="relative w-max h-full">
+                  <div className="w-full md:w-2/6 h-full">
                     <Image
                       src={item?.image}
                       alt={item?.title}
                       title={item?.title}
-                      width={isMobile ? 300 : 700}
-                      height={isMobile ? 300 : 700}
+                      width={400}
+                      height={400}
                       className="object-contain"
-                      style={{
-                        rotate: item?.type === "popup" ? "-5deg" : "0deg",
-                      }}
                     />
                   </div>
                 </div>
                 {item?.link ? (
-                  <Link href={item?.link} className="w-max no-underline">
+                  <Link href={item?.link}>
                     <Button
                       className={`w-max flex items-center gap-3 ${item?.type === "residency" ? "!bg-orange-650 !text-dark" : "bg-green-550"} text-white hover:bg-amber-750`}
                       design="rounded"

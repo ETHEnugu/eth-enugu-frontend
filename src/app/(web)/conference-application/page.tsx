@@ -34,7 +34,7 @@ function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("steps")) || 0;
-  const FORM_KEY = "applicationForm";
+  const FORM_KEY = "conferenceForm";
 
   const {
     register,
@@ -43,28 +43,33 @@ function Page() {
     watch,
     setError,
     trigger,
+    reset,
+    control,
     formState: { errors },
   } = useForm<ConferenceProps>({
     defaultValues: {
       fullName: "",
       email: "",
       whatsappNumber: "",
-      location: "",
-      age: "",
+      country: "",
+      state: "",
+      city: "",
       gender: "",
-      roleDescription: "",
+      roleDescription: [],
       otherRole: "",
-      expectedGains: "",
-      attendanceType: "",
-      certificateNeeded: false,
-      dietaryAccessibilityNeeds: "",
+      openToVolunteer: null,
+      certificateNeeded: "",
       referralSource: "",
-      joinOnlineCommunity: "",
+      social: "",
+      web3Familiarity: "",
+      willBeLive: null,
     },
     mode: "onChange",
   });
 
   const formData = watch();
+  console.log(formData);
+  console.log(formData);
 
   const handleNext = async () => {
     if (currentStep === 0) {
@@ -76,15 +81,16 @@ function Page() {
         "fullName",
         "email",
         "whatsappNumber",
-        "location",
-        "age",
+        "country",
+        "state",
         "gender",
+        "social",
       ]);
-
-      setError("gender", { type: "required", message: "Gender is required" });
 
       if (isStepValid) {
         updateStepInURL(2);
+      } else {
+        toast.error("Please fill in the required fields");
       }
     }
   };
@@ -116,8 +122,9 @@ function Page() {
     mutate(data, {
       onSuccess: () => {
         toast.success("Conference/Summit form submitted successfully");
-        router.push("/application-success");
+        router.push("/success?form=Conference");
         localStorage.removeItem(FORM_KEY);
+        reset();
       },
     });
   };
@@ -155,6 +162,8 @@ function Page() {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                watch={watch}
+                control={control}
               />
             )}
 
@@ -165,6 +174,7 @@ function Page() {
                 setValue={setValue}
                 setError={setError}
                 watch={watch}
+                control={control}
               />
             )}
 

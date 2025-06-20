@@ -3,7 +3,7 @@ name: Deploy to Hostinger VPS (Development)
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   deploy:
@@ -42,7 +42,8 @@ jobs:
             export PATH="/root/.nvm/versions/node/v22.13.1/bin:$PATH" 
             
             PROJECT_PATH="/root/ethenugu/landing-page-ui-dev" 
-            REPO_URL="https://github.com/ETHEnugu/eth-enugu-frontend.git" 
+            REPO_URL="https://github.com/ETHEnugu/eth-enugu-frontend.git"
+            TARGET_BRANCH="dev"
 
             echo "🚀 Connected to server"
 
@@ -54,7 +55,9 @@ jobs:
               # Clone the repository directly into the PROJECT_PATH
               git clone "$REPO_URL" "$PROJECT_PATH" || { echo "Error: Failed to clone repository!"; exit 1; }
               cd "$PROJECT_PATH" # Navigate into the cloned repository
-              echo "✅ Repository cloned."
+              # After cloning, ensure we are on the correct branch
+              git checkout "$TARGET_BRANCH" || { echo "Error: Failed to checkout $TARGET_BRANCH after clone!"; exit 1; }
+              echo "✅ Repository cloned and $TARGET_BRANCH checked out."
             else
               echo "Existing Git repository found at $PROJECT_PATH."
               cd "$PROJECT_PATH" || { echo "Error: Directory $PROJECT_PATH not found or accessible!"; exit 1; }

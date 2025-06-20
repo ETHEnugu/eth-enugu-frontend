@@ -5,7 +5,7 @@ import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import type { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type Resolver, useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
 import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
@@ -68,10 +68,11 @@ const SpeakerApplicationForm = () => {
       whatsappNumber: "",
       country: "",
       state: "",
-      twitterProfile: "",
-      linkedinProfile: "",
+      city: "",
+      social: "",
+      portfolioUrl: "",
       sessionType: "",
-      otherSessionType: "",
+      otherSessionType: " ",
       sessionLength: "",
       presentationAvailable: false,
       presentationLink: "",
@@ -82,10 +83,10 @@ const SpeakerApplicationForm = () => {
       gender: "",
       roles: [],
       bio: "",
-      otherRole: "",
-      comfortableWithTopicChange: false,
-      canMakeItToEnugu: false,
-      participateInERV: false,
+      otherRole: " ",
+      comfortableWithTopicChange: null,
+      canMakeItToEnugu: null,
+      participateInERV: null,
       ervInvolvement: "",
     },
   });
@@ -121,8 +122,9 @@ const SpeakerApplicationForm = () => {
         "participationType",
         "gender",
         "bio",
-        "twitterProfile",
         "roles",
+        "social",
+        "portfolioUrl",
       ];
     } else if (currentStep === 1) {
       fieldsToValidate = [
@@ -131,6 +133,7 @@ const SpeakerApplicationForm = () => {
         "talkTitle",
         "talkDescription",
         "comfortableWithTopicChange",
+        "presentationAvailable",
       ];
     }
 
@@ -172,8 +175,6 @@ const SpeakerApplicationForm = () => {
         comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
 
         // Handle optional string fields - convert empty strings to null
-        twitterProfile: data.twitterProfile?.trim() || null,
-        linkedinProfile: data.linkedinProfile?.trim() || null,
         otherRole: data.otherRole?.trim() || null,
         otherSessionType: data.otherSessionType?.trim() || null,
 
@@ -191,6 +192,7 @@ const SpeakerApplicationForm = () => {
 
       // Remove any undefined or extra fields that might cause issues
       const { ...finalData } = cleanedData;
+      console.log("Final data being sent:", finalData);
 
       mutate(finalData, {
         onSuccess: () => {
@@ -220,17 +222,19 @@ const SpeakerApplicationForm = () => {
     switch (currentStep) {
       case 0:
         return !!(
-          formData.fullName &&
-          formData.email &&
-          formData.whatsappNumber &&
-          formData.country &&
-          formData.state &&
-          formData.participationType &&
-          formData.gender &&
-          formData.roles &&
-          formData.roles.length > 0 &&
-          formData.bio &&
-          formData.twitterProfile
+          (
+            formData.fullName &&
+            formData.email &&
+            formData.whatsappNumber &&
+            formData.country &&
+            formData.state &&
+            formData.participationType &&
+            formData.gender &&
+            formData.roles &&
+            formData.roles.length > 0 &&
+            formData.bio
+          )
+          // formData.twitterProfile
         );
       case 1:
         return !!(

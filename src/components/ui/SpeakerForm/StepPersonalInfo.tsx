@@ -54,12 +54,12 @@ const StepPersonalInfo = ({
     },
     {
       label: "Speak on the Conf/Summit day (Aug 16th)",
-      id: "option2",
+      id: "speak-only",
       value: "SPEAK_ONLY",
     },
     {
       label: "Both",
-      id: "option3",
+      id: "mentor-only",
       value: "BOTH",
     },
   ];
@@ -113,6 +113,12 @@ const StepPersonalInfo = ({
           shouldValidate: true,
         });
       }
+    }
+  }, [watchedRole, setValue]);
+
+  useEffect(() => {
+    if (!watchedRole.includes("OTHER")) {
+      setValue("otherRole", "");
     }
   }, [watchedRole, setValue]);
 
@@ -182,7 +188,7 @@ const StepPersonalInfo = ({
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           Country
-          <span className="text-red-500">*</span>
+          <span className="text-red-500"> *</span>
         </label>
         <Controller
           name="country"
@@ -210,7 +216,7 @@ const StepPersonalInfo = ({
       <div>
         <label className="block font-bold text-dark text-base mb-1">
           State
-          <span className="text-red-500">*</span>
+          <span className="text-red-500"> *</span>
         </label>
         {!watchedCountry ? (
           <div className="w-full border rounded-lg px-4 py-3 text-gray-500 bg-gray-100">
@@ -243,6 +249,15 @@ const StepPersonalInfo = ({
           <p className="text-red-500 text-sm mt-1">{errors.state.message}</p>
         )}
       </div>
+
+      <FormInput
+        label="City of residence"
+        type="text"
+        placeholder="eg. Ikorodu, Nsukka etc "
+        {...register("city")}
+        error={errors.city?.message}
+        required={false}
+      />
 
       <div className="flex flex-col gap-3">
         <label
@@ -331,23 +346,24 @@ const StepPersonalInfo = ({
       </div>
 
       <FormInput
-        label="Twitter(X)"
+        label="Twitter (X) or LinkedIn Url"
         placeholder="Enter the URL to your X Profile"
         type="url"
-        {...register("twitterProfile")}
-        error={errors.twitterProfile?.message}
+        {...register("social")}
+        error={errors.social?.message}
         isRequired={true}
       />
 
       <FormInput
-        label="LinkedIn"
-        placeholder="Enter the URL to your LinkedIn Profile"
+        label="Portfolio Url"
+        placeholder="Enter the URL to your Portfolio"
         type="url"
-        {...register("linkedinProfile")}
-        error={errors.linkedinProfile?.message}
+        {...register("portfolioUrl")}
+        error={errors.portfolioUrl?.message}
+        isRequired={true}
       />
 
-      <div>
+      <div className=" flex flex-col items-start gap-2 ">
         <p className="block font-bold text-dark text-base mb-1">
           Are you applying to mentor during the Pop-up city OR speak on the
           Conf/Summit day? <span className="text-red-500">*</span>

@@ -20,7 +20,7 @@ const BuildersResidency = () => {
   return (
     <Suspense
       fallback={
-        <div className="w-full h-[50vh] ">
+        <div className="w-full h-[50vh] flex items-center justify-center ">
           {" "}
           <Spinner />{" "}
         </div>
@@ -52,23 +52,29 @@ const BuildersResidencyPage = () => {
         fullName: "",
         email: "",
         gender: "",
+        age: "",
         whatsappNumber: "",
         country: "",
+        city: "",
         state: "",
-        role: "",
-        otherRole: "",
-        githubProfile: "",
-        twitterProfile: "",
-        linkedinProfile: "",
+        primaryRole: [],
+        otherPrimaryRole: "",
+        social: "",
         portfolioUrl: "",
-        canAttendIRL: "",
+        willBeLive: undefined,
         backgroundAndSkills: "",
         currentlyBuilding: "",
-        previousBuilderPrograms: false,
+        previousBuilderPrograms: [],
         joinReason: "",
-        openToCollaboration: false,
-        dietaryAccessibilityNeeds: "",
+        comfortableSharingAccomodation: undefined,
         referralSource: "",
+        ervInvolvement: "",
+        participateInERV: undefined,
+        walletAddress: "",
+        needCertificate: undefined,
+        hasRegisteredForTheHackathon: undefined,
+        githubProfile: "",
+        dietaryAccessibilityNeeds: "",
       };
 
   const methods = useForm<BuildersResidencyProps>({
@@ -104,11 +110,12 @@ const BuildersResidencyPage = () => {
         "fullName",
         "email",
         "gender",
+        "age",
         "whatsappNumber",
         "country",
         "state",
-        "role",
-        "twitterProfile",
+        "primaryRole",
+        "social",
         "portfolioUrl",
       ];
 
@@ -116,9 +123,14 @@ const BuildersResidencyPage = () => {
 
       if (isValid) {
         updateStepInURL(currentStep + 1);
+      } else {
+        toast.error(
+          "Please fill in all required fields correctly before proceeding."
+        );
       }
     } else if (currentStep == 2) {
       const stepTwoFields: (keyof BuildersResidencyProps)[] = [
+        "willBeLive",
         "backgroundAndSkills",
         "currentlyBuilding",
         "previousBuilderPrograms",
@@ -136,10 +148,13 @@ const BuildersResidencyPage = () => {
 
   const onSubmit = async (data: BuildersResidencyProps) => {
     const stepThreeFields: (keyof BuildersResidencyProps)[] = [
+      "hasRegisteredForTheHackathon",
       "joinReason",
-      "openToCollaboration",
-      "dietaryAccessibilityNeeds",
+      "comfortableSharingAccomodation",
       "referralSource",
+      "needCertificate",
+      "participateInERV",
+      "dietaryAccessibilityNeeds",
     ];
 
     const isValid = await trigger(stepThreeFields, { shouldFocus: true });
@@ -215,6 +230,8 @@ const BuildersResidencyPage = () => {
                 register={register}
                 errors={errors}
                 setValue={setValue}
+                control={control}
+                watch={watch}
               />
             )}
             <div className="flex md:flex-row flex-col-reverse gap-4 mt-5">
