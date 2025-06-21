@@ -21,7 +21,7 @@ export default function MobileHero() {
   return (
     <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-8">
       <section className="flex flex-col items-center justify-center gap-2 mt-24">
-        <WordSlideUp text="Welcome to" className="text-center" />
+        <WordSlideUp text="Welcome to" className="text-center mt-12" />
         <span>
           <LetterSlideUp
             text="Eth Enugu"
@@ -34,8 +34,12 @@ export default function MobileHero() {
         </span>
         <span className="w-full px-8 text-center flex flex-col items-center justify-center">
           <WordSlideUp
-            text="Nigeria's first Builder Residency & Pop-up City + South-East Nigeria's First Ethereum Conference"
-            className="text-center"
+            text="Nigeria's first Builder Residency & Pop-up City +"
+            className="text-center text-sm"
+          />
+          <WordSlideUp
+            text="South-East Nigeria's First Ethereum Conference"
+            className="text-center text-sm"
           />
           {/* <WordSlideUp
             text=""
@@ -51,11 +55,11 @@ export default function MobileHero() {
           /> */}
           <WordSlideUp
             text="From Enugu to the Ethereum network — a"
-            className="text-center"
+            className="text-center text-sm"
           />
           <WordSlideUp
             text="gathering of minds, culture, and innovation."
-            className="text-center"
+            className="text-center text-sm"
           />
         </span>
       </section>
@@ -65,6 +69,7 @@ export default function MobileHero() {
           type="button"
           variant="plain"
           design="rounded"
+          size="sm"
           onClick={handleModalDisplay}
         >
           Register for event
@@ -73,6 +78,7 @@ export default function MobileHero() {
           type="button"
           variant="default"
           design="rounded"
+          size="sm"
           className="flex items-center gap-3"
           onClick={() => router.push("/speaker-application")}
         >
@@ -83,8 +89,8 @@ export default function MobileHero() {
 
       <Image
         src="/images/mobile-hero-image.svg"
-        width={500}
-        height={500}
+        width={350}
+        height={350}
         alt="Background image"
         className="mt-auto object-cover"
       />

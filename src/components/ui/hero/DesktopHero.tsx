@@ -12,17 +12,21 @@ export default function DesktopHero() {
     <>
       <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center gap-8">
         <div className="flex flex-col items-center justify-center gap-1 mt-38 xl:mt-26 2xl:mt-0">
-          <WordSlideUp text="Welcome To" className="text-center mt-8" />
+          <WordSlideUp text="Welcome To" className="text-center mt-2" />
 
-          <span className="-mt-16">
-            <LetterSlideUp text="Eth Enugu" className="text-[10em] font-bold" />
+          <span className="-mt-10">
+            <LetterSlideUp
+              text="EthEnugu"
+              className="text-[7.75em] font-bold"
+            />
+            &nbsp;
             <LetterSlideUp
               text="'25"
-              className="text-[10em] font-bold text-amber-850"
+              className="text-[7.75em] font-bold text-amber-850"
             />
           </span>
 
-          <span className="flex flex-col items-center justify-center text-center -mt-24">
+          <span className="flex flex-col items-center justify-center text-center -mt-20">
             <WordSlideUp text="Nigeria's first Builder Residency & Pop-up City + South-East Nigeria's First Ethereum Conference" />
             <WordSlideUp text="From Enugu to the Ethereum network — a gathering of minds, culture, and innovation." />
           </span>
@@ -68,7 +72,7 @@ export default function DesktopHero() {
       <aside
         role="menubar"
         id="socials"
-        className="absolute bottom-52 left-3 flex flex-col items-center justify-center gap-4"
+        className="absolute bottom-52 left-12 flex flex-col items-center justify-center gap-4"
       >
         <span className="flex flex-col items-center justify-center gap-2">
           {hero_socials.map((item, idx) => (
