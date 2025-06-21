@@ -91,12 +91,11 @@ const StepOtherInfo = ({
   };
 
   const selectedSpApplicationType = watch("participationType");
+  const canMakeItToEnugu = watch("canMakeItToEnugu");
 
   const conferenceType = () => {
-    if (selectedSpApplicationType === "MENTOR_ON_POPUP_CITY")
-      return "Pop-up city";
-    else if (selectedSpApplicationType === "SPEAK_ON_THE_CONF")
-      return "Conference";
+    if (selectedSpApplicationType === "MENTOR_ONLY") return "Pop-up city";
+    else if (selectedSpApplicationType === "SPEAK_ONLY") return "Conference";
     else return "Pop-up city or Conference";
   };
 
@@ -212,60 +211,63 @@ const StepOtherInfo = ({
       </div>
 
       {/* Expected Arrival Date */}
-      <div>
-        <label className="block font-bold text-dark text-base mb-1">
-          When do you expect to arrive in Enugu?{" "}
-          <span className="text-red-500">*</span>
-        </label>
 
-        <DatePicker
-          selected={null}
-          onChange={handleDateChange}
-          minDate={minDate}
-          maxDate={maxDate}
-          placeholderText="Click to select multiple dates"
-          className="block w-full border rounded-lg px-4 py-3 text-lg cursor-pointer"
-          wrapperClassName="w-full"
-        />
+      {canMakeItToEnugu === true ? (
+        <div>
+          <label className="block font-bold text-dark text-base mb-1">
+            When do you expect to arrive in Enugu?{" "}
+            <span className="text-red-500">*</span>
+          </label>
 
-        {selectedDates.length > 0 && (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <p className="font-medium text-dark">Selected Dates:</p>
-              <button
-                type="button"
-                onClick={clearAllDates}
-                className="text-red-500 text-sm hover:text-red-700 cursor-pointer"
-              >
-                Clear All
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {selectedDates.map((date, index) => (
-                <div
-                  key={index}
-                  className="bg-orange-200 text-orange-500 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+          <DatePicker
+            selected={null}
+            onChange={handleDateChange}
+            minDate={minDate}
+            maxDate={maxDate}
+            placeholderText="Click to select multiple dates"
+            className="block w-full border rounded-lg px-4 py-3 text-lg cursor-pointer"
+            wrapperClassName="w-full"
+          />
+
+          {selectedDates.length > 0 && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <p className="font-medium text-dark">Selected Dates:</p>
+                <button
+                  type="button"
+                  onClick={clearAllDates}
+                  className="text-red-500 text-sm hover:text-red-700 cursor-pointer"
                 >
-                  <span>{date.toDateString()}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleDateChange(date)}
-                    className="text-orange-500 hover:text-orange-700 font-bold cursor-pointer"
+                  Clear All
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {selectedDates.map((date, index) => (
+                  <div
+                    key={index}
+                    className="bg-orange-200 text-orange-500 px-3 py-1 rounded-full text-sm flex items-center gap-2"
                   >
-                    ×
-                  </button>
-                </div>
-              ))}
+                    <span>{date.toDateString()}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleDateChange(date)}
+                      className="text-orange-500 hover:text-orange-700 font-bold cursor-pointer"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {errors.expectedArrivalDates && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.expectedArrivalDates.message}
-          </p>
-        )}
-      </div>
+          {errors.expectedArrivalDates && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.expectedArrivalDates.message}
+            </p>
+          )}
+        </div>
+      ) : null}
 
       <div>
         <label className=" font-bold text-dark text-base mb-1 flex flex-col gap-1">

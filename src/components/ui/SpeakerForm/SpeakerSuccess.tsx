@@ -6,7 +6,7 @@ export default function SpeakerSuccess() {
       <div className="flex flex-col items-start gap-7 w-full ">
         <div className="w-full  md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
           <h3 className="text-[var(--color-green-550)] leading-[100%] ">
-            <span className=" underline">Y</span>ou’re In! 🎉{" "}
+            Application Successful! 🎉{" "}
           </h3>
         </div>
 

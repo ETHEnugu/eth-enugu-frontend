@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/button";
 import Link from "next/link";
 
 export default function PopupSuccess() {
@@ -6,7 +7,7 @@ export default function PopupSuccess() {
       <div className="flex flex-col items-start gap-7 w-full ">
         <div className="w-full  md:flex-row items-start md:items-center gap-4 border-b-[1px] border-[#D9D9D9] pb-6  ">
           <h3 className="text-[var(--color-green-550)] leading-[100%] ">
-            <span className=" underline">Y</span>ou’re In! 🎉{" "}
+            Application Successful! 🎉{" "}
           </h3>
         </div>
 
@@ -62,6 +63,20 @@ export default function PopupSuccess() {
                 className="text-green-550 underline"
               >
                 WhatsApp Group
+              </Link>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <Link href="/builder-residency-application">
+                <Button variant="default">
+                  Apply for the Builder&apos;s Residency
+                </Button>
+              </Link>
+
+              <Link href="/conference-application">
+                <Button variant="default">
+                  Apply for the Conference/Summit
+                </Button>
               </Link>
             </div>
           </div>

@@ -230,13 +230,13 @@ export default function ConferenceImageUploadForm() {
             />
 
             <div className="relative  h-full w-full cursor-pointer">
-              <div className="h-[75%] border-1 border-dashed border-[#FFFFFF99] z-50 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
-              <div className="w-[75%] border-1 border-dashed border-[#FFFFFF99] z-50   absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
+              <div className="h-[75%] border-1 border-dashed border-[#FFFFFF99] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
+              <div className="w-[75%] border-1 border-dashed border-[#FFFFFF99] z-10   absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
             </div>
 
             {/* Image preview */}
             {imagePreviewUrl && (
-              <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden z-20">
                 <Image
                   src={imagePreviewUrl || "/placeholder.svg"}
                   alt="user image"

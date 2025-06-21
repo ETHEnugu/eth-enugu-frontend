@@ -316,7 +316,12 @@ export default function PersonalDetailsTwo({
             label=" "
             type="text"
             placeholder="eg. 0x1234abcd..."
-            {...register("walletAddress")}
+            {...register("walletAddress", {
+              required:
+                isCertificateNeeded === "YES"
+                  ? "Please provide a valid wallet address"
+                  : false,
+            })}
             error={errors.walletAddress?.message}
           />
         </div>

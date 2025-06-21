@@ -146,32 +146,6 @@ const BuildersResidencyPage = () => {
 
   const handleBack = () => updateStepInURL(currentStep - 1);
 
-  // const onSubmit = async (data: BuildersResidencyProps) => {
-  //   const stepThreeFields: (keyof BuildersResidencyProps)[] = [
-  //     "hasRegisteredForTheHackathon",
-  //     "joinReason",
-  //     "comfortableSharingAccomodation",
-  //     "referralSource",
-  //     "needCertificate",
-  //     "participateInERV",
-  //     "dietaryAccessibilityNeeds",
-  //   ];
-
-  //   const isValid = await trigger(stepThreeFields, { shouldFocus: true });
-
-  //   if (isValid) {
-  //     mutate(data, {
-  //       onSuccess: () => {
-  //         console.log(data);
-  //         toast.success("Builders Residency form submitted succefully");
-  //         router.replace("/success?form=BuilderResidency");
-  //         methods.reset();
-  //         localStorage.removeItem("BuildersResidencyFormData");
-  //       },
-  //     });
-  //   }
-  // };
-
   const handleFinalSubmit = handleSubmit(
     (data) => {
       mutate(data, {

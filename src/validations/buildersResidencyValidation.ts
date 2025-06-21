@@ -12,7 +12,7 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
     age: Yup.string().required("Please select an age range"),
 
     whatsappNumber: Yup.string()
-      .matches(/^\+?[\d\s-]{10,}$/, "Invalid WhatsApp number")
+      .matches(/^\+?[\d\s-]{10,}$/, "Invalid Phone number")
       .required("Phone number is required"),
 
     country: Yup.string().required("Country is required"),
@@ -100,9 +100,8 @@ export const buildersResidencyValidation: Yup.ObjectSchema<BuildersResidencyProp
 
     ervInvolvement: Yup.string().optional(),
 
-    walletAddress: Yup.string()
-      .optional()
-      .min(26, "Wallet address must be at least 26 characters"),
+    walletAddress: Yup.string().optional(),
+
     needCertificate: Yup.boolean()
       .required("Please select an option")
       .transform((value, originalValue) =>

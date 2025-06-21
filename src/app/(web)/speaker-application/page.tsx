@@ -162,20 +162,10 @@ const SpeakerApplicationForm = () => {
         participateInERV: Boolean(data.participateInERV),
         comfortableWithTopicChange: Boolean(data.comfortableWithTopicChange),
 
-        // Handle optional string fields - convert empty strings to null
-        otherRole: data.otherRole?.trim() || null,
-        otherSessionType: data.otherSessionType?.trim() || null,
-
-        // Handle conditional fields
-        presentationLink:
-          data.presentationAvailable && data.presentationLink?.trim()
-            ? data.presentationLink.trim()
-            : null,
-
         ervInvolvement:
-          data.participateInERV && data.ervInvolvement?.trim()
+          data.participateInERV && data.ervInvolvement.trim()
             ? data.ervInvolvement.trim()
-            : null,
+            : undefined,
       };
 
       // Remove any undefined or extra fields that might cause issues
@@ -224,19 +214,16 @@ const SpeakerApplicationForm = () => {
     switch (currentStep) {
       case 0:
         return !!(
-          (
-            formData.fullName &&
-            formData.email &&
-            formData.whatsappNumber &&
-            formData.country &&
-            formData.state &&
-            formData.participationType &&
-            formData.gender &&
-            formData.roles &&
-            formData.roles.length > 0 &&
-            formData.bio
-          )
-          // formData.twitterProfile
+          formData.fullName &&
+          formData.email &&
+          formData.whatsappNumber &&
+          formData.country &&
+          formData.state &&
+          formData.participationType &&
+          formData.gender &&
+          formData.roles &&
+          formData.roles.length > 0 &&
+          formData.bio
         );
       case 1:
         return !!(
