@@ -125,19 +125,8 @@ const PopupCityPage = () => {
 
   const handleBack = () => updateStepInURL(currentStep - 1);
 
-  const onSubmit = async (data: PopupCityProps) => {
-    const stepTwoFields: (keyof PopupCityProps)[] = [
-      "web3Familiarity",
-      "canAttendIRL",
-      "volunteeringInterest",
-      "dietaryAccessibilityNeeds",
-      "referralSource",
-      "isCertificateNeeded",
-    ];
-
-    const isValid = await trigger(stepTwoFields, { shouldFocus: true });
-
-    if (isValid) {
+  const handleFinalSubmit = handleSubmit(
+    (data) => {
       mutate(data, {
         onSuccess: () => {
           toast.success("Popup City form submitted succefully");
@@ -146,8 +135,11 @@ const PopupCityPage = () => {
           localStorage.removeItem("popupCityFormData");
         },
       });
+    },
+    () => {
+      toast.error("Please fill up the required fields");
     }
-  };
+  );
 
   const updateStepInURL = (step: number) => {
     router.push(`?step=${step}`);
@@ -218,7 +210,7 @@ const PopupCityPage = () => {
 
               <Button
                 className="bg-green-550 text-white rounded-full"
-                onClick={currentStep < 2 ? handleNext : handleSubmit(onSubmit)}
+                onClick={currentStep < 2 ? handleNext : handleFinalSubmit}
                 disabled={isPending}
               >
                 <span className="flex items-center gap-2">

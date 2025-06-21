@@ -97,6 +97,12 @@ const BStepThreeDetails = ({
     }
   }, [selectedparticipateInERV, setValue]);
 
+  useEffect(() => {
+    if (isCertificateNeeded !== true) {
+      setValue("walletAddress", "");
+    }
+  }, [isCertificateNeeded, setValue]);
+
   return (
     <div className="space-y-7">
       <div>

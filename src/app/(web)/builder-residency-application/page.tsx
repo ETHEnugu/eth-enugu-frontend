@@ -146,31 +146,21 @@ const BuildersResidencyPage = () => {
 
   const handleBack = () => updateStepInURL(currentStep - 1);
 
-  const onSubmit = async (data: BuildersResidencyProps) => {
-    const stepThreeFields: (keyof BuildersResidencyProps)[] = [
-      "hasRegisteredForTheHackathon",
-      "joinReason",
-      "comfortableSharingAccomodation",
-      "referralSource",
-      "needCertificate",
-      "participateInERV",
-      "dietaryAccessibilityNeeds",
-    ];
-
-    const isValid = await trigger(stepThreeFields, { shouldFocus: true });
-
-    if (isValid) {
+  const handleFinalSubmit = handleSubmit(
+    (data) => {
       mutate(data, {
         onSuccess: () => {
-          console.log(data);
           toast.success("Builders Residency form submitted succefully");
           router.replace("/success?form=BuilderResidency");
           methods.reset();
           localStorage.removeItem("BuildersResidencyFormData");
         },
       });
+    },
+    () => {
+      toast.error("Please fill up the required fields");
     }
-  };
+  );
 
   const updateStepInURL = (step: number) => {
     router.push(`?step=${step}`);
@@ -248,7 +238,7 @@ const BuildersResidencyPage = () => {
 
               <Button
                 className="bg-orange-500 text-dark rounded-full"
-                onClick={currentStep < 3 ? handleNext : handleSubmit(onSubmit)}
+                onClick={currentStep < 3 ? handleNext : handleFinalSubmit}
                 disabled={isPending}
               >
                 <span className="flex items-center gap-2">

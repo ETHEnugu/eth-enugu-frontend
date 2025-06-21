@@ -217,7 +217,7 @@ export default function ConferenceImageUploadForm() {
           {/* Image upload input */}
           <label
             htmlFor="image"
-            className="absolute top-[44%] translate-y-[-50%] left-[89%] lg:left-[88%] translate-x-[-91%] w-[95px] h-[100px] md:w-[205px] md:h-[220px] bg-transparent border-[#EE7E01] border-[1.7px] z-50 flex items-center justify-center before:absolute before:w-full before:h-full before:top-[-7px] before:bg-[#016401] before:left-[7px] before:z-0"
+            className="absolute top-[44%]  translate-y-[-50%] left-[89%] lg:left-[88%] translate-x-[-91%] w-[95px] h-[100px] md:w-[205px] md:h-[220px] bg-transparent border-[#EE7E01] border-[1.7px] z-50 flex items-center justify-center before:absolute before:w-full before:h-full before:top-[-7px] before:bg-[#016401] before:left-[7px] before:z-0"
           >
             <input
               type="file"
@@ -229,9 +229,14 @@ export default function ConferenceImageUploadForm() {
               required
             />
 
+            <div className="relative  h-full w-full cursor-pointer">
+              <div className="h-[75%] border-1 border-dashed border-[#FFFFFF99] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
+              <div className="w-[75%] border-1 border-dashed border-[#FFFFFF99] z-10   absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] "></div>
+            </div>
+
             {/* Image preview */}
             {imagePreviewUrl && (
-              <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute inset-0 overflow-hidden z-20">
                 <Image
                   src={imagePreviewUrl || "/placeholder.svg"}
                   alt="user image"

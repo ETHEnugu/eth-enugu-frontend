@@ -207,7 +207,7 @@ export default function PersonalDetailsOne({
 
       <FormInput
         label="Twitter (X) or LinkedIn Url"
-        placeholder="Enter the URL to your X Profile"
+        placeholder="Enter the URL to your X Profile. Ensure you start the link with https://"
         type="url"
         {...register("social", {
           required: "Please enter your Twitter (X) or LinkedIn URL",

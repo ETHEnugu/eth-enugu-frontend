@@ -85,7 +85,6 @@ const StepTwoDetails = ({
     });
   };
   const selectedCanAttendIrlOption = watch("canAttendIRL");
-  console.log(selectedCanAttendIrlOption);
 
   useEffect(() => {
     if (selectedCanAttendIrlOption === true) {
@@ -137,13 +136,13 @@ const StepTwoDetails = ({
           Yes, I will be attending the ETH-Enugu Pop-up city IRL on select days.
         </>
       ),
-      value: true,
+      value: "true",
       id: "option1IRL",
     },
     {
       label:
         " No, I may not be able to attend IRL but I can participate virtually if there are provisions for it.",
-      value: false,
+      value: "false",
       id: "option2IRl",
     },
   ];
@@ -236,14 +235,19 @@ const StepTwoDetails = ({
           name="canAttendIRL"
           rules={{
             validate: (value) =>
-              value === true || value === false || "Please select an option",
+              typeof value === "boolean" || "Please select an option",
           }}
           control={control}
           render={({ field }) => {
             return (
               <RadioGroup
-                onValueChange={field.onChange}
-                value={String(field.value)}
+                onValueChange={(value) => {
+                  const boolValue = value === "true";
+                  field.onChange(boolValue);
+                }}
+                value={
+                  field.value !== undefined ? String(field.value) : undefined
+                }
                 className="flex flex-col gap-2"
               >
                 {canAttendIRLOptions.map((option, index) => (

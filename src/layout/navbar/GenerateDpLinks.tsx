@@ -28,10 +28,10 @@ export default function GenerateDpLinks({
         >
           Generate DP <ChevronDown size={20} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-white p-3 z-50 border-[1px] rounded-sm mt-[-10px] md:mt-2 ">
+        <DropdownMenuContent className="bg-white px-3 z-50 border-[1px] rounded-sm mt-[-10px] md:mt-2 ">
           <Link onClick={() => onClick?.(false)} href={"/generate-dp"}>
             {" "}
-            <DropdownMenuItem className="border-0 outline-0 cursor-pointer transition-colors duration-200 hover:text-green-550 my-0.5  ">
+            <DropdownMenuItem className="border-0 outline-0 cursor-pointer transition-colors duration-200 hover:text-green-550 my-0.5 py-3 border-b border-gray-400">
               Builder Resisdency DP
             </DropdownMenuItem>
           </Link>
@@ -40,7 +40,7 @@ export default function GenerateDpLinks({
             href={"/generate-dp?from=conference"}
           >
             {" "}
-            <DropdownMenuItem className=" border-0 outline-0 cursor-pointer transition-colors duration-200 hover:text-green-550 my-0.5 ">
+            <DropdownMenuItem className=" border-0 outline-0 cursor-pointer transition-colors duration-200 hover:text-green-550 my-0.5 py-3">
               Conference /Summit DP
             </DropdownMenuItem>
           </Link>
