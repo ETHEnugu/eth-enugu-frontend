@@ -68,6 +68,8 @@ function Page() {
   });
 
   const formData = watch();
+  console.log(formData);
+  console.log(formData);
 
   const handleNext = async () => {
     if (currentStep === 0) {

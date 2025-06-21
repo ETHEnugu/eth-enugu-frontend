@@ -5,7 +5,7 @@ import StepSessionDetails from "@/components/ui/SpeakerForm/StepSessionDetails";
 import StepPersonalInfo from "@/components/ui/SpeakerForm/StepPersonalInfo";
 import type { SpeakerProps } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { type Resolver, useForm } from "react-hook-form";
+import { Resolver, useForm } from "react-hook-form";
 import { usePostMutation } from "@/hooks/useApi";
 import { SPEAKER } from "@/config/ENDPOINTS";
 import { toast } from "sonner";
@@ -170,6 +170,7 @@ const SpeakerApplicationForm = () => {
 
       // Remove any undefined or extra fields that might cause issues
       const { ...finalData } = cleanedData;
+      console.log("Final data being sent:", finalData);
 
       mutate(finalData, {
         onSuccess: () => {
