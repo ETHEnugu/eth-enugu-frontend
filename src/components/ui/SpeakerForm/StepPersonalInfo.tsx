@@ -358,7 +358,7 @@ const StepPersonalInfo = ({
       />
 
       <FormInput
-        label="Portfolio Url"
+        label="Link to your portfolio (Github, Behance etc) "
         placeholder="Enter the URL to your Portfolio. Ensure you start the link with https://"
         type="url"
         {...register("portfolioUrl")}
