@@ -92,7 +92,6 @@ const SpeakerApplicationForm = () => {
   });
 
   const formData = watch();
-  console.log(formData);
 
   // storing form data to local storage
   useEffect(() => {
