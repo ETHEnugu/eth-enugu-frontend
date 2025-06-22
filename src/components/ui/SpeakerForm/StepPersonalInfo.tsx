@@ -350,7 +350,7 @@ const StepPersonalInfo = ({
 
       <FormInput
         label="Twitter (X) or LinkedIn Url"
-        placeholder="Enter the URL to your X Profile.  Ensure you start the link with https://"
+        placeholder="Enter the URL to your X Profile"
         type="url"
         {...register("social")}
         error={errors.social?.message}
