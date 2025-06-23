@@ -65,11 +65,7 @@ const StepPersonalInfo = ({
   ];
 
   const watchedRolesValue = watch("roles") || [];
-
-  const watchedRole = useMemo(
-    () => watchedRolesValue,
-    [watchedRolesValue.join(",")]
-  );
+  const watchedRole = watchedRolesValue;
 
   const watchedCountry = watch("country");
   const watchedState = watch("state");
