@@ -145,10 +145,6 @@ const PopupCityPage = () => {
     router.push(`?step=${step}`);
   };
 
-  const formData = watch();
-
-  console.log(formData);
-
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
       <div className="mx-auto w-full max-w-3xl p-6 rounded-xl border shadow-md bg-white">
