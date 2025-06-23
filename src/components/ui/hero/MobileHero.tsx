@@ -55,7 +55,7 @@ export default function MobileHero() {
           /> */}
           <WordSlideUp
             text="From Enugu to the Ethereum network — a"
-            className="text-center text-sm"
+            className="text-center text-sm mt-2"
           />
           <WordSlideUp
             text="gathering of minds, culture, and innovation."
