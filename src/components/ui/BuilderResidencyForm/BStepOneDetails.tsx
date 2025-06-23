@@ -312,7 +312,7 @@ const BStepOneDetails = ({
       <FormInput
         label="Twitter (X) or LinkedIn Url"
         type="url"
-        placeholder="Enter the URL to your X Profile.  Ensure you start the link with https://"
+        placeholder="Enter the URL to your X Profile"
         isRequired={true}
         {...register("social")}
         error={errors.social?.message}
@@ -328,7 +328,7 @@ const BStepOneDetails = ({
         <FormInput
           label=" "
           type="url"
-          placeholder="Enter the URL of your Portfolio.  Ensure you start the link with https://"
+          placeholder="Enter the URL of your Portfolio"
           {...register("portfolioUrl")}
           error={errors.portfolioUrl?.message}
         />

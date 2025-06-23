@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/common/spinner";
 import BuilderResidencySuccess from "@/components/ui/BuilderResidencyForm/BuilderResidencySuccess";
 import ConferenceSuccess from "@/components/ui/ConferenceForm/ConferenceSuccess";
 import PopupSuccess from "@/components/ui/popup-city-form/PopupSuccess";
@@ -35,7 +36,14 @@ function SuccessPageContent() {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="w-full h-[50vh] flex items-center justify-center ">
+          {" "}
+          <Spinner />{" "}
+        </div>
+      }
+    >
       <SuccessPageContent />
     </Suspense>
   );
