@@ -166,9 +166,6 @@ const BuildersResidencyPage = () => {
     router.push(`?step=${step}`);
   };
 
-  const formValues = watch();
-  console.log(formValues);
-
   return (
     <div className="bg-[url('/bg/bg3.png')] py-16 px-6">
       <div className="mx-auto md:w-1/2 p-6 rounded-xl border shadow-md bg-white">

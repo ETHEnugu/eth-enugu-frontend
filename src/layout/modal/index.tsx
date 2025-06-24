@@ -71,7 +71,7 @@ const Modal = ({
             </header>
 
             {/* Content */}
-            <main className="p-6 w-full overflow-y-auto flex-grow">
+            <main className="p-6 w-full overflow-y-scroll custom-scrollbar flex-grow">
               {description && (
                 <p id="modal-description" className="sr-only">
                   {description}
