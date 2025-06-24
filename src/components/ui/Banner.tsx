@@ -6,9 +6,11 @@ import LinksDisplayModal from "@/layout/navbar/LinksDisplayModal";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { events } from "@/data/events";
+import useDeviceSize from "@/hooks/useDeviceSize";
 
 const Banner = () => {
   const [show, setShow] = useState<boolean>(false);
+  const { isMobile } = useDeviceSize();
 
   const getSlideBackground = (type: string) => {
     switch (type) {
@@ -67,10 +69,14 @@ const Banner = () => {
             return (
               <div
                 key={item?.id}
-                className={`w-full max-w-[90%] mx-auto flex flex-col gap-4 ${containerColor} ${textColor} rounded-2xl md:px-20 py-8 px-5 md:py-[60px] border border-dark overflow-hidden`}
+                className={`w-full max-w-[90%] mx-auto flex flex-col gap-4 ${containerColor} ${textColor} rounded-xl md:px-12 lg:px-24 xl:px-32 py-8 px-5 md:py-[60px] border border-dark overflow-hidden`}
               >
                 <div
-                  className={`w-full flex flex-col md:flex-row items-start justify-between gap-8 md:gap-12`}
+                  className={`w-full flex flex-col md:flex-row ${
+                    item?.type === "popup" || item?.type === "residency"
+                      ? "items-center"
+                      : "items-start"
+                  } justify-between gap-8 md:gap-20`}
                 >
                   <aside>
                     <span className="md:text-5xl text-3xl font-bold mb-4">
@@ -81,11 +87,17 @@ const Banner = () => {
                       {item?.description}
                     </p>
 
-                    <section className="w-full flex flex-col md:flex-row items-start gap-4">
+                    <section
+                      className={`w-full flex flex-col 2xl:flex-row items-start gap-4 ${
+                        item?.type === "popup" || item?.type === "residency"
+                          ? ""
+                          : "md:flex-row"
+                      }`}
+                    >
                       {item?.features && item?.features.length > 0 && (
                         <>
                           {item?.type === "ecosystem" ? (
-                            <div className="flex flex-wrap gap-2 mb-6">
+                            <div className="flex flex-wrap gap-2 mb-6 md:mt-20">
                               {item?.features.map((feature, i) => (
                                 <span
                                   key={i}
@@ -94,9 +106,18 @@ const Banner = () => {
                                   {feature}
                                 </span>
                               ))}
+                              <h4 className="text-green-550 md:mt-12">
+                                It’s a reminder that innovation isn’t siloed —
+                                it’s shared.
+                              </h4>
                             </div>
                           ) : (
-                            <ul className="flex flex-col gap-2 mb-6 w-fit bg-white/10 rounded-2xl p-6 text-base">
+                            <ul
+                              className={`
+                            flex flex-col gap-2 mb-6 w-fit bg-white/10 rounded-2xl px-6 text-base 
+                            ${item?.type === "popup" ? "py-[3.8em]" : item?.type === "residency" ? "w-full py-10" : item?.type === "conference" ? "md:my-12 p-4 border rounded-2xl" : "py-10"}
+                            `}
+                            >
                               {item?.features.map((feature, i) => (
                                 <li
                                   key={i}
@@ -118,12 +139,16 @@ const Banner = () => {
 
                       {(item?.participants || item?.duration) && (
                         <aside
-                          className={`w-full md:w-84 space-y-4 bg-white/20 p-6 rounded-2xl`}
+                          className={`${
+                            item?.type === "residency" || item?.type === "popup"
+                              ? "w-full"
+                              : "w-full md:w-72 2xl:w-84"
+                          } space-y-4 bg-white/10 p-6 rounded-2xl`}
                         >
-                          <h4>Event Details</h4>
+                          <h4>Audience Forcast</h4>
                           {item?.participants && (
                             <div
-                              className={`bg-black/30 p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
+                              className={`bg-black/30 p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-green-550 text-peach-250"}`}
                             >
                               Participants: <br />
                               <span
@@ -140,7 +165,7 @@ const Banner = () => {
                           )}
                           {item?.duration && (
                             <div
-                              className={`p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-black/30 text-peach-250"}`}
+                              className={`p-4 rounded-2xl ${item?.type === "popup" ? "bg-orange-500 text-dark" : "bg-green-550 text-peach-250"}`}
                             >
                               Duration: <br />
                               <span
@@ -167,13 +192,13 @@ const Banner = () => {
                             {item.targetAudience.map((audience, index) => (
                               <div
                                 key={index}
-                                className="w-32 h-32 px-4 flex flex-col items-center justify-center gap-2 text-gray-900 bg-white rounded-lg text-center"
+                                className="w-26 h-26 2xl:w-32 2xl:h-32 p-5 flex flex-col items-center justify-center gap-2 text-gray-900 bg-white rounded-lg text-center"
                               >
                                 <Image
                                   src={getAudienceIcon(audience)}
                                   alt={audience}
-                                  width={52}
-                                  height={52}
+                                  width={36}
+                                  height={36}
                                 />
                                 <span>{audience}</span>
                               </div>
@@ -183,35 +208,42 @@ const Banner = () => {
                       )}
                     </section>
                   </aside>
-                  <div className="w-full md:w-2/6 h-full">
+                  <div
+                    className={`relative ${item?.type === "residency" || item?.type === "popup" ? "w-full md:max-w-md" : "w-max"} h-full`}
+                  >
                     <Image
                       src={item?.image}
                       alt={item?.title}
                       title={item?.title}
-                      width={400}
-                      height={400}
+                      width={isMobile ? 300 : 700}
+                      height={isMobile ? 300 : 700}
                       className="object-contain"
+                      style={{
+                        rotate: item?.type === "popup" ? "-5deg" : "0deg",
+                      }}
                     />
                   </div>
                 </div>
-                {item?.link ? (
-                  <Link href={item?.link}>
+                {item?.type !== "ecosystem" &&
+                  item?.type !== "research" &&
+                  (item?.link ? (
+                    <Link href={item?.link} className="w-max no-underline">
+                      <Button
+                        className={`w-max flex items-center gap-3 ${item?.type === "residency" ? "!bg-orange-650 !text-dark" : "bg-green-550"} text-white hover:bg-amber-750`}
+                        design="rounded"
+                      >
+                        {buttonText}
+                      </Button>
+                    </Link>
+                  ) : (
                     <Button
                       className={`w-max flex items-center gap-3 ${item?.type === "residency" ? "!bg-orange-650 !text-dark" : "bg-green-550"} text-white hover:bg-amber-750`}
                       design="rounded"
+                      onClick={handleToggelModal}
                     >
                       {buttonText}
                     </Button>
-                  </Link>
-                ) : (
-                  <Button
-                    className={`w-max flex items-center gap-3 ${item?.type === "residency" ? "!bg-orange-650 !text-dark" : "bg-green-550"} text-white hover:bg-amber-750`}
-                    design="rounded"
-                    onClick={handleToggelModal}
-                  >
-                    {buttonText}
-                  </Button>
-                )}
+                  ))}
               </div>
             );
           })}
