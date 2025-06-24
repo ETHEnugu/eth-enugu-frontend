@@ -1,7 +1,7 @@
 export const events = [
   {
     id: 1,
-    title: "2-Weeks builder's Residency",
+    title: "2-Weeks Builder's Residency",
     description:
       "The ETH Enugu Builder Residency is a 2-week in-person program for a selected group of builders (developers, designers, and founders) who are passionate about Ethereum, Web3, or emerging technologies.",
     features: [
