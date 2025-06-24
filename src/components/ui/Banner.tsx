@@ -90,7 +90,7 @@ const Banner = () => {
                     <section
                       className={`w-full flex flex-col 2xl:flex-row items-start gap-4 ${
                         item?.type === "popup" || item?.type === "residency"
-                          ? ""
+                          ? "md:flex-row"
                           : "md:flex-row"
                       }`}
                     >
@@ -209,7 +209,7 @@ const Banner = () => {
                     </section>
                   </aside>
                   <div
-                    className={`relative ${item?.type === "residency" || item?.type === "popup" ? "w-full md:max-w-md" : "w-max"} h-full`}
+                    className={`relative ${item?.type === "residency" || item?.type === "popup" ? "w-full lg:hidden 2xl:block 2xl:max-w-md" : "w-max"} h-full`}
                   >
                     <Image
                       src={item?.image}
