@@ -3,7 +3,7 @@ import Image from "next/image";
 const InfoSection = () => {
   return (
     <>
-      <div className="py-20 bg-peach-10 font-sans rounded-tl-4xl rounded-tr-4xl ">
+      <div className="py-20 px-6 mx-auto bg-peach-10 font-sans rounded-tl-4xl rounded-tr-4xl ">
         <div className="w-11/12 m-auto flex flex-col md:flex-row justify-between md:gap-30 gap-14">
           <div className="md:w-2/5 md:text-left text-center">
             <h2 className="md:text-3xl !text-2xl px-4 md:px-0 font-extrabold">
