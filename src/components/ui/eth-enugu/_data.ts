@@ -29,6 +29,50 @@ export const partners = [
     name: "AYA HQ",
     logo: "/partners/AYA-LOGO.png",
   },
+  {
+    name: "StreamETH",
+    logo: "/partners/streamEth.png",
+  },
+  {
+    name: "Citrea Nigeria ",
+    logo: "/partners/",
+  },
+  {
+    name: "NextBridge Africa",
+    logo: "/partners/nextbridge-svg.svg",
+  },
+  {
+    name: "Beaconsmith Collective ",
+    logo: "/partners/beaconSmith.png",
+  },
+  {
+    name: "CREATIVE ALCHEMY ",
+    logo: "/partners/creative-alchemy-logo.png",
+  },
+  {
+    name: "Amagu",
+    logo: "/partners/",
+  },
+  {
+    name: "Kweku Tech",
+    logo: "/partners/kweku-tech-logo.png",
+  },
+  {
+    name: "The Mirror Hub",
+    logo: "/partners/the-mirror-logo.jpg",
+  },
+  {
+    name: "CoinGabbar",
+    logo: "/partners/coin-gabbar-logo.png",
+  },
+  {
+    name: "Sagesse Clothier",
+    logo: "/partners/sagasse-clothing-logo.jpeg",
+  },
+  {
+    name: "Therapy Blog Tv ",
+    logo: "/partners/therapy-blog.png",
+  },
 ];
 
 export const content = {

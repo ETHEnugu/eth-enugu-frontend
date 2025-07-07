@@ -16,12 +16,17 @@ export default function PartnerSponsor() {
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
             Our Partners
           </h1>
-          <div className="w-max flex items-center gap-6 mx-auto">
+          <div className="w-max grid md:grid-cols-4 gap-6 mx-auto">
             {partners.map((partner, idx) => (
               <div
                 key={idx}
-                className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl bg-center bg-no-repeat bg-contain"
-                style={{ backgroundImage: `url(${partner.logo})` }}
+                className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden "
+                style={{
+                  backgroundImage: `url(${partner.logo})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "70%",
+                  backgroundRepeat: "no-repeat",
+                }}
                 title={partner.name}
               />
             ))}
