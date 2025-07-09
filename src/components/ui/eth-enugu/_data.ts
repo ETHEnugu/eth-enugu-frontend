@@ -35,7 +35,7 @@ export const partners = [
   },
   {
     name: "Citrea Nigeria ",
-    logo: "/partners/",
+    logo: "/partners/citrea-logo.png",
   },
   {
     name: "NextBridge Africa",
@@ -49,10 +49,10 @@ export const partners = [
     name: "CREATIVE ALCHEMY ",
     logo: "/partners/creative-alchemy-logo.png",
   },
-  {
-    name: "Amagu",
-    logo: "/partners/",
-  },
+  // {
+  //   name: "Amagu",
+  //   logo: "/partners/",
+  // },
   {
     name: "Kweku Tech",
     logo: "/partners/kweku-tech-logo.png",
@@ -72,6 +72,26 @@ export const partners = [
   {
     name: "Therapy Blog Tv ",
     logo: "/partners/therapy-blog.png",
+  },
+  {
+    name: "Women Techmakers Nsukka  ",
+    logo: "/partners/women-techmakers-logo.jpg",
+  },
+  {
+    name: "Women in Blockchain Africa   ",
+    logo: "/partners/wiba-logo.png",
+  },
+  {
+    name: "  Blockchain Masters Academy ",
+    logo: "/partners/BMA.png",
+  },
+  {
+    name: "Alexcoll Digital  ",
+    logo: "/partners/GDl.jpg",
+  },
+  {
+    name: "Dev3pack ",
+    logo: "/partners/Dev3pack-logo.png",
   },
 ];
 
