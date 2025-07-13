@@ -4,6 +4,7 @@ import { partners } from "../eth-enugu/_data";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import Marquee from "react-fast-marquee";
 // import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function PartnerSponsor() {
@@ -16,15 +17,68 @@ export default function PartnerSponsor() {
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
             Our Partners
           </h1>
-          <div className="w-max flex items-center gap-6 mx-auto">
+          <div className="w-max  hidden lg:grid lg:grid-cols-5 gap-6 mx-auto">
             {partners.map((partner, idx) => (
               <div
                 key={idx}
-                className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl bg-center bg-no-repeat bg-contain"
-                style={{ backgroundImage: `url(${partner.logo})` }}
+                className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                style={{
+                  backgroundImage: `url(${partner.logo})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "58%",
+                  backgroundRepeat: "no-repeat",
+                }}
                 title={partner.name}
               />
             ))}
+          </div>
+
+          <div className="w-full flex flex-col items-start gap-3">
+            <Marquee
+              direction="left"
+              speed={60}
+              autoFill={true}
+              pauseOnClick
+              pauseOnHover
+              className="lg:!hidden "
+            >
+              {partners.map((partner, idx) => (
+                <div
+                  key={idx}
+                  className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                  style={{
+                    backgroundImage: `url(${partner.logo})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "58%",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  title={partner.name}
+                />
+              ))}
+            </Marquee>
+
+            <Marquee
+              direction="right"
+              speed={60}
+              autoFill={true}
+              pauseOnClick
+              pauseOnHover
+              className="lg:!hidden "
+            >
+              {partners.map((partner, idx) => (
+                <div
+                  key={idx}
+                  className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                  style={{
+                    backgroundImage: `url(${partner.logo})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "58%",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  title={partner.name}
+                />
+              ))}
+            </Marquee>
           </div>
         </div>
       </section>
