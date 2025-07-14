@@ -254,3 +254,38 @@ p {
   }
 
 }
+
+
+
+
+@keyframes outerRing {
+  0% {
+    background: transparent;
+  }
+  20%, 40% {
+    background: #F9F5FF;
+  }
+  50%, 100% {
+    background: transparent;
+  }
+}
+
+@keyframes innerRing {
+  0% {
+    background: transparent;
+  }
+  40%, 90% {
+    background: #F4EBFF;
+  }
+100% {
+    background: transparent;
+  }
+}
+
+.outer-ring {
+  animation: outerRing 5s ease-in-out infinite;
+}
+
+.inner-ring {
+  animation: innerRing 5s ease-in-out infinite;
+}

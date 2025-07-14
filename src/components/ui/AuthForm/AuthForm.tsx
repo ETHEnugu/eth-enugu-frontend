@@ -1,14 +1,67 @@
+"use client";
+
 import { Button } from "@/components/common/button";
 import { CreditCard } from "lucide-react";
 import Image from "next/image";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import FormInput from "@/components/common/form/FormInput";
+import React from "react";
+import Spinner from "@/components/common/spinner";
 
-export default function AuthForm() {
+interface AuthFormProps {
+  preLogin: (email: string) => void;
+  emailInput: string;
+  setEmailInput: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
+  showVerification: boolean;
+}
+
+const baseStyles =
+  "bg-[var(--background)] border-[1px] border-[#000000] rounded-[16px] w-full max-w-[680px] h-fit flex flex-col items-start py-9 px-6 md:px-12 gap-6 transform transition-transform duration-200 ease-in-out absolute top-[50%] left-[50%]  translate-y-[-50%] ";
+
+export default function AuthForm({
+  preLogin,
+  emailInput,
+  setEmailInput,
+  isLoading,
+  showVerification,
+}: AuthFormProps) {
   return (
-    <form className=" bg-[var(--background)] border-[1px] border-[#000000] rounded-[16px] w-full max-w-[680px] h-fit flex flex-col items-start py-9 px-12 gap-6  ">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        preLogin(emailInput);
+      }}
+      className={` ${baseStyles}  ${showVerification ? "translate-x-[-500%]  pointer-events-none" : "translate-x-[-50%] "} `}
+    >
       <h3 className="mx-auto text-[var(--color-green-550)] font-bold  ">
         Sign in
       </h3>
       <hr className="w-full  border-[var(--color-light-gray)] border-[0.5px] " />
+
+      <FormInput
+        label="Email Address"
+        type="email"
+        placeholder="johndoe@mail.com"
+        className="border-[#2D2D2D] !border-[0.5px] "
+        value={emailInput}
+        onChange={(e) => setEmailInput(e.target.value)}
+      />
+
+      <Button
+        type="submit"
+        className=" flex items-center gap-3 rounded-[98.11px] py-3 px-[18px] bg-[var(--color-orange-500)] text-sm font-semibold text-[var(--color-dark)] hover:bg-[var(--color-orange-500)] "
+      >
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            {" "}
+            Continue{" "}
+            <Icon icon="solar:arrow-right-linear" width={18} height={18} />
+          </>
+        )}
+      </Button>
 
       <div className="w-full flex items-center justify-center gap-5 ">
         <hr className="w-full  border-[var(--color-light-gray)] border-[0.5px] " />
@@ -54,7 +107,7 @@ export default function AuthForm() {
 
       <p className="!font-medium !text-base text-[#D9D9D9] mx-auto mt-10 text-center ">
         By signing in you agree to the{" "}
-        <a href="#" className="text-[var(--color-orange-500)] ">
+        <a href="#" className="text-[var(--color-orange-500)] underline ">
           Terms of service
         </a>
       </p>
