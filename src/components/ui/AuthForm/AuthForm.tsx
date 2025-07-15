@@ -14,10 +14,12 @@ interface AuthFormProps {
   setEmailInput: React.Dispatch<React.SetStateAction<string>>;
   isLoading: boolean;
   showVerification: boolean;
+  loginInWithGoogle: () => void;
+  logininWithX: () => void;
 }
 
 const baseStyles =
-  "bg-[var(--background)] border-[1px] border-[#000000] rounded-[16px] w-full max-w-[680px] h-fit flex flex-col items-start py-9 px-6 md:px-12 gap-6 transform transition-transform duration-200 ease-in-out absolute top-[50%] left-[50%]  translate-y-[-50%] ";
+  "bg-[var(--background)] border-[1px] border-[#000000] rounded-[16px] w-full max-w-[680px] h-fit  flex-col items-start py-9 px-6 md:px-12 gap-6";
 
 export default function AuthForm({
   preLogin,
@@ -25,6 +27,8 @@ export default function AuthForm({
   setEmailInput,
   isLoading,
   showVerification,
+  loginInWithGoogle,
+  logininWithX,
 }: AuthFormProps) {
   return (
     <form
@@ -32,7 +36,7 @@ export default function AuthForm({
         e.preventDefault();
         preLogin(emailInput);
       }}
-      className={` ${baseStyles}  ${showVerification ? "translate-x-[-500%]  pointer-events-none" : "translate-x-[-50%] "} `}
+      className={` ${baseStyles} ${showVerification ? "hidden" : "flex"} `}
     >
       <h3 className="mx-auto text-[var(--color-green-550)] font-bold  ">
         Sign in
@@ -71,6 +75,7 @@ export default function AuthForm({
 
       <div className="  w-full flex items-center justify-center gap-8 md:gap-[91px] ">
         <button
+          onClick={loginInWithGoogle}
           type="button"
           className="w-[44px] h-[44px] cursor-pointer bg-[var(--background)] rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out "
         >
@@ -84,6 +89,7 @@ export default function AuthForm({
         </button>
 
         <button
+          onClick={logininWithX}
           type="button"
           className="cursor-pointer bg-[var(--background)] rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out "
         >

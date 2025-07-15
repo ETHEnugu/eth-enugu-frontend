@@ -17,7 +17,7 @@ interface VerificationFormProps {
 }
 
 const baseStyles =
-  "bg-[var(--background)] shadow-[0px_20px_24px_-4px_#0A0D1214] shadow-[0px_8px_8px_-4px_#0A0D1208] rounded-[16px] w-full max-w-[680px] h-fit flex flex-col items-center py-9 px-5 gap-6 transition-transform duration-200 ease-in-out transform absolute top-[50%] left-[50%]  translate-y-[-50%]";
+  "bg-[var(--background)] shadow-[0px_20px_24px_-4px_#0A0D1214] shadow-[0px_8px_8px_-4px_#0A0D1208] rounded-[16px] w-full max-w-[680px] h-fit flex-col items-center py-9 px-5 gap-6 transition-transform duration-200 ease-in-out ";
 
 export default function VerificationForm({
   otp,
@@ -69,13 +69,12 @@ export default function VerificationForm({
 
     await handleLogin(emailInput, otp.join(""));
     setVerifying(false);
-    setShowVerification(false);
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className={`${baseStyles} ${showVerification ? "translate-x-[-50%] " : "translate-x-[500%]  pointer-events-none"}  `}
+      className={`${baseStyles} ${showVerification ? "flex" : "hidden"} `}
     >
       <div className=" w-[121px] h-[121px] rounded-full bg-[#F9F5FF] flex items-center justify-center backdrop-blur-sm  outer-ring">
         <div className=" w-[93px] h-[93px] rounded-full bg-[#F4EBFF] flex items-center justify-center inner-ring ">

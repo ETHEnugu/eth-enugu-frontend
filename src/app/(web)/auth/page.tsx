@@ -68,18 +68,47 @@ export default function Page() {
     }
   };
 
-  console.log(showVerification);
+  const loginInWithGoogle = async () => {
+    try {
+      await connect(async () => {
+        await wallet.connect({
+          client: client,
+          strategy: "google",
+        });
+        return wallet;
+      });
+      router.push("/mint");
+    } catch (error) {
+      console.error("error signing in with google:", error);
+    }
+  };
+  const loginInWithX = async () => {
+    try {
+      await connect(async () => {
+        await wallet.connect({
+          client: client,
+          strategy: "x",
+        });
+        return wallet;
+      });
+      router.push("/mint");
+    } catch (error) {
+      console.error("error signing in with google:", error);
+    }
+  };
 
   return (
     <div>
       <section className="  py-7 px-5 ">
-        <div className="w-full min-h-screen  bg-[url('/auth-images/auth-bg.svg')] overflow-hidden  relative    ">
+        <div className="w-full h-screen  bg-[url('/auth-images/auth-bg.svg')] overflow-hidden  flex items-center justify-center    ">
           <AuthForm
             preLogin={preLogin}
             emailInput={emailInput}
             setEmailInput={setEmailInput}
             isLoading={isLoading}
             showVerification={showVerification}
+            loginInWithGoogle={loginInWithGoogle}
+            logininWithX={loginInWithX}
           />
 
           <VerificationForm
