@@ -12,6 +12,29 @@ export const times = [
     icon: "icon4",
   },
 ];
+
+export const sponsors = [
+  {
+    name: "Lisk",
+    logo: "/partners/lisk-logo.jpg",
+  },
+];
+
+export const localEcosystemSupportPartner = [
+  {
+    name: "IOTEX",
+    logo: "/partners/iotex-logo.jpg",
+  },
+  {
+    name: "⁠JetPad Finance",
+    logo: "/partners/jetpad-logo.png",
+  },
+  {
+    name: "DigitPay Finance",
+    logo: "/partners/digitPay.png",
+  },
+];
+
 export const partners = [
   {
     name: "Blockchain Nigeria",
@@ -49,10 +72,6 @@ export const partners = [
     name: "CREATIVE ALCHEMY ",
     logo: "/partners/creative-alchemy-logo.png",
   },
-  // {
-  //   name: "Amagu",
-  //   logo: "/partners/",
-  // },
   {
     name: "Kweku Tech",
     logo: "/partners/kweku-tech-logo.png",
@@ -93,6 +112,28 @@ export const partners = [
     name: "Dev3pack ",
     logo: "/partners/Dev3pack-logo.png",
   },
+  { name: "AFrica Blockchain Community", logo: "/partners/abc-logo-full.png" },
+  { name: "Flare Africa", logo: "/partners/Flare Africa" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
+  { name: "", logo: "" },
 ];
 
 export const content = {

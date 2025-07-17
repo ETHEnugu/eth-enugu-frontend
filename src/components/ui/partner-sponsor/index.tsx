@@ -1,10 +1,9 @@
 "use client";
-import { partners } from "../eth-enugu/_data";
+import { localEcosystemSupportPartner, sponsors } from "../eth-enugu/_data";
 // import Image from "next/image";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
-import Marquee from "react-fast-marquee";
 // import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function PartnerSponsor() {
@@ -12,13 +11,34 @@ export default function PartnerSponsor() {
 
   return (
     <div className="w-full max-w-6xl max-md:px-4 mx-auto flex flex-col gap-24 py-18">
-      <section className="w-full flex flex-col gap-8">
-        <div>
+      <section className="w-full flex flex-col gap-14">
+        <div className="w-full flex items-center justify-center flex-col gap-3">
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
-            Our Partners
+            Sponsors
           </h1>
-          <div className="w-max  hidden lg:grid lg:grid-cols-5 gap-6 mx-auto">
-            {partners.map((partner, idx) => (
+          <div className="w-full flex flex-col items-center gap-3">
+            {sponsors.map((sponsor, idx) => (
+              <div
+                key={idx}
+                className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                style={{
+                  backgroundImage: `url(${sponsor.logo})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "58%",
+                  backgroundRepeat: "no-repeat",
+                }}
+                title={sponsor.name}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full flex items-center justify-center flex-col gap-3">
+          <h1 className="text-green-550 font-bold text-xl text-center mb-4">
+            Local Ecosystem Support Partners
+          </h1>
+          <div className="w-full flex  items-center justify-center gap-3">
+            {localEcosystemSupportPartner.map((partner, idx) => (
               <div
                 key={idx}
                 className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
@@ -31,54 +51,6 @@ export default function PartnerSponsor() {
                 title={partner.name}
               />
             ))}
-          </div>
-
-          <div className="w-full flex flex-col items-start gap-3">
-            <Marquee
-              direction="left"
-              speed={60}
-              autoFill={true}
-              pauseOnClick
-              pauseOnHover
-              className="lg:!hidden "
-            >
-              {partners.map((partner, idx) => (
-                <div
-                  key={idx}
-                  className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
-                  style={{
-                    backgroundImage: `url(${partner.logo})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "58%",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                  title={partner.name}
-                />
-              ))}
-            </Marquee>
-
-            <Marquee
-              direction="right"
-              speed={60}
-              autoFill={true}
-              pauseOnClick
-              pauseOnHover
-              className="lg:!hidden "
-            >
-              {partners.map((partner, idx) => (
-                <div
-                  key={idx}
-                  className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
-                  style={{
-                    backgroundImage: `url(${partner.logo})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "58%",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                  title={partner.name}
-                />
-              ))}
-            </Marquee>
           </div>
         </div>
       </section>
