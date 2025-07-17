@@ -5,8 +5,12 @@ import { CreditCard } from "lucide-react";
 import Image from "next/image";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import FormInput from "@/components/common/form/FormInput";
-import React from "react";
+import React, { useEffect } from "react";
 import Spinner from "@/components/common/spinner";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
+import { client } from "@/lib/thirdwebClient";
+import { createWallet } from "thirdweb/wallets";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   preLogin: (email: string) => void;
@@ -16,6 +20,9 @@ interface AuthFormProps {
   showVerification: boolean;
   loginInWithGoogle: () => void;
   logininWithX: () => void;
+  googleLoading: boolean;
+  xLoading: boolean;
+  handleGoogleLogin: () => void;
 }
 
 const baseStyles =
@@ -29,7 +36,26 @@ export default function AuthForm({
   showVerification,
   loginInWithGoogle,
   logininWithX,
+  googleLoading,
+  xLoading,
+  handleGoogleLogin,
 }: AuthFormProps) {
+  const wallets = [
+    createWallet("io.metamask"),
+    createWallet("com.coinbase.wallet"),
+    createWallet("me.rainbow"),
+    createWallet("io.rabby"),
+    createWallet("io.zerion.wallet"),
+  ];
+  const account = useActiveAccount();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (account) {
+      router.push("/mint");
+    }
+  }, [account, router]);
+
   return (
     <form
       onSubmit={(e) => {
@@ -77,39 +103,60 @@ export default function AuthForm({
         <button
           onClick={loginInWithGoogle}
           type="button"
-          className="w-[44px] h-[44px] cursor-pointer bg-[var(--background)] rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out "
+          className={`cursor-pointer  rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out  ${googleLoading ? "bg-green-550" : "bg-[var(--background)]"} `}
         >
-          <Image
-            src={"/auth-images/google.svg"}
-            alt="Google"
-            width={100}
-            height={100}
-            className="w-6 h-6 "
-          />
+          {googleLoading ? (
+            <Spinner />
+          ) : (
+            <Image
+              src={"/auth-images/google.svg"}
+              alt="Google"
+              width={100}
+              height={100}
+              className="w-6 h-6 "
+            />
+          )}
         </button>
 
         <button
           onClick={logininWithX}
           type="button"
-          className="cursor-pointer bg-[var(--background)] rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out "
+          className={`cursor-pointer  rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out  ${xLoading ? "bg-green-550" : "bg-[var(--background)]"} `}
         >
-          <Image
-            src={"/auth-images/X.svg"}
-            alt="X"
-            width={100}
-            height={100}
-            className="w-6 h-6 "
-          />
+          {xLoading ? (
+            <Spinner />
+          ) : (
+            <Image
+              src={"/auth-images/X.svg"}
+              alt="X"
+              width={100}
+              height={100}
+              className="w-6 h-6 "
+            />
+          )}
         </button>
       </div>
 
-      <Button
-        type="button"
-        className="!shadow-none rounded-lg  w-full !flex !items-center !justify-start text-sm font-normal text-[#000000] gap-3  "
-        variant={"outline"}
-      >
-        <CreditCard /> Connect With a Wallet
-      </Button>
+      {account ? (
+        <p className=" text-sm text-green-550 ">
+          Connected as: {account.address}{" "}
+        </p>
+      ) : (
+        <ConnectButton
+          connectButton={{
+            label: (
+              <>
+                <CreditCard /> Connect Wallet
+              </>
+            ),
+            className:
+              "!bg-transparent !border-[0.5px] !border-[#2D2D2D] !w-full !flex !text-left !items-center !gap-3 !justify-start !text-sm  ",
+          }}
+          client={client}
+          connectModal={{ size: "wide" }}
+          wallets={wallets}
+        />
+      )}
 
       <p className="!font-medium !text-base text-[#D9D9D9] mx-auto mt-10 text-center ">
         By signing in you agree to the{" "}
@@ -117,6 +164,11 @@ export default function AuthForm({
           Terms of service
         </a>
       </p>
+
+      <button onClick={handleGoogleLogin} type="button">
+        {" "}
+        Connect Google on Alchemy{" "}
+      </button>
     </form>
   );
 }

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import NextQueryProvider from "./NextQueryProvider";
 import { Toaster } from "sonner";
 import ThirdProviders from "./ThirdwebProvider";
+import RootProviders from "./rootProviders";
 
 export default function Providers({
   children,
@@ -11,8 +12,10 @@ export default function Providers({
     <>
       <NextQueryProvider>
         <ThirdProviders>
-          <Toaster position="bottom-right" closeButton />
-          {children}
+          <RootProviders>
+            <Toaster position="bottom-right" closeButton />
+            {children}
+          </RootProviders>
         </ThirdProviders>
       </NextQueryProvider>
     </>
