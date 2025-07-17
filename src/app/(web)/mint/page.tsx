@@ -1,0 +1,134 @@
+"use client";
+
+import { Button } from "@/components/common/button";
+import ScrollingText from "@/components/ui/Scrolling-text";
+import { client } from "@/lib/thirdwebClient";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  useActiveAccount,
+  useActiveWallet,
+  useDisconnect,
+} from "thirdweb/react";
+import { getWalletBalance } from "thirdweb/wallets";
+import { assetChainTestnet } from "thirdweb/chains";
+import { toast } from "sonner";
+import { useSignerStatus } from "@account-kit/react";
+// import { LightAccount } from '@alchemy/aa-core';
+import Image from "next/image";
+
+export default function Page() {
+  const account = useActiveAccount();
+  const { disconnect } = useDisconnect();
+  const wallet = useActiveWallet();
+  const router = useRouter();
+  const [walletBalance, setWalletBalance] = useState("");
+  const [symbol, setSymbol] = useState("");
+  const { isConnected } = useSignerStatus();
+  // const { address, account: alchAccount } = useAccount<LightAccount>({
+  //   type: 'LightAccount',
+  // });
+
+  useEffect(() => {
+    const fetchUserBalance = async () => {
+      if (account?.address) {
+        const balance = await getWalletBalance({
+          client: client,
+          chain: assetChainTestnet,
+          address: account.address,
+        });
+        setWalletBalance(balance.displayValue);
+        setSymbol(balance.symbol);
+        console.log("Smart account balance:", balance.displayValue);
+      } else {
+        console.log("Wallet address is not available.");
+      }
+    };
+
+    const handleMintRoute = () => {
+      if (!account || !isConnected) {
+        router.push("/auth");
+        toast.info("Please connect your wallet");
+      } else return;
+    };
+    fetchUserBalance();
+    handleMintRoute();
+  }, [account?.address, account, router, isConnected]);
+
+  return (
+    <div className=" w-full h-fit flex items-center flex-col justify-center py-4  px-[5%] bg-[url('/auth-images/auth-bg.svg')]    ">
+      <div className=" w-full h-full border-[1px] border-[#000000] rounded-2xl   flex flex-col items-start  overflow-hidden bg-[var(--background)]  ">
+        <div className=" w-full  px-5 py-6 flex items-center justify-start   ">
+          <div className="w-fit flex items-center gap-2 ">
+            {/* image here */}
+            <div className="flex flex-col">
+              <span className="text-base font-semibold">
+                {" "}
+                Address:{" "}
+                <span className=" text-green-550  ">
+                  {" "}
+                  {account
+                    ? account.address.slice(0, 5) +
+                      "..." +
+                      account.address.slice(
+                        account.address.length - 5,
+                        account.address.length
+                      )
+                    : null}
+                </span>{" "}
+              </span>
+              <span className="text-base font-semibold">
+                {" "}
+                Balance:{" "}
+                <span className=" text-green-550  ">
+                  {" "}
+                  {account ? walletBalance.slice(0, 4) + symbol : "00"}
+                </span>{" "}
+              </span>
+            </div>
+          </div>
+
+          <Button
+            onClick={() => {
+              if (wallet) {
+                disconnect(wallet);
+                router.push("/auth");
+              } else return;
+            }}
+            className="rounded-[98.11px] bg-red-600 hover:bg-red-600 ml-auto disabled:pointer-events-none  "
+            variant={"default"}
+            disabled={!account}
+            type="button"
+          >
+            Disconnect
+          </Button>
+        </div>
+
+        <hr className="w-full  border-[var(--color-light-gray)] border-[0.5px] " />
+
+        <div className=" w-full h-full flex flex-col gap-4 items-center justify-center  px-2 py-14 ">
+          <div className="border-[1px] border-[#000000] w-full max-w-[500px] h-full min-h-[400px] max-h-[1084px] rounded-xl flex flex-col items-start gap-6 px-[4%] pb-7 pt-8 ">
+            <h2>One-click checkout</h2>
+
+            <div className="w-full h-[450px] relative border-[var(--color-dark)] border-[1px] bg-[var(--color-orange-500)] rounded-lg ">
+              <Image src={"/NFTs/university-tours-NFT.svg"} alt="NFT" fill />
+            </div>
+
+            <p className="mx-auto "> Gas Fee $0.05 Free</p>
+
+            <Button
+              type="button"
+              variant={"default"}
+              className="w-full rounded-[98.11px] "
+            >
+              {" "}
+              Mint NFT{" "}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <ScrollingText />
+    </div>
+  );
+}
