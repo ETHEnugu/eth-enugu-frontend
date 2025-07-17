@@ -35,7 +35,38 @@ export const localEcosystemSupportPartner = [
   },
 ];
 
-export const partners = [
+export const mediaPartner = [
+  {
+    name: "StreamETH",
+    logo: "/partners/streamEth.png",
+  },
+  {
+    name: "Coingabbar",
+    logo: "/partners/coin-gabbar-logo.png",
+  },
+  {
+    name: "Crypto.news",
+    logo: "/partners/crypto-news.svg",
+  },
+  {
+    name: "AmbCrypto",
+    logo: "/partners/amb-crypto.webp",
+  },
+  {
+    name: "HashtagWeb3",
+    logo: "/partners/hashtag-web3.png",
+  },
+  {
+    name: "KwekuTech",
+    logo: "/partners/kweku-tech-logo.png",
+  },
+  {
+    name: "ICOHolder",
+    logo: "/partners/ico-holder.svg",
+  },
+];
+
+export const CommunityPartners = [
   {
     name: "Blockchain Nigeria",
     logo: "/partners/BUNN-logo.svg",
@@ -43,22 +74,6 @@ export const partners = [
   {
     name: "GIDA",
     logo: "/partners/GIDA-logo.png",
-  },
-  {
-    name: "AFRICAN COLLECTIVE",
-    logo: "/partners/AFRICAN-COLLECTIVE-LOGO.png",
-  },
-  {
-    name: "AYA HQ",
-    logo: "/partners/AYA-LOGO.png",
-  },
-  {
-    name: "StreamETH",
-    logo: "/partners/streamEth.png",
-  },
-  {
-    name: "Citrea Nigeria ",
-    logo: "/partners/citrea-logo.png",
   },
   {
     name: "NextBridge Africa",
@@ -73,24 +88,8 @@ export const partners = [
     logo: "/partners/creative-alchemy-logo.png",
   },
   {
-    name: "Kweku Tech",
-    logo: "/partners/kweku-tech-logo.png",
-  },
-  {
     name: "The Mirror Hub",
     logo: "/partners/the-mirror-logo.jpg",
-  },
-  {
-    name: "CoinGabbar",
-    logo: "/partners/coin-gabbar-logo.png",
-  },
-  {
-    name: "Sagesse Clothier",
-    logo: "/partners/sagasse-clothing-logo.jpeg",
-  },
-  {
-    name: "Therapy Blog Tv ",
-    logo: "/partners/therapy-blog.png",
   },
   {
     name: "Women Techmakers Nsukka  ",
@@ -100,40 +99,75 @@ export const partners = [
     name: "Women in Blockchain Africa   ",
     logo: "/partners/wiba-logo.png",
   },
+
   {
     name: "  Blockchain Masters Academy ",
     logo: "/partners/BMA.png",
   },
-  {
-    name: "Alexcoll Digital  ",
-    logo: "/partners/GDl.jpg",
-  },
+
   {
     name: "Dev3pack ",
     logo: "/partners/Dev3pack-logo.png",
   },
-  { name: "AFrica Blockchain Community", logo: "/partners/abc-logo-full.png" },
-  { name: "Flare Africa", logo: "/partners/Flare Africa" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
-  { name: "", logo: "" },
+  {
+    name: "AFrica Blockchain Community",
+    logo: "/partners/abc-logo-full.png",
+  },
+
+  {
+    name: "Flare Africa",
+    logo: "/partners/flare-africa.png",
+  },
+  {
+    name: "AlphaBlocks",
+    logo: "/partners/AlphaBlocks-Png-2.png",
+  },
+
+  {
+    name: "Builders Corner",
+    logo: "/partners/builders-corner.png",
+  },
+
+  {
+    name: "Blockchain ESUT",
+    logo: "/partners/blockChainEsut.png",
+  },
+  {
+    name: "WITTY FORUM",
+    logo: "/partners/WITTYDESIGN.jpg",
+  },
+  {
+    name: "Umi Africa",
+    logo: "/partners/umi.jpg",
+  },
+  {
+    name: "Unizik Blockchain Labs (UBL)",
+    logo: "/partners/UBL.png",
+  },
+  {
+    name: "Blockchain Kogi",
+    logo: "/partners/Blockchain-kogi.png",
+  },
+  {
+    name: "Dome Academy",
+    logo: "/partners/Dome.png",
+  },
+  {
+    name: "ChainConnectNG",
+    logo: "/partners/chainConnect.png",
+  },
+  {
+    name: "Anambra web3 community",
+    logo: "/partners/anambraWeb3.png",
+  },
+  {
+    name: "Anambra techies Community",
+    logo: "/partners/anambra-techies.png",
+  },
+  {
+    name: "Google Developer Groups on Campus - University of Nigeria, Nsukka",
+    logo: "/partners/GDG.png",
+  },
 ];
 
 export const content = {

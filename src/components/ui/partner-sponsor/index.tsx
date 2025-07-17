@@ -1,9 +1,15 @@
 "use client";
-import { localEcosystemSupportPartner, sponsors } from "../eth-enugu/_data";
+import {
+  CommunityPartners,
+  localEcosystemSupportPartner,
+  mediaPartner,
+  sponsors,
+} from "../eth-enugu/_data";
 // import Image from "next/image";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
+import Marquee from "react-fast-marquee";
 // import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function PartnerSponsor() {
@@ -51,6 +57,52 @@ export default function PartnerSponsor() {
                 title={partner.name}
               />
             ))}
+          </div>
+        </div>
+
+        <div className="w-full flex items-center justify-center flex-col gap-3">
+          <h1 className="text-green-550 font-bold text-xl text-center mb-4">
+            Media Partners
+          </h1>
+          <div className="w-full flex  items-center justify-center gap-3">
+            <Marquee autoFill={true} speed={100} pauseOnHover={true}>
+              {mediaPartner.map((partner, idx) => (
+                <div
+                  key={idx}
+                  className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                  style={{
+                    backgroundImage: `url(${partner.logo})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "58%",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  title={partner.name}
+                />
+              ))}
+            </Marquee>
+          </div>
+        </div>
+
+        <div className="w-full flex items-center justify-center flex-col gap-3">
+          <h1 className="text-green-550 font-bold text-xl text-center mb-4">
+            Community partners
+          </h1>
+          <div className="w-full flex  items-center justify-center gap-3">
+            <Marquee autoFill={true} speed={100} pauseOnHover={true}>
+              {CommunityPartners.map((partner, idx) => (
+                <div
+                  key={idx}
+                  className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                  style={{
+                    backgroundImage: `url(${partner.logo})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "58%",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  title={partner.name}
+                />
+              ))}
+            </Marquee>
           </div>
         </div>
       </section>
