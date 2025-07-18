@@ -24,6 +24,7 @@ export default function Page() {
   const router = useRouter();
   const { authenticate } = useAuthenticate();
 
+
   // Auth functions using thirdweb
   const preLogin = async (emailInput: string) => {
     if (!emailInput.trim()) {
@@ -54,7 +55,7 @@ export default function Page() {
     setGoogleLoading(true);
     try {
       setIsLoading(true);
-      await connect(async () => {
+      const connectedWalletInstance = await connect(async () => {
         await wallet.connect({
           client: client,
           strategy: "email",
@@ -63,10 +64,16 @@ export default function Page() {
         });
         return wallet;
       });
-      setShowVerification(false);
+
+      if (connectedWalletInstance) {
+        router.push("/mint");
+      }
+      else {
+        toast.error("Login failed")
+      }
+
       setEmailInput("");
       setOtp(new Array(6).fill(""));
-      router.push("/mint");
     } catch (error) {
       console.error("Login error", error);
       toast.error("Invalid verification code. Please try again.");

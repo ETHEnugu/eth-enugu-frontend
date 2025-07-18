@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import { Button } from "../../common/button";
 import { ItIsFor, WhatYouGet } from "./data";
