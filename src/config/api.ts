@@ -1,8 +1,19 @@
 /* eslint-disable */
 import apiClient from "./_config";
 
-export const fetchData = async (endpoint: string): Promise<any> => {
-  const response = await apiClient.get(endpoint);
+export const fetchData = async (
+  endpoint: string,
+  params?: Record<string, number | string | boolean>
+): Promise<any> => {
+  const sanitizedParams = params
+    ? Object.fromEntries(
+        Object.entries(params).map(([key, value]) => [
+          key,
+          typeof value === "number" ? value : String(value),
+        ])
+      )
+    : undefined;
+  const response = await apiClient.get(endpoint, { params: sanitizedParams });
   return response.data;
 };
 

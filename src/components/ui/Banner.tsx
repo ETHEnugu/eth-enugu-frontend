@@ -7,9 +7,11 @@ import { useState } from "react";
 import { Icon } from "@iconify/react";
 import { events } from "@/data/events";
 import useDeviceSize from "@/hooks/useDeviceSize";
+import BuilderEndedModal from "./builder-ended-modal";
 
 const Banner = () => {
   const [show, setShow] = useState<boolean>(false);
+  const [showBuilderModal, setshowBuilderModal] = useState<boolean>(false);
   const { isMobile } = useDeviceSize();
 
   const getSlideBackground = (type: string) => {
@@ -54,6 +56,10 @@ const Banner = () => {
 
   const handleToggelModal = () => {
     setShow((prev) => !prev);
+  };
+
+  const handleBuilderCloseModal = () => {
+    setshowBuilderModal((prev) => !prev);
   };
 
   return (
@@ -224,9 +230,11 @@ const Banner = () => {
                     />
                   </div>
                 </div>
+
                 {item?.type !== "ecosystem" &&
                   item?.type !== "research" &&
-                  (item?.link ? (
+                  (item?.link &&
+                  item?.link !== "/builder-residency-application" ? (
                     <Link href={item?.link} className="w-max no-underline">
                       <Button
                         className={`w-max flex items-center gap-3 ${item?.type === "residency" ? "!bg-orange-650 !text-dark" : "bg-green-550"} text-white hover:bg-amber-750`}
@@ -235,6 +243,14 @@ const Banner = () => {
                         {buttonText}
                       </Button>
                     </Link>
+                  ) : item?.link === "/builder-residency-application" ? (
+                    <Button
+                      className={`w-max flex items-center gap-3 !bg-orange-650 !text-dark hover:bg-amber-750`}
+                      design="rounded"
+                      onClick={() => setshowBuilderModal(true)}
+                    >
+                      {buttonText}
+                    </Button>
                   ) : (
                     <Button
                       className={`w-max flex items-center gap-3 ${item?.type === "residency" ? "!bg-orange-650 !text-dark" : "bg-green-550"} text-white hover:bg-amber-750`}
@@ -251,6 +267,10 @@ const Banner = () => {
       </div>
 
       <LinksDisplayModal isOpen={show} onClose={handleToggelModal} />
+      <BuilderEndedModal
+        show={showBuilderModal}
+        onClose={handleBuilderCloseModal}
+      />
     </>
   );
 };
