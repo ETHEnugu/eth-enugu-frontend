@@ -42,12 +42,30 @@ export const usePostMutation = <T>(
   return mutation;
 };
 
-export const useGetQuery = (url: string, key: string) => {
+export const useGetQuery = (
+  url: string,
+  key: string,
+  params?: Record<string, number | string | boolean>
+) => {
   return useQuery({
-    queryKey: [key, url],
+    queryKey: [key, url, params],
     queryFn: async () => {
-      const response = await fetchData(url);
-      return response.data;
+      try {
+        // Ensure params are properly typed as numbers where required
+        const sanitizedParams = params
+          ? Object.fromEntries(
+              Object.entries(params).map(([k, v]) => [
+                k,
+                typeof v === "number" ? v : String(v),
+              ])
+            )
+          : undefined;
+        const response = await fetchData(url, sanitizedParams);
+        return response.data;
+      } catch (error) {
+        const errorMessage = handleGenericError(error);
+        throw new Error(errorMessage);
+      }
     },
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60,
