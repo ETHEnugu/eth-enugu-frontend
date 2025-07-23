@@ -232,6 +232,70 @@ export const CommunityPartners = [
     name: "Dev3pack ",
     logo: "/partners/Dev3pack-logo.png",
   },
+  {
+    name: "StreamETH",
+    logo: "/partners/streamEth.png",
+  },
+  {
+    name: "Citrea Nigeria ",
+    logo: "/partners/citrea-logo.png",
+  },
+  {
+    name: "NextBridge Africa",
+    logo: "/partners/nextbridge-svg.svg",
+  },
+  {
+    name: "Beaconsmith Collective ",
+    logo: "/partners/beaconSmith.png",
+  },
+  {
+    name: "CREATIVE ALCHEMY ",
+    logo: "/partners/creative-alchemy-logo.png",
+  },
+  // {
+  //   name: "Amagu",
+  //   logo: "/partners/",
+  // },
+  {
+    name: "Kweku Tech",
+    logo: "/partners/kweku-tech-logo.png",
+  },
+  {
+    name: "The Mirror Hub",
+    logo: "/partners/the-mirror-logo.jpg",
+  },
+  {
+    name: "CoinGabbar",
+    logo: "/partners/coin-gabbar-logo.png",
+  },
+  {
+    name: "Sagesse Clothier",
+    logo: "/partners/sagasse-clothing-logo.jpeg",
+  },
+  {
+    name: "Therapy Blog Tv ",
+    logo: "/partners/therapy-blog.png",
+  },
+  {
+    name: "Women Techmakers Nsukka  ",
+    logo: "/partners/women-techmakers-logo.jpg",
+  },
+  {
+    name: "Women in Blockchain Africa   ",
+    logo: "/partners/wiba-logo.png",
+  },
+  {
+    name: "  Blockchain Masters Academy ",
+    logo: "/partners/BMA.png",
+  },
+  {
+    name: "Alexcoll Digital  ",
+    logo: "/partners/GDl.jpg",
+  },
+  {
+    name: "Dev3pack ",
+    logo: "/partners/Dev3pack-logo.png",
+  },
 ];
 
 export const content = {
