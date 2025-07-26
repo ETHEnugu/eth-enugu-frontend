@@ -1,6 +1,8 @@
 "use client";
 import {
-  CommunityPartners,
+  CommunityPartners1,
+  CommunityPartners2,
+  hackathonBountySupporters,
   localEcosystemSupportPartner,
   mediaPartner,
   sponsors,
@@ -22,7 +24,7 @@ export default function PartnerSponsor() {
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
             Sponsors
           </h1>
-          <div className="w-full flex flex-col items-center gap-3">
+          <div className="w-max flex items-center gap-3 mx-auto">
             {sponsors.map((sponsor, idx) => (
               <div
                 key={idx}
@@ -41,7 +43,28 @@ export default function PartnerSponsor() {
 
         <div className="w-full flex items-center justify-center flex-col gap-3">
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
-            Local Ecosystem Support Partners
+            Hackathon Bounty Supporters
+          </h1>
+          <div className="w-full flex  items-center justify-center gap-3">
+            {hackathonBountySupporters.map((partner, idx) => (
+              <div
+                key={idx}
+                className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                style={{
+                  backgroundImage: `url(${partner.logo})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "58%",
+                  backgroundRepeat: "no-repeat",
+                }}
+                title={partner.name}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="w-full flex items-center justify-center flex-col gap-3">
+          <h1 className="text-green-550 font-bold text-xl text-center mb-4">
+            Local Ecosystem Supporters
           </h1>
           <div className="w-full flex  items-center justify-center gap-3">
             {localEcosystemSupportPartner.map((partner, idx) => (
@@ -67,6 +90,30 @@ export default function PartnerSponsor() {
           <div className="w-full flex  items-center justify-center gap-3">
             <Marquee autoFill={true} speed={100} pauseOnHover={true}>
               {mediaPartner.map((partner, idx) => (
+                <Link key={idx} href={partner?.link || "/"} target="_blank">
+                  <div
+                    className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
+                    style={{
+                      backgroundImage: `url(${partner.logo})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "58%",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                    title={partner.name}
+                  />
+                </Link>
+              ))}
+            </Marquee>
+          </div>
+        </div>
+
+        <div className="w-full flex items-center justify-center flex-col gap-3">
+          <h1 className="text-green-550 font-bold text-xl text-center mb-4">
+            Community partners
+          </h1>
+          <div className="w-full flex  items-center justify-center gap-3">
+            <Marquee autoFill={true} speed={100} pauseOnHover={true}>
+              {CommunityPartners1.map((partner, idx) => (
                 <div
                   key={idx}
                   className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
@@ -81,15 +128,10 @@ export default function PartnerSponsor() {
               ))}
             </Marquee>
           </div>
-        </div>
 
-        <div className="w-full flex items-center justify-center flex-col gap-3">
-          <h1 className="text-green-550 font-bold text-xl text-center mb-4">
-            Community partners
-          </h1>
           <div className="w-full flex  items-center justify-center gap-3">
             <Marquee autoFill={true} speed={100} pauseOnHover={true}>
-              {CommunityPartners.map((partner, idx) => (
+              {CommunityPartners2.map((partner, idx) => (
                 <div
                   key={idx}
                   className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl overflow-hidden mx-3 "
