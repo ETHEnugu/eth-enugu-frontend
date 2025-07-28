@@ -66,6 +66,7 @@ export const mediaPartner = [
   {
     name: "StreamETH",
     logo: "/partners/streamEth.png",
+    link: "https://linktr.ee/StreamETH",
   },
   // {
   //   name: "Coingabbar",
@@ -74,32 +75,37 @@ export const mediaPartner = [
   {
     name: "Crypto.news",
     logo: "/partners/crypto-news.svg",
+    link: "https://crypto.news/",
   },
   {
     name: "AmbCrypto",
     logo: "/partners/amb-crypto.webp",
+    link: "https://ambcrypto.com/",
   },
   {
     name: "HashtagWeb3",
     logo: "/partners/hashtag-web3.png",
+    link: "https://t.me/web3hiring",
   },
   {
     name: "KwekuTech",
     logo: "/partners/kweku-tech-logo.png",
+    link: "https://zaap.bio/kwekutech",
   },
   {
     name: "ICOHolder",
     logo: "/partners/ico-holder.svg",
+    link: "https://icoholder.com/",
   },
   {
     name: "The Coin Republic",
     logo: "/partners/tcr-logo.png",
-    link: "https://x.com/TCR_news_",
+    link: "https://www.thecoinrepublic.com/",
   },
   {
     name: "The Market Periodical",
     logo: "/partners/tmp-logo.png",
-    link: "https://x.com/TCR_news_",
+    link: "https://www.thecoinrepublic.com/",
   },
   {
     name: "Netmifi",
