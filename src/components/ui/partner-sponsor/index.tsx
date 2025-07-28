@@ -7,7 +7,6 @@ import {
   mediaPartner,
   sponsors,
 } from "../eth-enugu/_data";
-// import Image from "next/image";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
@@ -66,7 +65,7 @@ export default function PartnerSponsor() {
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
             Local Ecosystem Supporters
           </h1>
-          <div className="w-full flex  items-center justify-center gap-3">
+          <div className="w-full flex flex-wrap items-center justify-center gap-3">
             {localEcosystemSupportPartner.map((partner, idx) => (
               <div
                 key={idx}
