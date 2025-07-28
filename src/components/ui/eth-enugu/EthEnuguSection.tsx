@@ -1,5 +1,10 @@
 import Image from "next/image";
-import { times, content, CommunityPartners } from "./_data";
+import {
+  times,
+  content,
+  CommunityPartners1,
+  CommunityPartners2,
+} from "./_data";
 
 const EthEnuguSection = () => {
   return (
@@ -53,7 +58,17 @@ const EthEnuguSection = () => {
                 Our Partners
               </h3>
               <div className="flex flex-wrap md:justify-start justify-center gap-4 sm:gap-6">
-                {CommunityPartners.map((partner, idx) => (
+                {CommunityPartners1.map((partner, idx) => (
+                  <div
+                    key={idx}
+                    className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl bg-center bg-no-repeat bg-contain"
+                    style={{ backgroundImage: `url(${partner.logo})` }}
+                    title={partner.name}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-wrap md:justify-start justify-center gap-4 sm:gap-6">
+                {CommunityPartners2.map((partner, idx) => (
                   <div
                     key={idx}
                     className="w-36 h-16 sm:w-48 sm:h-20 border border-dark rounded-xl bg-center bg-no-repeat bg-contain"
