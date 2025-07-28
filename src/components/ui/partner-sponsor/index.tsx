@@ -7,7 +7,6 @@ import {
   mediaPartner,
   sponsors,
 } from "../eth-enugu/_data";
-// import Image from "next/image";
 import { Button } from "@/components/common/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
