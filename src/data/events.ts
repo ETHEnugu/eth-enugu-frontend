@@ -53,7 +53,7 @@ export const events = [
     duration: "",
     type: "conference",
     link: "/conference-application",
-    image: "/banner/conference.svg",
+    image: "/banner/event-venue.jpg",
     rotate: 6,
   },
   {
