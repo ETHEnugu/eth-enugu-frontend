@@ -15,7 +15,7 @@ export const times = [
 
 export const sponsors = [
   {
-    name: "Avalance",
+    name: "Avalanche",
     logo: "/partners/avalanche.png",
   },
   {
