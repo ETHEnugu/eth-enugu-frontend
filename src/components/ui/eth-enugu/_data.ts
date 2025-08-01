@@ -19,10 +19,6 @@ export const sponsors = [
     logo: "/partners/avalanche.png",
   },
   {
-    name: "Avalance",
-    logo: "/partners/avalanche.png",
-  },
-  {
     name: "Lisk",
     logo: "/partners/lisk-logo.jpg",
   },
@@ -65,7 +61,7 @@ export const hackathonBountySupporters = [
     logo: "/partners/bga-dark.png",
   },
   {
-    name: "Avalance",
+    name: "Avalanche",
     logo: "/partners/avalanche.png",
   },
   {
