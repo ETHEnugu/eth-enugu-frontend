@@ -14,10 +14,10 @@ export const times = [
 ];
 
 export const sponsors = [
-  // {
-  //   name: "Avalance",
-  //   logo: "/partners/avalanche.png",
-  // },
+  {
+    name: "Avalance",
+    logo: "/partners/avalanche.png",
+  },
   {
     name: "Lisk",
     logo: "/partners/lisk-logo.jpg",
@@ -56,10 +56,10 @@ export const hackathonBountySupporters = [
     name: "Blockchain for Good Alliance",
     logo: "/partners/bga-dark.png",
   },
-  // {
-  //   name: "Avalance",
-  //   logo: "/partners/avalanche.png",
-  // },
+  {
+    name: "Avalance",
+    logo: "/partners/avalanche.png",
+  },
 ];
 
 export const mediaPartner = [
