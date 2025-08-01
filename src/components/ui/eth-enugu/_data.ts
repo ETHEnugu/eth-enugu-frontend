@@ -14,10 +14,10 @@ export const times = [
 ];
 
 export const sponsors = [
-  // {
-  //   name: "Avalance",
-  //   logo: "/partners/avalanche.png",
-  // },
+  {
+    name: "Avalance",
+    logo: "/partners/avalanche.png",
+  },
   {
     name: "Avalance",
     logo: "/partners/avalanche.png",
@@ -67,6 +67,10 @@ export const hackathonBountySupporters = [
   {
     name: "Avalance",
     logo: "/partners/avalanche.png",
+  },
+  {
+    name: "Sui",
+    logo: "/partners/sui.jpg",
   },
 ];
 
