@@ -53,6 +53,10 @@ export const localEcosystemSupportPartner = [
     name: "DigitPay Finance",
     logo: "/partners/digitPay.png",
   },
+  {
+    name: "Horus Labs",
+    logo: "/partners/horus-labs.png",
+  },
 ];
 
 export const hackathonBountySupporters = [
