@@ -19,6 +19,10 @@ export const sponsors = [
     logo: "/partners/avalanche.png",
   },
   {
+    name: "Avalance",
+    logo: "/partners/avalanche.png",
+  },
+  {
     name: "Lisk",
     logo: "/partners/lisk-logo.jpg",
   },
