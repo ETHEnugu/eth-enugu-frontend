@@ -23,7 +23,7 @@ export default function PartnerSponsor() {
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
             Sponsors
           </h1>
-          <div className="w-max flex items-center gap-3 mx-auto">
+          <div className="w-max flex flex-wrap items-center gap-3 mx-auto">
             {sponsors.map((sponsor, idx) => (
               <div
                 key={idx}
@@ -44,7 +44,7 @@ export default function PartnerSponsor() {
           <h1 className="text-green-550 font-bold text-xl text-center mb-4">
             Hackathon Bounty Supporters
           </h1>
-          <div className="w-full flex  items-center justify-center gap-3">
+          <div className="w-full flex flex-wrap items-center justify-center gap-3">
             {hackathonBountySupporters.map((partner, idx) => (
               <div
                 key={idx}

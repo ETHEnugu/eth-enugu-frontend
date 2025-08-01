@@ -19,6 +19,10 @@ export const sponsors = [
   //   logo: "/partners/avalanche.png",
   // },
   {
+    name: "Avalance",
+    logo: "/partners/avalanche.png",
+  },
+  {
     name: "Lisk",
     logo: "/partners/lisk-logo.jpg",
   },
@@ -49,6 +53,10 @@ export const localEcosystemSupportPartner = [
     name: "DigitPay Finance",
     logo: "/partners/digitPay.png",
   },
+  {
+    name: "Horus Labs",
+    logo: "/partners/horus-labs.png",
+  },
 ];
 
 export const hackathonBountySupporters = [
@@ -56,10 +64,10 @@ export const hackathonBountySupporters = [
     name: "Blockchain for Good Alliance",
     logo: "/partners/bga-dark.png",
   },
-  // {
-  //   name: "Avalance",
-  //   logo: "/partners/avalanche.png",
-  // },
+  {
+    name: "Avalance",
+    logo: "/partners/avalanche.png",
+  },
 ];
 
 export const mediaPartner = [
