@@ -184,3 +184,10 @@ export interface BuildersResidencyProps {
   hasRegisteredForTheHackathon: string | number | boolean;
   dietaryAccessibilityNeeds: string | number | boolean;
 }
+
+
+export interface NFTDataProps{
+  image: string;
+  color: string;
+  name: string
+}

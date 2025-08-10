@@ -47,8 +47,7 @@ export default function Page() {
           address: account.address,
         });
         setWalletBalance(balance.displayValue);
-        setSymbol(balance.symbol);
-        console.log("Smart account balance:", balance.displayValue);
+        setSymbol(balance.symbol);;
       } else {
         console.log("Wallet address is not available.");
       }
@@ -62,7 +61,7 @@ export default function Page() {
   useEffect(() => {
     const handleMintRoute = () => {
       if (!account) {
-        router.push("/auth");
+        router.push("/NFT-form");
       } else return;
     };
     handleMintRoute();
@@ -135,6 +134,12 @@ export default function Page() {
 
 
 
+  useEffect(() => {
+    if (hasMinted) {
+      router.push("/congratulations")
+    }
+  }, [hasMinted, router])
+
 
 
 
@@ -199,7 +204,7 @@ export default function Page() {
               onClick={() => {
                 if (wallet) {
                   disconnect(wallet);
-                  router.push("/auth");
+                  router.push("/NFT-form");
                 } else return;
               }}
               className="rounded-[98.11px] bg-red-600 hover:bg-red-600 ml-auto disabled:pointer-events-none  "
@@ -215,7 +220,9 @@ export default function Page() {
 
           <div className=" w-full h-full flex flex-col gap-4 items-center justify-center  px-2 py-14 ">
             <div className="border-[1px] border-[#000000] w-full max-w-[500px] h-full min-h-[400px] max-h-[1084px] rounded-xl flex flex-col items-start gap-6 px-[4%] pb-7 pt-8 ">
-              <h2>One-click checkout</h2>
+              {
+                hasMinted ? ("Congratulations") : <h2>One-click checkout</h2>
+              }
 
               <div className="w-full h-[450px] relative border-[var(--color-dark)] border-[1px] bg-[var(--color-orange-500)] rounded-lg ">
                 <Image src={"/NFTs/university-tours-NFT.svg"} alt="NFT" fill />

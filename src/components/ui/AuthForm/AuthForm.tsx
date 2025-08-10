@@ -7,11 +7,10 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import FormInput from "@/components/common/form/FormInput";
 import React, { useEffect } from "react";
 import Spinner from "@/components/common/spinner";
-import { ConnectButton, useActiveAccount, useConnect } from "thirdweb/react";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { client } from "@/lib/thirdwebClient";
-import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { createWallet } from "thirdweb/wallets";
 import { useRouter } from "next/navigation";
-import { coinbaseWallet, metaMask } from "wagmi/connectors";
 
 interface AuthFormProps {
   preLogin: (email: string) => void;
@@ -20,9 +19,7 @@ interface AuthFormProps {
   isLoading: boolean;
   showVerification: boolean;
   loginInWithGoogle: () => void;
-  logininWithX: () => void;
   googleLoading: boolean;
-  xLoading: boolean;
   handleGoogleLogin: () => void;
 }
 
@@ -36,9 +33,7 @@ export default function AuthForm({
   isLoading,
   showVerification,
   loginInWithGoogle,
-  logininWithX,
   googleLoading,
-  xLoading,
   handleGoogleLogin,
 }: AuthFormProps) {
   const wallets = [
@@ -122,23 +117,7 @@ export default function AuthForm({
           )}
         </button>
 
-        <button
-          onClick={logininWithX}
-          type="button"
-          className={`cursor-pointer  rounded-lg border-[1px] border-[#D5D7DA] p-2.5 flex items-center justify-center shadow-[0px_1px_2px_0px_#0A0D120D] hover:scale-90 transition-transform duration-150 ease-in-out  ${xLoading ? "bg-[var(--color-orange-500)]" : "bg-[var(--background)]"} `}
-        >
-          {xLoading ? (
-            <Spinner />
-          ) : (
-            <Image
-              src={"/auth-images/X.svg"}
-              alt="X"
-              width={100}
-              height={100}
-              className="w-6 h-6 "
-            />
-          )}
-        </button>
+
       </div>
 
       {account ? (
@@ -168,11 +147,11 @@ export default function AuthForm({
           Terms of service
         </a>
       </p>
-{/*
+
       <button onClick={handleGoogleLogin} type="button">
         {" "}
         Connect Google on Alchemy{" "}
-      </button> */}
+      </button>
     </form>
   );
 }
