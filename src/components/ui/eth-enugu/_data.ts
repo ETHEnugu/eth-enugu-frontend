@@ -76,10 +76,10 @@ export const mediaPartner = [
     logo: "/partners/streamEth.png",
     link: "https://linktr.ee/StreamETH",
   },
-  // {
-  //   name: "Coingabbar",
-  //   logo: "/partners/coin-gabbar-logo.png",
-  // },
+  {
+    name: "Coingabbar",
+    logo: "/partners/coin-gabbar-logo.png",
+  },
   {
     name: "Crypto.news",
     logo: "/partners/crypto-news.svg",
