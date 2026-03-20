@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - dev
+  workflow_dispatch:
+    inputs:
+      artifact_path:
+        required: true
+        type: string
+        default: 'dev'
 
 jobs:
   deploy:
@@ -39,9 +45,9 @@ jobs:
 
             # Explicitly add the nvm bin path to the PATH for this session
             # This ensures 'npm' is found regardless of the default shell configuration
-            export PATH="/root/.nvm/versions/node/v22.13.1/bin:$PATH" 
+            export PATH="/root/.nvm/versions/node/v22.13.1/bin:$PATH"
             
-            PROJECT_PATH="/root/ethenugu/landing-page-ui-dev" 
+            PROJECT_PATH="/home/builder/ethenugu/landing-page-ui-dev" 
             REPO_URL="https://github.com/ETHEnugu/eth-enugu-frontend.git"
             TARGET_BRANCH="dev"
 
@@ -50,7 +56,7 @@ jobs:
             # Check if the .git directory exists inside the intended project path
             if [ ! -d "$PROJECT_PATH/.git" ]; then
               echo "No existing Git repository found at $PROJECT_PATH. Cloning fresh..."
-              # Ensure the parent directory (/root/ethenugu) exists before cloning
+              # Ensure the parent directory (/home/builder/ethenugu) exists before cloning
               mkdir -p "$(dirname "$PROJECT_PATH")" 
               # Clone the repository directly into the PROJECT_PATH
               git clone "$REPO_URL" "$PROJECT_PATH" || { echo "Error: Failed to clone repository!"; exit 1; }
