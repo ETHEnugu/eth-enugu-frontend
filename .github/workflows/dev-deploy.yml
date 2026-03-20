@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - dev
+  workflow_dispatch:
+    inputs:
+      artifact_path:
+        required: true
+        type: string
+        default: 'dev'
 
 jobs:
   deploy:

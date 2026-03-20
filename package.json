@@ -18,7 +18,8 @@
     ],
     "*.{css,scss,md,json}": [
       "prettier --write"
-    ]
+    ],
+    "*.yml": []
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
